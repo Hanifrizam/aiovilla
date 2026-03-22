@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - AIO Villa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .spinner { border: 3px solid #f3f3f3; border-top: 3px solid #2563eb; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div id="login-section" class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-100">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-900 tracking-tighter">AIO<span class="text-blue-600 font-light">Villa</span></h1>
+                <p class="text-sm text-gray-500 mt-2">Portal Manajemen Admin</p>
+            </div>
+            
+            <form id="login-form" class="space-y-5">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Email Admin</label>
+                    <input type="email" id="admin-email" required class="w-full border border-gray-300 rounded-lg p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
+                    <input type="password" id="admin-password" required class="w-full border border-gray-300 rounded-lg p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+                <button type="submit" id="btn-login" class="w-full bg-gray-900 text-white font-bold py-3 rounded-lg hover:bg-gray-800 transition shadow-md flex justify-center items-center h-12">
+                    Masuk
+                </button>
+                <p id="login-error" class="text-red-500 text-sm text-center hidden">Email atau password salah, atau Anda tidak memiliki akses.</p>
+            </form>
+            <div class="mt-6 text-center">
+                <a href="index.html" class="text-sm text-blue-600 hover:underline">&larr; Kembali ke Beranda</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboard-section" class="hidden min-h-screen flex flex-col">
+        <nav class="bg-white border-b border-gray-200 sticky top-0 z-40">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16 items-center">
+                    <div class="text-xl font-bold text-gray-900 tracking-tighter">AIO<span class="text-blue-600 font-light">Villa</span> <span class="text-gray-400 text-sm font-normal ml-2">| Admin Panel</span></div>
+                    <button onclick="logoutAdmin()" class="text-sm font-medium text-red-600 hover:bg-red-50 px-4 py-2 rounded-lg transition">Keluar</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+            <div class="flex justify-between items-end mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Daftar Pemesanan</h2>
+                    <p class="text-sm text-gray-500 mt-1">Kelola semua jadwal reservasi AIO Villa yang masuk dari pelanggan.</p>
+                </div>
+                <button onclick="fetchBookings()" class="bg-blue-50 text-blue-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-100 transition flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> Segarkan
+                </button>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-50 border-b border-gray-100 text-sm text-gray-500 uppercase tracking-wider">
+                                <th class="p-4 font-semibold">Tgl Transaksi</th>
+                                <th class="p-4 font-semibold">Nama Pemesan</th>
+                                <th class="p-4 font-semibold">Kontak</th>
+                                <th class="p-4 font-semibold">Check-in</th>
+                                <th class="p-4 font-semibold">Check-out</th>
+                                <th class="p-4 font-semibold">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body" class="text-sm divide-y divide-gray-100">
+                            <tr><td colspan="6" class="p-8 text-center text-gray-500">Memuat data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // INISIALISASI SUPABASE (Gunakan URL dan Key dari screenshot kamu)
+        const SUPABASE_URL = 'https://oyumpfcjphymiaxlshjt.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_rnnwDTrBaZguDWkFqgWLEA_kcLo0CDZ';
+        
+        // Perhatikan perubahan nama variabel di bawah ini menjadi supabaseClient
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Elemen UI
+        const loginSection = document.getElementById('login-section');
+        const dashboardSection = document.getElementById('dashboard-section');
+        const tableBody = document.getElementById('table-body');
+        const btnLogin = document.getElementById('btn-login');
+        const errorMsg = document.getElementById('login-error');
+
+        // 1. Cek Sesi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', async () => {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session) {
+                tampilkanDashboard();
+            } else {
+                loginSection.classList.remove('hidden');
+                dashboardSection.classList.add('hidden');
+            }
+        });
+
+        // 2. Fungsi Login Admin
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorMsg.classList.add('hidden');
+            btnLogin.innerHTML = '<div class="spinner"></div>';
+
+            const email = document.getElementById('admin-email').value;
+            const password = document.getElementById('admin-password').value;
+
+            const { data, error } = await supabaseClient.auth.signInWithPassword({
+                email: email,
+                password: password,
+            });
+
+            if (error) {
+                errorMsg.classList.remove('hidden');
+                btnLogin.innerHTML = 'Masuk';
+            } else {
+                btnLogin.innerHTML = 'Berhasil!';
+                setTimeout(() => {
+                    tampilkanDashboard();
+                    btnLogin.innerHTML = 'Masuk';
+                }, 500);
+            }
+        });
+
+        // 3. Tampilkan Dashboard & Ambil Data
+        async function tampilkanDashboard() {
+            loginSection.classList.add('hidden');
+            dashboardSection.classList.remove('hidden');
+            await fetchBookings();
+        }
+
+        // 4. Ambil Data dari Supabase
+        async function fetchBookings() {
+            tableBody.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-gray-500">Memuat data pesanan...</td></tr>';
+            
+            // Mengambil data menggunakan supabaseClient
+            const { data, error } = await supabaseClient
+                .from('bookings')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error('Gagal mengambil data:', error);
+                tableBody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-red-500">Gagal mengambil data. Pastikan RLS sudah dikonfigurasi.</td></tr>`;
+                return;
+            }
+
+            if (data.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-gray-500">Belum ada pesanan masuk.</td></tr>';
+                return;
+            }
+
+            // Render ke Tabel
+            let html = '';
+            data.forEach(item => {
+                const tglTransaksi = new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                const tglCheckin = new Date(item.checkin).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                const tglCheckout = new Date(item.checkout).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                
+                let statusBadge = `<span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">Pending</span>`;
+                if(item.status === 'confirmed') statusBadge = `<span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">Confirmed</span>`;
+
+                html += `
+                    <tr class="hover:bg-gray-50 transition">
+                        <td class="p-4 text-gray-500">${tglTransaksi}</td>
+                        <td class="p-4 font-medium text-gray-900">${item.nama}</td>
+                        <td class="p-4">
+                            <div class="text-gray-900">${item.telepon}</div>
+                            <div class="text-gray-500 text-xs">${item.email}</div>
+                        </td>
+                        <td class="p-4 text-gray-700">${tglCheckin}</td>
+                        <td class="p-4 text-gray-700">${tglCheckout}</td>
+                        <td class="p-4">${statusBadge}</td>
+                    </tr>
+                `;
+            });
+            tableBody.innerHTML = html;
+        }
+
+        // 5. Fungsi Logout
+        async function logoutAdmin() {
+            await supabaseClient.auth.signOut();
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>
