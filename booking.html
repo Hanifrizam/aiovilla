@@ -3,115 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pemesanan - Serenity Villa</title>
+    <title>Detail & Konfirmasi - AIO Villa</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; background-color: #f8fafc; }
+        .btn-loading { cursor: wait; opacity: 0.8; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="text-gray-800">
 
-    <nav class="bg-white border-b border-gray-200">
+    <nav class="bg-white/90 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <a href="index.html" class="text-xl font-bold text-gray-900">Serenity<span class="text-blue-600">Villa</span></a>
-                <span class="text-sm font-medium text-gray-500">Langkah 2 dari 3 - Pembayaran</span>
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center gap-4">
+                    <a href="index.html" class="p-2 hover:bg-gray-100 rounded-full transition text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    </a>
+                    <a href="index.html" class="text-2xl font-bold text-gray-900 hover:opacity-80 transition tracking-tighter">AIO<span class="text-blue-600 font-light">Villa</span></a>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-sm font-bold text-gray-900 bg-blue-50 text-blue-600 px-5 py-2.5 rounded-xl shadow-sm">Konfirmasi Pesanan</span>
+                </div>
             </div>
         </div>
     </nav>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div class="flex flex-col lg:flex-row gap-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <div class="bg-white rounded-[2rem] shadow-xl border border-gray-50 overflow-hidden mb-12" data-aos="fade-up">
+            <div class="flex flex-col md:flex-row">
+                <div class="w-full md:w-1/2">
+                    <img src="Gambar Villa (3).jpeg" alt="Kamar Utama" class="w-full h-full object-cover min-h-[350px]">
+                </div>
+                <div class="w-full md:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
+                    <span class="text-blue-600 font-bold text-xs mb-3 tracking-widest uppercase bg-blue-50 w-max px-3 py-1 rounded-lg">Eksklusif</span>
+                    <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 tracking-tight">Master Suite Tropis</h1>
+                    <p class="text-gray-500 mb-8 leading-relaxed text-lg">Nikmati kenyamanan maksimal di kamar utama kami yang luas. Didesain dengan sentuhan kayu alami, tempat tidur king-size premium, dan akses langsung ke taman serta kolam renang pribadi.</p>
+                    
+                    <h3 class="font-bold text-gray-900 mb-5 text-lg">Fasilitas yang Anda Dapatkan</h3>
+                    <div class="grid grid-cols-2 gap-y-5 gap-x-2 text-sm text-gray-600 font-medium">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-blue-50 p-1.5 rounded-lg text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div> Private Pool
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="bg-blue-50 p-1.5 rounded-lg text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div> Bathtub Batu Alam
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="bg-blue-50 p-1.5 rounded-lg text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div> Sarapan In-Villa
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="bg-blue-50 p-1.5 rounded-lg text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div> WiFi Premium
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="bg-blue-50 p-1.5 rounded-lg text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div> Smart TV 65"
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="bg-blue-50 p-1.5 rounded-lg text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div> Layanan Butler
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-1 p-1 bg-white">
+                <img src="Gambar Villa (2).jpeg" alt="Fasilitas 1" class="w-full h-56 object-cover rounded-bl-[1.8rem]">
+                <img src="Gambar Villa (7).jpeg" alt="Fasilitas 2" class="w-full h-56 object-cover">
+                <img src="Gambar Villa (8).jpeg" alt="Fasilitas 3" class="w-full h-56 object-cover rounded-br-[1.8rem]">
+            </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8" data-aos="fade-up" data-aos-delay="100">
             
             <div class="w-full lg:w-2/3 space-y-8">
-                
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <h2 class="text-2xl font-bold mb-6">Detail Pemesan</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-8 md:p-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b border-gray-100 pb-4 tracking-tight">Data Pemesan</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
-                            <input type="text" placeholder="Masukkan nama" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none">
+                            <label class="block text-sm font-semibold text-gray-500 mb-1.5">Nama Lengkap</label>
+                            <p id="review-nama" class="font-bold text-gray-900 text-lg">-</p>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                            <input type="email" placeholder="email@contoh.com" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none">
+                            <label class="block text-sm font-semibold text-gray-500 mb-1.5">Email</label>
+                            <p id="review-email" class="font-bold text-gray-900 text-lg">-</p>
                         </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Nomor Telepon</label>
-                            <input type="tel" placeholder="08123456789" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-500 mb-1.5">Nomor Telepon</label>
+                            <p id="review-phone" class="font-bold text-gray-900 text-lg">-</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-500 mb-1.5">Catatan Khusus</label>
+                            <p id="review-notes" class="font-bold text-gray-900 text-lg">-</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <h2 class="text-2xl font-bold mb-6">Metode Pembayaran</h2>
+                <div class="bg-white p-8 md:p-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2 tracking-tight">Konfirmasi Jadwal</h2>
+                    <p class="text-sm text-gray-500 mb-8 border-b border-gray-100 pb-6">Periksa kembali tanggal pilihan Anda sebelum kami menyimpannya ke dalam sistem.</p>
                     
-                    <div class="space-y-4">
-                        <label class="flex items-center p-4 border rounded-xl cursor-pointer hover:bg-gray-50 transition border-blue-500 bg-blue-50">
-                            <input type="radio" name="payment" class="w-5 h-5 text-blue-600 focus:ring-blue-500" checked>
-                            <div class="ml-4 flex-1">
-                                <span class="block font-semibold">Transfer Virtual Account</span>
-                                <span class="text-sm text-gray-500">BCA, Mandiri, BNI, BRI</span>
-                            </div>
-                        </label>
-
-                        <label class="flex items-center p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition">
-                            <input type="radio" name="payment" class="w-5 h-5 text-blue-600 focus:ring-blue-500">
-                            <div class="ml-4 flex-1">
-                                <span class="block font-semibold">E-Wallet / QRIS</span>
-                                <span class="text-sm text-gray-500">Gopay, OVO, Dana, ShopeePay</span>
-                            </div>
-                        </label>
-
-                        <label class="flex items-center p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition">
-                            <input type="radio" name="payment" class="w-5 h-5 text-blue-600 focus:ring-blue-500">
-                            <div class="ml-4 flex-1">
-                                <span class="block font-semibold">Kartu Kredit / Debit</span>
-                                <span class="text-sm text-gray-500">Visa, Mastercard, JCB</span>
-                            </div>
-                        </label>
+                    <div class="w-full flex justify-center">
+                        <input type="text" id="calendar-view" class="hidden">
                     </div>
                 </div>
-
-                <button onclick="prosesPembayaran()" class="w-full bg-blue-600 text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:bg-blue-700 transition">
-                    Bayar Sekarang
+                
+                <button id="confirm-button" onclick="simpanKeDatabase(this)" class="w-full bg-blue-600 text-white font-bold text-lg py-5 rounded-2xl shadow-[0_10px_30px_rgba(37,99,235,0.3)] hover:bg-blue-700 hover:shadow-[0_10px_40px_rgba(37,99,235,0.4)] transition-all transform hover:-translate-y-1 flex justify-center items-center mt-8">
+                    <span>Konfirmasi & Simpan Pesanan</span>
                 </button>
             </div>
 
             <div class="w-full lg:w-1/3">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 sticky top-24">
-                    <h3 class="text-xl font-bold mb-4">Ringkasan Pesanan</h3>
-                    <img src="Gambar Villa (1).jpeg" alt="Kamar" class="w-full h-40 object-cover rounded-xl mb-4">
+                <div class="bg-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 sticky top-28">
+                    <h3 class="text-2xl font-bold mb-6 text-gray-900 border-b border-gray-100 pb-4 tracking-tight">Ringkasan Biaya</h3>
                     
-                    <div class="border-b border-gray-100 pb-4 mb-4">
-                        <h4 class="font-bold text-lg">Serenity Villa - Master Suite</h4>
-                        <p class="text-sm text-gray-500 mt-1">2 Tamu • 1 Malam</p>
-                    </div>
-
-                    <div class="space-y-3 text-sm mb-6">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Check-in</span>
-                            <span class="font-semibold">15 Agu 2026</span>
+                    <div class="space-y-4 text-sm mb-8">
+                        <div class="flex justify-between items-center bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <span class="text-gray-500 font-medium">Check-in</span>
+                            <span id="display-checkin" class="font-bold text-gray-900 text-base">-</span>
                         </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Check-out</span>
-                            <span class="font-semibold">16 Agu 2026</span>
+                        <div class="flex justify-between items-center bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <span class="text-gray-500 font-medium">Check-out</span>
+                            <span id="display-checkout" class="font-bold text-gray-900 text-base">-</span>
                         </div>
                     </div>
 
-                    <div class="border-t border-gray-100 pt-4 space-y-3">
-                        <div class="flex justify-between text-gray-600">
-                            <span>Harga (1 malam)</span>
-                            <span>Rp 1.500.000</span>
+                    <div class="border-t border-gray-100 pt-6 space-y-4">
+                        <div class="flex justify-between text-gray-600 items-center">
+                            <span class="font-medium">Kamar (<span id="calc-nights">0</span> malam)</span>
+                            <span id="display-price" class="font-bold text-gray-900">Rp 0</span>
                         </div>
-                        <div class="flex justify-between text-gray-600">
-                            <span>Pajak & Biaya (10%)</span>
-                            <span>Rp 150.000</span>
+                        <div class="flex justify-between text-gray-600 items-center">
+                            <span class="font-medium">Pajak & Layanan</span>
+                            <span id="display-tax" class="font-bold text-gray-900">Rp 0</span>
                         </div>
-                        <div class="flex justify-between font-bold text-xl pt-2">
-                            <span>Total Harga</span>
-                            <span class="text-blue-600">Rp 1.650.000</span>
+                        <div class="flex justify-between font-bold text-2xl pt-6 border-t border-gray-100 mt-4 items-center">
+                            <span class="text-gray-900">Total</span>
+                            <span id="display-total" class="text-blue-600">Rp 0</span>
                         </div>
                     </div>
                 </div>
@@ -120,10 +151,114 @@
         </div>
     </div>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
-        function prosesPembayaran() {
-            alert('Sedang memproses pembayaran...\nSimulasi berhasil. Terima kasih telah memesan Serenity Villa');
-            window.location.href = 'index.html';
+        AOS.init({ duration: 900, easing: 'ease-out-cubic', once: true, offset: 50 });
+
+        const SUPABASE_URL = 'https://oyumpfcjphymiaxlshjt.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_rnnwDTrBaZguDWkFqgWLEA_kcLo0CDZ';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const basePricePerNight = 1500000;
+        let globalBookingData = null; 
+
+        function formatRupiah(number) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(number);
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const savedData = localStorage.getItem('bookingData');
+            
+            if (!savedData) {
+                window.location.href = "index.html";
+                return;
+            }
+
+            globalBookingData = JSON.parse(savedData);
+
+            document.getElementById('review-nama').innerText = globalBookingData.nama;
+            document.getElementById('review-email').innerText = globalBookingData.email;
+            document.getElementById('review-phone').innerText = globalBookingData.phone;
+            document.getElementById('review-notes').innerText = globalBookingData.notes || "Tidak ada catatan.";
+
+            let checkin = "";
+            let checkout = "";
+            let diffDays = 1;
+
+            if (globalBookingData.tanggal.includes(" to ")) {
+                const dates = globalBookingData.tanggal.split(" to ");
+                checkin = dates[0];
+                checkout = dates[1];
+                const d1 = new Date(checkin);
+                const d2 = new Date(checkout);
+                diffDays = Math.ceil(Math.abs(d2 - d1) / (1000 * 60 * 60 * 24));
+            } else {
+                checkin = globalBookingData.tanggal;
+                checkout = globalBookingData.tanggal;
+            }
+
+            document.getElementById('display-checkin').innerText = checkin;
+            document.getElementById('display-checkout').innerText = checkout;
+            
+            const subtotal = diffDays * basePricePerNight;
+            const tax = subtotal * 0.10;
+            const total = subtotal + tax;
+
+            document.getElementById('calc-nights').innerText = diffDays;
+            document.getElementById('display-price').innerText = formatRupiah(subtotal);
+            document.getElementById('display-tax').innerText = formatRupiah(tax);
+            document.getElementById('display-total').innerText = formatRupiah(total);
+
+            flatpickr("#calendar-view", {
+                mode: "range",
+                inline: true,
+                defaultDate: [checkin, checkout],
+                clickOpens: false,
+                onChange: function(d, s, i) {
+                    i.setDate([checkin, checkout], false);
+                }
+            });
+        });
+
+        async function simpanKeDatabase(btn) {
+            btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Memproses...`;
+            btn.classList.add('btn-loading');
+            btn.disabled = true;
+
+            let checkinDate = globalBookingData.tanggal;
+            let checkoutDate = globalBookingData.tanggal;
+            if (globalBookingData.tanggal.includes(" to ")) {
+                const dates = globalBookingData.tanggal.split(" to ");
+                checkinDate = dates[0];
+                checkoutDate = dates[1];
+            }
+
+            const { data, error } = await supabaseClient
+                .from('bookings')
+                .insert([
+                    { 
+                        nama: globalBookingData.nama, 
+                        email: globalBookingData.email,
+                        telepon: globalBookingData.phone,
+                        checkin: checkinDate,
+                        checkout: checkoutDate,
+                        catatan: globalBookingData.notes,
+                        status: 'pending'
+                    }
+                ]);
+
+            if (error) {
+                console.error('Error Supabase:', error);
+                alert('Terjadi kesalahan saat menyimpan data. Pastikan konfigurasi Supabase sudah benar.');
+                btn.innerHTML = 'Konfirmasi & Simpan Pesanan';
+                btn.classList.remove('btn-loading');
+                btn.disabled = false;
+            } else {
+                alert('Pesanan berhasil disimpan di sistem! Kami akan menghubungi Anda segera.');
+                localStorage.removeItem('bookingData');
+                window.location.href = 'index.html';
+            }
         }
     </script>
 </body>
