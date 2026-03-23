@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Pesanan - AIO Villa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style> 
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; overflow-x: hidden; } 
+        
+        /* Shimmer Loading Effect */
+        .skeleton {
+            background: #e2e8f0;
+            background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+            border-radius: 5px;
+            background-size: 200% 100%;
+            animation: 1.5s shine linear infinite;
+        }
+        @keyframes shine { to { background-position-x: -200%; } }
+
+        /* Custom Radio Button styling untuk Payment Gateway */
+        .payment-radio:checked + div { border-color: #2563eb; background-color: #eff6ff; }
+        .payment-radio:checked + div .radio-circle { border-color: #2563eb; border-width: 6px; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <nav class="bg-white/90 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <a href="index.html" class="text-2xl font-bold text-gray-900 tracking-tighter hover:opacity-80 transition">AIO<span class="text-blue-600 font-light">Villa</span></a>
+                <div class="flex items-center gap-4">
+                    <button onclick="fetchStatus()" class="hidden sm:flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                        <span data-i18n="nav-refresh">Perbarui</span>
+                    </button>
+
+                    <button onclick="toggleLang()" class="font-bold flex items-center gap-1 hover:opacity-80 transition bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200 text-sm">
+                        <span id="lang-id" class="text-blue-600">ID</span> / <span id="lang-en" class="text-gray-400 font-normal">EN</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto px-4 py-12" id="main-content">
+        
+        <div id="loading-state" class="bg-white rounded-[2rem] shadow-xl border border-gray-100 overflow-hidden w-full mx-auto p-8">
+            <div class="flex flex-col items-center justify-center mb-10 mt-6">
+                <div class="skeleton w-20 h-20 rounded-full mb-6"></div>
+                <div class="skeleton h-8 w-64 mb-3 rounded-xl"></div>
+                <div class="skeleton h-4 w-48 rounded-md"></div>
+            </div>
+            <div class="space-y-4">
+                <div class="skeleton h-12 w-full rounded-xl"></div>
+                <div class="skeleton h-12 w-full rounded-xl"></div>
+                <div class="skeleton h-12 w-3/4 rounded-xl"></div>
+            </div>
+        </div>
+
+        <div id="booking-card" class="hidden bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 overflow-hidden" data-aos="zoom-in" data-aos-duration="600">
+            
+            <div id="status-header" class="px-8 py-10 text-center relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full mix-blend-overlay filter blur-[40px] transform translate-x-1/2 -translate-y-1/2"></div>
+                
+                <div id="status-icon" class="mx-auto w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white shadow-inner mb-5">
+                    </div>
+                <h2 id="status-title" class="text-3xl font-bold mb-2 text-white drop-shadow-md tracking-tight"></h2>
+                <p id="status-desc" class="text-white/90 text-sm md:text-base px-4 max-w-lg mx-auto font-medium"></p>
+            </div>
+            
+            <div class="p-8 md:p-10">
+                <h3 data-i18n="detail-title" class="font-bold text-xl text-gray-900 mb-6 border-b border-gray-100 pb-3 tracking-tight">Informasi Reservasi</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-base">
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1" data-i18n="lbl-name">Nama Pemesan</p>
+                        <p id="b-nama" class="font-bold text-gray-900">-</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Check-in & Check-out</p>
+                        <p id="b-dates" class="font-bold text-gray-900">-</p>
+                        <p id="b-duration" class="text-xs text-blue-600 font-bold mt-1">-</p>
+                    </div>
+                </div>
+
+                <div id="reject-box" class="hidden bg-red-50 p-6 rounded-2xl border border-red-100 mb-6 shadow-sm">
+                    <div class="flex gap-4">
+                        <div class="text-red-500 mt-1"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+                        <div>
+                            <p class="text-red-700 font-bold mb-1.5" data-i18n="reject-note">Catatan Penolakan dari Admin:</p>
+                            <p id="admin-notes" class="text-red-600 font-medium leading-relaxed mb-4">-</p>
+                            <a href="index.html" class="inline-flex items-center gap-2 bg-red-600 text-white px-6 py-2.5 rounded-xl font-bold hover:bg-red-700 shadow-md transition transform hover:-translate-y-0.5 text-sm" data-i18n="btn-rebook">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg> Pesan Ulang Tanggal Lain
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="payment-box" class="hidden mt-10 border-t border-gray-100 pt-8 animate-[fade-in_0.5s_ease-out]">
+                    
+                    <div class="bg-blue-50/50 rounded-2xl p-6 mb-8 border border-blue-100">
+                        <h3 data-i18n="cost-title" class="font-bold text-gray-900 mb-4 text-lg">Ringkasan Tagihan</h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between text-gray-600"><span id="lbl-room-night">Kamar</span><span id="price-room" class="font-semibold text-gray-900">-</span></div>
+                            <div class="flex justify-between text-gray-600"><span>Pajak & Layanan (10%)</span><span id="price-tax" class="font-semibold text-gray-900">-</span></div>
+                            <div class="flex justify-between items-center pt-3 border-t border-blue-100 mt-2">
+                                <span class="font-bold text-gray-900 text-base" data-i18n="lbl-total">Total Pembayaran</span>
+                                <span id="price-total" class="font-bold text-2xl text-blue-600">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 data-i18n="pay-title" class="font-bold text-xl text-gray-900 mb-5 tracking-tight">Pilih Metode Pembayaran</h3>
+                    <div class="space-y-4 mb-8">
+                        <label class="relative block cursor-pointer group">
+                            <input type="radio" name="payment" checked class="payment-radio peer sr-only">
+                            <div class="border border-gray-200 rounded-2xl p-5 hover:border-blue-300 transition flex items-center justify-between shadow-sm">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center border border-gray-100 text-blue-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg></div>
+                                    <div>
+                                        <p class="font-bold text-gray-900 text-base" data-i18n="pay-va">Virtual Account Bank</p>
+                                        <p class="text-xs text-gray-500 font-medium mt-0.5">BCA, Mandiri, BNI, BRI</p>
+                                    </div>
+                                </div>
+                                <div class="radio-circle w-6 h-6 rounded-full border-2 border-gray-300 transition-all duration-200"></div>
+                            </div>
+                        </label>
+
+                        <label class="relative block cursor-pointer group">
+                            <input type="radio" name="payment" class="payment-radio peer sr-only">
+                            <div class="border border-gray-200 rounded-2xl p-5 hover:border-blue-300 transition flex items-center justify-between shadow-sm">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center border border-gray-100 text-green-500"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg></div>
+                                    <div>
+                                        <p class="font-bold text-gray-900 text-base" data-i18n="pay-ew">E-Wallet / QRIS</p>
+                                        <p class="text-xs text-gray-500 font-medium mt-0.5">GoPay, OVO, Dana, ShopeePay</p>
+                                    </div>
+                                </div>
+                                <div class="radio-circle w-6 h-6 rounded-full border-2 border-gray-300 transition-all duration-200"></div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <button onclick="processPayment()" class="w-full bg-gray-900 text-white font-bold py-5 text-lg rounded-2xl hover:bg-gray-800 transition-all shadow-[0_10px_20px_rgba(0,0,0,0.1)] transform hover:-translate-y-1 flex items-center justify-center gap-3">
+                        <span data-i18n="btn-pay">Bayar Sekarang</span> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        const SUPABASE_URL = 'https://oyumpfcjphymiaxlshjt.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_rnnwDTrBaZguDWkFqgWLEA_kcLo0CDZ';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const basePricePerNight = 1500000;
+
+        const translations = {
+            "id": { 
+                "nav-refresh": "Perbarui", "loading": "Menyinkronkan dengan sistem...", "detail-title": "Informasi Reservasi", "lbl-name": "Nama Pemesan", "reject-note": "Pesan Penolakan dari Admin:", "btn-rebook": "Pesan Ulang Tanggal Lain", "pay-title": "Pilih Metode Pembayaran", "btn-pay": "Proses Pembayaran", 
+                "status-wait": "Menunggu Konfirmasi", "status-wait-desc": "Tim AIO Villa sedang meninjau ketersediaan jadwal Anda. Silakan muat ulang halaman ini secara berkala.", 
+                "status-ok": "Pesanan Disetujui!", "status-ok-desc": "Jadwal Anda telah diamankan. Silakan selesaikan pembayaran di bawah ini.", 
+                "status-no": "Pesanan Dibatalkan", "status-no-desc": "Mohon maaf, pengajuan Anda tidak dapat kami penuhi saat ini.",
+                "cost-title": "Ringkasan Tagihan", "lbl-total": "Total Pembayaran", "pay-va": "Virtual Account Bank", "pay-ew": "E-Wallet / QRIS"
+            },
+            "en": { 
+                "nav-refresh": "Refresh", "loading": "Syncing with system...", "detail-title": "Reservation Info", "lbl-name": "Guest Name", "reject-note": "Rejection Note from Admin:", "btn-rebook": "Rebook Another Date", "pay-title": "Select Payment Method", "btn-pay": "Process Payment", 
+                "status-wait": "Waiting for Approval", "status-wait-desc": "The AIO Villa team is reviewing your schedule availability. Please refresh this page periodically.", 
+                "status-ok": "Order Approved!", "status-ok-desc": "Your schedule is secured. Please complete the payment below.", 
+                "status-no": "Order Cancelled", "status-no-desc": "We apologize, we cannot fulfill your request at this time.",
+                "cost-title": "Billing Summary", "lbl-total": "Total Payment", "pay-va": "Bank Virtual Account", "pay-ew": "E-Wallet / QRIS"
+            }
+        };
+
+        let currentLang = 'id';
+        function toggleLang() {
+            currentLang = currentLang === 'id' ? 'en' : 'id';
+            document.getElementById('lang-id').className = currentLang === 'id' ? 'text-blue-600' : 'text-gray-400 font-normal';
+            document.getElementById('lang-en').className = currentLang === 'en' ? 'text-blue-600' : 'text-gray-400 font-normal';
+            document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = translations[currentLang][el.getAttribute('data-i18n')]; });
+            fetchStatus(); // re-render teks header spesifik
+        }
+
+        function formatRupiah(number) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(number);
+        }
+
+        async function fetchStatus() {
+            const bookingId = localStorage.getItem('activeBookingId');
+            
+            // Sembunyikan card, tampilkan skeleton saat merefresh
+            document.getElementById('booking-card').classList.add('hidden');
+            document.getElementById('loading-state').style.display = 'block';
+
+            if(!bookingId) {
+                document.getElementById('main-content').innerHTML = `
+                    <div class="text-center py-20 bg-white rounded-[2rem] shadow-xl border border-gray-100 p-12">
+                        <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-400"><svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">Tidak ada pesanan aktif.</h2>
+                        <p class="text-gray-500 mb-8">Anda belum memiliki reservasi yang sedang berjalan di perangkat ini.</p>
+                        <a href="index.html" class="bg-blue-600 text-white px-8 py-3.5 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg inline-block">Kembali ke Beranda & Pesan</a>
+                    </div>`;
+                return;
+            }
+
+            const { data, error } = await supabaseClient.from('bookings').select('*').eq('id', bookingId).single();
+            
+            if (error || !data) return;
+
+            // Beri sedikit delay artifisial 800ms agar skeleton loading terlihat elegan
+            setTimeout(() => {
+                document.getElementById('loading-state').style.display = 'none';
+                renderDashboard(data);
+            }, 800);
+        }
+
+        function renderDashboard(data) {
+            const card = document.getElementById('booking-card');
+            const header = document.getElementById('status-header');
+            const statusIcon = document.getElementById('status-icon');
+            const titleEl = document.getElementById('status-title');
+            const descEl = document.getElementById('status-desc');
+            
+            card.classList.remove('hidden');
+
+            // Format Tanggal
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            const dCheckin = new Date(data.checkin).toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', options);
+            const dCheckout = new Date(data.checkout).toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', options);
+            const diffDays = Math.ceil(Math.abs(new Date(data.checkout) - new Date(data.checkin)) / (1000 * 60 * 60 * 24)) || 1;
+
+            document.getElementById('b-nama').innerText = data.nama;
+            document.getElementById('b-dates').innerText = `${dCheckin} — ${dCheckout}`;
+            document.getElementById('b-duration').innerText = `(${diffDays} ${currentLang === 'id' ? 'Malam' : 'Nights'})`;
+
+            // Reset Tampilan
+            document.getElementById('reject-box').classList.add('hidden');
+            document.getElementById('payment-box').classList.add('hidden');
+
+            if(data.status === 'pending') {
+                header.className = 'px-8 py-10 text-center relative overflow-hidden bg-gradient-to-br from-yellow-400 to-orange-500';
+                statusIcon.innerHTML = `<svg class="w-10 h-10 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+                titleEl.innerText = translations[currentLang]['status-wait'];
+                descEl.innerText = translations[currentLang]['status-wait-desc'];
+            } 
+            else if (data.status === 'confirmed') {
+                header.className = 'px-8 py-10 text-center relative overflow-hidden bg-gradient-to-br from-green-500 to-emerald-600';
+                statusIcon.innerHTML = `<svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+                titleEl.innerText = translations[currentLang]['status-ok'];
+                descEl.innerText = translations[currentLang]['status-ok-desc'];
+                
+                // Kalkulasi & Tampilkan Box Pembayaran
+                document.getElementById('payment-box').classList.remove('hidden');
+                document.getElementById('lbl-room-night').innerText = `Kamar (${diffDays} ${currentLang === 'id' ? 'malam' : 'nights'})`;
+                
+                const subtotal = diffDays * basePricePerNight;
+                const tax = subtotal * 0.10;
+                const total = subtotal + tax;
+                
+                document.getElementById('price-room').innerText = formatRupiah(subtotal);
+                document.getElementById('price-tax').innerText = formatRupiah(tax);
+                document.getElementById('price-total').innerText = formatRupiah(total);
+            } 
+            else { // Cancelled / Ditolak
+                header.className = 'px-8 py-10 text-center relative overflow-hidden bg-gradient-to-br from-red-500 to-rose-600';
+                statusIcon.innerHTML = `<svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`;
+                titleEl.innerText = translations[currentLang]['status-no'];
+                descEl.innerText = translations[currentLang]['status-no-desc'];
+                
+                document.getElementById('reject-box').classList.remove('hidden');
+                document.getElementById('admin-notes').innerText = data.admin_notes || (currentLang === 'id' ? "Jadwal penuh / Tidak tersedia." : "Fully booked / Unavailable.");
+            }
+        }
+
+        function processPayment() {
+            // Memanggil SweetAlert2 yang interaktif!
+            Swal.fire({
+                title: currentLang === 'id' ? 'Memproses Pembayaran...' : 'Processing Payment...',
+                html: currentLang === 'id' ? 'Mohon jangan tutup jendela ini.' : 'Please do not close this window.',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
+            setTimeout(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: currentLang === 'id' ? 'Pembayaran Berhasil!' : 'Payment Successful!',
+                    text: currentLang === 'id' ? 'Invoice dan panduan check-in telah dikirim ke email Anda.' : 'Invoice and check-in guide have been sent to your email.',
+                    confirmButtonColor: '#2563eb',
+                    confirmButtonText: currentLang === 'id' ? 'Kembali ke Beranda' : 'Back to Home'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        localStorage.removeItem('activeBookingId'); // Sesi selesai
+                        window.location.href = "index.html";
+                    }
+                });
+            }, 2500); // Simulasi delay gateway 2.5 detik
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchStatus);
+    </script>
+</body>
+</html>
