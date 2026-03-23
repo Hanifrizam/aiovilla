@@ -11,11 +11,24 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; background-color: #f8fafc; }
         
-        /* Background Hero Parallax */
+        /* FIX: Animasi Pindah Halaman (Tanpa Transform untuk mencegah bug pada position: fixed) */
+        .page-enter { animation: pageFadeIn 0.8s ease-out forwards; }
+        .page-exit { animation: pageFadeOut 0.4s ease-in forwards; }
+        
+        @keyframes pageFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes pageFadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
         .hero-bg {
             background-image: url('Gambar Villa (1).jpeg');
             background-size: cover;
@@ -23,7 +36,6 @@
             background-attachment: fixed;
         }
 
-        /* FRACTAL GLASS EFFECT */
         .fractal-glass {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
@@ -50,36 +62,112 @@
             100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
-        /* Custom Swiper Responsif */
         .swiper-slide { width: 85%; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 1.5rem; }
         @media (min-width: 768px) { .swiper-slide { width: 45%; } }
         .swiper-slide-active { transform: scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
 
-        /* Custom Scrollbar Modal */
         .modal-scroll::-webkit-scrollbar { width: 6px; }
         .modal-scroll::-webkit-scrollbar-track { background: transparent; }
         .modal-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.4); border-radius: 8px;}
         
-        /* Floating Animation */
         .animate-float { animation: float 6s ease-in-out infinite; }
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
+
+        .marquee-container {
+            display: flex;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+            padding: 2rem 0;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+        .marquee-content {
+            display: flex;
+            gap: 2rem;
+            animation: scroll 40s linear infinite;
+        }
+        .marquee-container:hover .marquee-content {
+            animation-play-state: paused;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-50% - 1rem)); }
+        }
+        
+        .swal2-title, .swal2-html-container { font-family: 'Plus Jakarta Sans', sans-serif !important; }
+        .swal2-popup { border-radius: 1.5rem !important; }
     </style>
 </head>
-<body class="text-gray-800">
+<body class="text-gray-800 page-enter">
 
-    <nav class="fixed w-full z-40 transition-all duration-500" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+    <div id="mobile-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] hidden transition-opacity duration-300 opacity-0 lg:hidden" onclick="toggleSidebar()"></div>
+
+    <div id="mobile-sidebar" class="fixed inset-y-0 left-0 w-72 bg-white shadow-2xl z-[70] transform -translate-x-full transition-transform duration-300 lg:hidden flex flex-col">
+        <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+            <div class="text-2xl font-bold text-gray-900 tracking-tighter">AIO<span class="text-blue-600 font-light">Villa</span></div>
+            <button onclick="toggleSidebar()" class="p-2 text-gray-500 hover:text-red-500 hover:bg-gray-100 rounded-full transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div class="p-6 flex flex-col gap-4 overflow-y-auto">
+            <button onclick="toggleLang()" class="flex items-center justify-center gap-2 bg-gray-100 p-2 rounded-lg font-bold text-gray-800 mb-2 hover:bg-gray-200 transition">
+                <span id="lang-mob-id" class="text-blue-600">ID</span> / <span id="lang-mob-en" class="text-gray-400">EN</span>
+            </button>
+            <a href="#" onclick="toggleSidebar()" data-i18n="nav-home" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Beranda</a>
+            <a href="#info" onclick="toggleSidebar()" data-i18n="nav-detail" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Detail Villa</a>
+            <a href="#galeri" onclick="toggleSidebar()" data-i18n="nav-gallery" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Galeri</a>
+            <a href="#layanan" onclick="toggleSidebar()" data-i18n="nav-services" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Layanan & Fasilitas</a>
+            <a href="#lokasi" onclick="toggleSidebar()" data-i18n="nav-location" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Lokasi Maps</a>
+            <a href="#kontak" onclick="toggleSidebar()" data-i18n="nav-contact" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Hubungi Kami</a>
+            
+            <div class="h-px bg-gray-100 my-2"></div>
+            
+            <a href="javascript:void(0)" onclick="cekStatusPesanan(); toggleSidebar();" class="text-blue-600 font-bold hover:bg-blue-50 transition p-2 rounded-lg flex items-center gap-2 group">
+                <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span data-i18n="nav-status">Cek Status Pesanan</span>
+            </a>
+
+            <a href="javascript:void(0)" onclick="navigateWithTransition('ketersediaan.html')" class="flex items-center gap-2 text-blue-600 font-bold p-2 rounded-lg hover:bg-blue-50 transition group">
+                <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <span data-i18n="nav-avail">Cek Ketersediaan</span>
+            </a>
+            <button onclick="toggleSidebar(); openModal();" data-i18n="btn-order" class="mt-4 bg-gray-900 text-white w-full py-3.5 rounded-xl font-bold shadow-md hover:bg-gray-800 transition transform hover:-translate-y-1">
+                Order Sekarang
+            </button>
+        </div>
+    </div>
+
+    <nav class="fixed top-0 left-0 w-full z-50 transition-all duration-500" id="navbar">
+        <div id="nav-wrapper" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 transition-all duration-300">
             <div class="fractal-glass rounded-2xl flex justify-between h-16 md:h-20 items-center px-4 md:px-6 transition-all duration-300" id="nav-container">
-                <div class="text-xl md:text-2xl font-bold text-white tracking-tighter cursor-pointer drop-shadow-md">AIO<span class="font-light">Villa</span></div>
                 
-                <div class="hidden lg:flex space-x-8 items-center text-sm font-medium">
-                    <a href="#" class="text-white hover:text-blue-200 transition drop-shadow">Beranda</a>
-                    <a href="#info" class="text-white hover:text-blue-200 transition drop-shadow">Detail</a>
-                    <a href="#galeri" class="text-white hover:text-blue-200 transition drop-shadow">Galeri</a>
-                    <a href="#layanan" class="text-white hover:text-blue-200 transition drop-shadow">Layanan</a>
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSidebar()" id="hamburger-icon" class="lg:hidden text-white hover:text-blue-200 transition focus:outline-none p-1">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                    <div class="text-xl md:text-2xl font-bold nav-text text-white tracking-tighter cursor-pointer drop-shadow-md transition">AIO<span class="font-light">Villa</span></div>
                 </div>
                 
-                <button onclick="openModal()" class="bg-white/90 text-gray-900 px-4 py-2 md:px-6 md:py-2.5 text-sm md:text-base rounded-xl hover:bg-white hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)] whitespace-nowrap">
+                <div class="hidden lg:flex space-x-6 items-center text-sm font-medium">
+                    <a href="#" data-i18n="nav-home" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Beranda</a>
+                    <a href="#info" data-i18n="nav-detail" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Detail</a>
+                    <a href="#galeri" data-i18n="nav-gallery" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Galeri</a>
+                    <a href="#layanan" data-i18n="nav-services" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Layanan</a>
+                    <a href="#kontak" data-i18n="nav-contact" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Kontak</a>
+                    <a href="javascript:void(0)" onclick="cekStatusPesanan()" data-i18n="nav-status" class="nav-text text-white hover:text-blue-200 transition drop-shadow font-semibold border-l border-white/20 pl-6 ml-2">Cek Status</a>
+                    
+                    <a href="javascript:void(0)" onclick="navigateWithTransition('ketersediaan.html')" class="nav-text text-white flex items-center gap-1.5 hover:text-blue-200 transition drop-shadow font-bold group">
+                        <svg class="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <span data-i18n="nav-avail">Ketersediaan</span>
+                    </a>
+                    
+                    <button onclick="toggleLang()" id="lang-btn" class="nav-text text-white font-bold ml-2 flex items-center gap-1 hover:bg-white/20 transition bg-white/10 border-white/20 px-3 py-1.5 rounded-lg border shadow-sm">
+                        <span id="lang-desk-id">ID</span> / <span id="lang-desk-en" class="text-gray-400 font-normal">EN</span>
+                    </button>
+                </div>
+                
+                <button onclick="openModal()" id="nav-btn" data-i18n="btn-order" class="bg-white/90 text-gray-900 px-4 py-2 md:px-6 md:py-2.5 text-sm md:text-base rounded-xl hover:bg-white hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)] whitespace-nowrap ml-2 hidden sm:block">
                     Order Sekarang
                 </button>
             </div>
@@ -88,18 +176,22 @@
 
     <header class="hero-bg h-screen relative flex justify-center items-center px-4 overflow-hidden">
         <div class="absolute inset-0 bg-black/40"></div>
-        
         <div class="absolute top-1/4 left-4 md:left-10 w-48 h-48 md:w-72 md:h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-[80px] md:blur-[100px] opacity-40 animate-pulse"></div>
         <div class="absolute bottom-1/4 right-4 md:right-10 w-48 h-48 md:w-72 md:h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-[80px] md:blur-[100px] opacity-40 animate-pulse" style="animation-delay: 2s;"></div>
 
         <div class="relative z-10 text-center flex flex-col items-center animate-float w-full">
-            <div class="fractal-glass p-6 sm:p-8 md:p-12 rounded-3xl w-full max-w-[95%] md:max-w-3xl border border-white/20">
-                <span data-aos="fade-down" class="px-4 py-1.5 rounded-full bg-white/20 border border-white/30 text-white text-xs font-semibold tracking-widest uppercase mb-4 md:mb-6 inline-block backdrop-blur-md">Eksklusivitas Tropis</span>
-                <h1 data-aos="fade-up" data-aos-delay="100" class="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4 md:mb-6 drop-shadow-xl tracking-tight leading-tight">Menyatu dengan <br class="hidden sm:block"> Keindahan Alam</h1>
-                <p data-aos="fade-up" data-aos-delay="200" class="text-base sm:text-lg md:text-xl text-gray-100 mb-8 md:mb-10 drop-shadow max-w-xl mx-auto font-light px-2">Kenyamanan modern dalam balutan arsitektur premium untuk pengalaman liburan tak terlupakan.</p>
-                <button onclick="openModal()" data-aos="zoom-in" data-aos-delay="300" class="w-full sm:w-auto bg-blue-600 text-white px-8 md:px-10 py-3.5 md:py-4 rounded-2xl font-bold hover:bg-blue-500 transition-all shadow-[0_10px_30px_rgba(37,99,235,0.5)] transform hover:-translate-y-1">
-                    Cek Ketersediaan
-                </button>
+            <div class="fractal-glass p-6 sm:p-8 md:p-12 rounded-3xl w-full max-w-[95%] md:max-w-3xl border border-white/20 shadow-2xl">
+                <span data-i18n="hero-tag" data-aos="fade-down" class="px-4 py-1.5 rounded-full bg-white/20 border border-white/30 text-white text-xs font-semibold tracking-widest uppercase mb-4 md:mb-6 inline-block backdrop-blur-md">Eksklusivitas Tropis</span>
+                <h1 data-i18n="hero-title" data-aos="fade-up" data-aos-delay="100" class="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4 md:mb-6 drop-shadow-xl tracking-tight leading-tight">Menyatu dengan <br class="hidden sm:block"> Keindahan Alam</h1>
+                <p data-i18n="hero-desc" data-aos="fade-up" data-aos-delay="200" class="text-base sm:text-lg md:text-xl text-gray-100 mb-8 md:mb-10 drop-shadow max-w-xl mx-auto font-light px-2">Kenyamanan modern dalam balutan arsitektur premium untuk pengalaman liburan tak terlupakan.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center w-full px-4 sm:px-0">
+                    <button onclick="openModal()" data-i18n="btn-book" data-aos="zoom-in" data-aos-delay="300" class="w-full sm:w-auto bg-blue-600 text-white px-8 md:px-10 py-3.5 md:py-4 rounded-2xl font-bold hover:bg-blue-500 transition-all shadow-[0_10px_30px_rgba(37,99,235,0.5)] transform hover:-translate-y-1">
+                        Pesan Sekarang
+                    </button>
+                    <a href="javascript:void(0)" onclick="navigateWithTransition('ketersediaan.html')" data-i18n="btn-check" data-aos="zoom-in" data-aos-delay="400" class="w-full sm:w-auto bg-white/20 backdrop-blur-md border border-white/30 text-white px-8 md:px-10 py-3.5 md:py-4 rounded-2xl font-bold hover:bg-white/30 transition-all transform hover:-translate-y-1 text-center">
+                        Lihat Ketersediaan
+                    </a>
+                </div>
             </div>
         </div>
     </header>
@@ -107,77 +199,68 @@
     <section id="info" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 -mt-16 md:-mt-10">
         <div class="bg-white rounded-3xl md:rounded-[2.5rem] shadow-2xl p-6 md:p-12 flex flex-col lg:flex-row gap-8 md:gap-12 items-center border border-gray-50">
             <div class="w-full lg:w-1/2 text-center lg:text-left" data-aos="fade-right">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">Kemewahan Tersembunyi</h2>
-                <p class="text-gray-500 mb-8 md:mb-10 leading-relaxed text-base md:text-lg">
-                    Desain arsitektur yang menghargai alam. Menawarkan privasi penuh, material batu alam premium, dan suasana santai yang sempurna untuk melepas penat.
+                <h2 data-i18n="sec-detail" class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">Kemewahan Tersembunyi</h2>
+                <p data-i18n="detail-desc" class="text-gray-500 mb-8 md:mb-10 leading-relaxed text-base md:text-lg">
+                    Desain arsitektur yang menghargai alam. Menawarkan privasi penuh, material batu alam premium, dan suasana santai yang sempurna untuk melepas penat di alam eksotis Lombok.
                 </p>
                 <div class="grid grid-cols-2 gap-4 md:gap-6 text-left">
-                    <div class="bg-gray-50 p-4 md:p-6 rounded-2xl border border-gray-100 transition-transform hover:-translate-y-1">
-                        <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1">4</span>
-                        <span class="text-xs md:text-sm text-gray-500 font-medium">Kamar Tidur Utama</span>
+                    <div class="bg-gray-50 p-4 md:p-6 rounded-2xl border border-gray-100 transition-transform hover:-translate-y-1 hover:shadow-md">
+                        <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1">8</span>
+                        <span data-i18n="stat-bed" class="text-xs md:text-sm text-gray-500 font-medium">Kamar Tidur</span>
                     </div>
-                    <div class="bg-gray-50 p-4 md:p-6 rounded-2xl border border-gray-100 transition-transform hover:-translate-y-1">
-                        <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1">4</span>
-                        <span class="text-xs md:text-sm text-gray-500 font-medium">Kamar Mandi Mewah</span>
+                    <div class="bg-gray-50 p-4 md:p-6 rounded-2xl border border-gray-100 transition-transform hover:-translate-y-1 hover:shadow-md">
+                        <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1">10</span>
+                        <span data-i18n="stat-bath" class="text-xs md:text-sm text-gray-500 font-medium">Kamar Mandi</span>
                     </div>
-                    <div class="bg-gray-50 p-4 md:p-6 rounded-2xl border border-gray-100 transition-transform hover:-translate-y-1">
-                        <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1">450<span class="text-lg md:text-xl">m²</span></span>
-                        <span class="text-xs md:text-sm text-gray-500 font-medium">Luas Bangunan</span>
+                    <div class="bg-gray-50 p-4 md:p-6 rounded-2xl border border-gray-100 transition-transform hover:-translate-y-1 hover:shadow-md">
+                        <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1">500<span class="text-lg md:text-xl">m²</span></span>
+                        <span data-i18n="stat-area" class="text-xs md:text-sm text-gray-500 font-medium">Luas Bangunan</span>
                     </div>
-                    <div class="bg-gray-50 p-4 md:p-6 rounded-2xl border border-gray-100 transition-transform hover:-translate-y-1">
-                        <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1">1200<span class="text-lg md:text-xl">m²</span></span>
-                        <span class="text-xs md:text-sm text-gray-500 font-medium">Luas Tanah Tropis</span>
+                    <div class="bg-gray-50 p-4 md:p-6 rounded-2xl border border-gray-100 transition-transform hover:-translate-y-1 hover:shadow-md">
+                        <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1">2000<span class="text-lg md:text-xl">m²</span></span>
+                        <span data-i18n="stat-land" class="text-xs md:text-sm text-gray-500 font-medium">Luas Tanah</span>
                     </div>
                 </div>
             </div>
             <div class="w-full lg:w-1/2 relative mt-6 lg:mt-0" data-aos="fade-left">
                 <div class="hidden md:block absolute inset-0 bg-blue-600 rounded-3xl transform translate-x-4 translate-y-4 opacity-10"></div>
-                <img src="Gambar Villa (7).jpeg" alt="Villa Pool" class="w-full h-[350px] md:h-[550px] object-cover rounded-3xl shadow-xl relative z-10">
+                <img src="Gambar Villa (7).jpeg" alt="Villa Pool" class="w-full h-[350px] md:h-[550px] object-cover rounded-3xl shadow-xl relative z-10 transition-transform hover:scale-[1.02] duration-500">
             </div>
         </div>
     </section>
 
     <section id="galeri" class="py-16 md:py-24 overflow-hidden bg-gray-50">
         <div class="text-center mb-10 md:mb-16 px-4" data-aos="fade-up">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6 tracking-tight">Estetika di Setiap Sudut</h2>
-            <div class="inline-flex bg-white p-1.5 rounded-full shadow-sm border border-gray-100 w-max max-w-full overflow-x-auto">
-                <button class="bg-gray-900 text-white px-6 md:px-8 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-semibold shadow-md whitespace-nowrap">Galeri Foto</button>
-                <button class="px-6 md:px-8 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-semibold text-gray-500 hover:text-gray-900 transition whitespace-nowrap">Video Tur</button>
-            </div>
+            <h2 data-i18n="sec-gallery" class="text-3xl md:text-4xl font-bold text-gray-900 mb-6 tracking-tight">Estetika di Setiap Sudut</h2>
         </div>
-
         <div class="swiper mySwiper pl-4 md:pl-8 lg:pl-20 pb-12 md:pb-16" data-aos="fade-up" data-aos-delay="100">
             <div class="swiper-wrapper">
-                <div class="swiper-slide overflow-hidden relative group cursor-grab">
+                <div class="swiper-slide overflow-hidden relative group cursor-grab shadow-sm">
                     <img src="Gambar Villa (2).jpeg" alt="Bathtub" class="w-full h-[280px] md:h-[400px] object-cover group-hover:scale-110 transition duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
                     <div class="absolute bottom-6 md:bottom-8 left-6 md:left-8">
-                        <p class="text-white font-bold text-lg md:text-xl drop-shadow-md">Kamar Mandi Alam</p>
-                        <p class="text-gray-300 text-xs md:text-sm mt-1">Bathtub batu utuh eksklusif</p>
+                        <p data-i18n="gal-1" class="text-white font-bold text-lg md:text-xl drop-shadow-md transform translate-y-2 group-hover:translate-y-0 transition">Kamar Mandi Alam</p>
                     </div>
                 </div>
-                <div class="swiper-slide overflow-hidden relative group cursor-grab">
+                <div class="swiper-slide overflow-hidden relative group cursor-grab shadow-sm">
                     <img src="Gambar Villa (3).jpeg" alt="Bed" class="w-full h-[280px] md:h-[400px] object-cover group-hover:scale-110 transition duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
                     <div class="absolute bottom-6 md:bottom-8 left-6 md:left-8">
-                        <p class="text-white font-bold text-lg md:text-xl drop-shadow-md">Kamar Utama</p>
-                        <p class="text-gray-300 text-xs md:text-sm mt-1">Kenyamanan dengan sirkulasi terbuka</p>
+                        <p data-i18n="gal-2" class="text-white font-bold text-lg md:text-xl drop-shadow-md transform translate-y-2 group-hover:translate-y-0 transition">Kamar Utama</p>
                     </div>
                 </div>
-                <div class="swiper-slide overflow-hidden relative group cursor-grab">
+                <div class="swiper-slide overflow-hidden relative group cursor-grab shadow-sm">
                     <img src="Gambar Villa (6).jpeg" alt="Path" class="w-full h-[280px] md:h-[400px] object-cover group-hover:scale-110 transition duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
                     <div class="absolute bottom-6 md:bottom-8 left-6 md:left-8">
-                        <p class="text-white font-bold text-lg md:text-xl drop-shadow-md">Lorong Tropis</p>
-                        <p class="text-gray-300 text-xs md:text-sm mt-1">Akses estetik di malam hari</p>
+                        <p data-i18n="gal-3" class="text-white font-bold text-lg md:text-xl drop-shadow-md transform translate-y-2 group-hover:translate-y-0 transition">Lorong Tropis</p>
                     </div>
                 </div>
-                <div class="swiper-slide overflow-hidden relative group cursor-grab">
-                    <img src="Gambar Villa (8).jpeg" alt="Shower" class="w-full h-[280px] md:h-[400px] object-cover group-hover:scale-110 transition duration-700">
+                <div class="swiper-slide overflow-hidden relative group cursor-grab shadow-sm">
+                    <img src="Gambar Villa (8).jpeg" alt="Outdoor Shower" class="w-full h-[280px] md:h-[400px] object-cover group-hover:scale-110 transition duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
                     <div class="absolute bottom-6 md:bottom-8 left-6 md:left-8">
-                        <p class="text-white font-bold text-lg md:text-xl drop-shadow-md">Pancuran Outdoor</p>
-                        <p class="text-gray-300 text-xs md:text-sm mt-1">Menyatu dengan alam</p>
+                        <p data-i18n="gal-4" class="text-white font-bold text-lg md:text-xl drop-shadow-md transform translate-y-2 group-hover:translate-y-0 transition">Pancuran Alam</p>
                     </div>
                 </div>
             </div>
@@ -186,57 +269,192 @@
     </section>
 
     <section id="layanan" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-10 md:mb-16 tracking-tight" data-aos="fade-up">Layanan Bintang Lima</h2>
+        <h2 data-i18n="sec-services" class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-10 md:mb-16 tracking-tight" data-aos="fade-up">Layanan Bintang Lima</h2>
         
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 mb-16">
             <div class="bg-white p-8 md:p-10 rounded-3xl border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group" data-aos="fade-up" data-aos-delay="50">
                 <div class="w-14 h-14 md:w-16 md:h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-5 md:mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                     <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
                 </div>
-                <h3 class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">Layanan Concierge</h3>
-                <p class="text-gray-500 leading-relaxed text-sm md:text-base">Asistensi personal 24 jam penuh untuk mengatur seluruh aktivitas dan kebutuhan liburan Anda.</p>
+                <h3 data-i18n="srv-1-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">Layanan Concierge</h3>
+                <p data-i18n="srv-1-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">Asistensi personal 24 jam penuh untuk mengatur seluruh aktivitas liburan Anda.</p>
             </div>
             <div class="bg-white p-8 md:p-10 rounded-3xl border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group" data-aos="fade-up" data-aos-delay="100">
                 <div class="w-14 h-14 md:w-16 md:h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-5 md:mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                    <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"></path></svg>
+                    <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"></path></svg>
                 </div>
-                <h3 class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">Koki Pribadi</h3>
-                <p class="text-gray-500 leading-relaxed text-sm md:text-base">Nikmati hidangan kuliner nusantara dan internasional yang disajikan langsung di meja makan Anda.</p>
+                <h3 data-i18n="srv-2-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">Koki Pribadi</h3>
+                <p data-i18n="srv-2-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">Nikmati hidangan kuliner lokal dan internasional yang disajikan langsung di meja makan Anda.</p>
             </div>
             <div class="bg-white p-8 md:p-10 rounded-3xl border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group sm:col-span-2 md:col-span-1" data-aos="fade-up" data-aos-delay="150">
                 <div class="w-14 h-14 md:w-16 md:h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-5 md:mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                     <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
                 </div>
-                <h3 class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">Transportasi VIP</h3>
-                <p class="text-gray-500 leading-relaxed text-sm md:text-base">Layanan antar jemput bandara dan mobil eksklusif siap sedia untuk penjelajahan wisata Anda.</p>
+                <h3 data-i18n="srv-3-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">Transportasi VIP</h3>
+                <p data-i18n="srv-3-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">Layanan antar jemput bandara internasional dan mobil eksklusif siap sedia.</p>
             </div>
         </div>
     </section>
 
-    <footer class="bg-gray-950 text-gray-400 py-12 md:py-16 border-t border-gray-900 relative overflow-hidden">
+    <section class="py-20 bg-white overflow-hidden border-y border-gray-100">
+        <div class="text-center mb-10 px-4" data-aos="fade-up">
+            <h2 data-i18n="sec-reviews" class="text-3xl font-bold text-gray-900 tracking-tight">Apa Kata Tamu Kami</h2>
+        </div>
+        <div class="marquee-container" data-aos="fade-up" data-aos-delay="100">
+            <div class="marquee-content" id="marquee-content">
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-gray-50 rounded-[2rem] md:rounded-[3rem] mt-10 md:mt-16 mb-6 md:mb-10">
+        <div class="text-center mb-10 md:mb-12" data-aos="fade-up">
+            <h2 data-i18n="sec-faq" class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mb-4">Informasi & Peraturan Villa</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition" data-aos="fade-right">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <h3 data-i18n="faq-yes" class="text-xl md:text-2xl font-bold text-gray-900">Diperbolehkan</h3>
+                </div>
+                <ul class="space-y-4 text-gray-600 text-sm md:text-base">
+                    <li class="flex gap-3 items-start"><span class="text-green-500 font-bold">✓</span> <span data-i18n="faq-y1">Membawa makanan & minuman ringan dari luar.</span></li>
+                    <li class="flex gap-3 items-start"><span class="text-green-500 font-bold">✓</span> <span data-i18n="faq-y2">Menggunakan fasilitas dapur.</span></li>
+                    <li class="flex gap-3 items-start"><span class="text-green-500 font-bold">✓</span> <span data-i18n="faq-y3">Mengadakan acara kecil di area taman.</span></li>
+                </ul>
+            </div>
+
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition" data-aos="fade-left">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 bg-red-100 text-red-600 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </div>
+                    <h3 data-i18n="faq-no" class="text-xl md:text-2xl font-bold text-gray-900">Tidak Diperbolehkan</h3>
+                </div>
+                <ul class="space-y-4 text-gray-600 text-sm md:text-base">
+                    <li class="flex gap-3 items-start"><span class="text-red-500 font-bold">✗</span> <span data-i18n="faq-n1">Membawa hewan peliharaan.</span></li>
+                    <li class="flex gap-3 items-start"><span class="text-red-500 font-bold">✗</span> <span data-i18n="faq-n2">Merokok di dalam area kamar.</span></li>
+                    <li class="flex gap-3 items-start"><span class="text-red-500 font-bold">✗</span> <span data-i18n="faq-n3">Membawa tamu menginap berlebih.</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="lokasi" class="pt-8 md:pt-10 pb-16 md:pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-gray-100">
+        <div class="text-center mb-10 md:mb-16" data-aos="fade-up">
+            <h2 data-i18n="sec-location" class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mb-4">Lokasi Strategis Kami</h2>
+            <p data-i18n="loc-desc" class="text-gray-500 max-w-2xl mx-auto text-sm md:text-base">Berada di kawasan premium Selong Belanak, menyuguhkan pemandangan alam Lombok yang memukau.</p>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8 md:gap-12 items-center">
+            <div class="w-full lg:w-3/5 h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-xl relative border border-gray-100" data-aos="fade-right">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3942.868735876356!2d116.15570077579737!3d-8.803024890989053!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dcdeabdf88cc07b%3A0xbcc0e1814eebde54!2sSelong%20Belanak%2C%20Praya%20Barat%2C%20Central%20Lombok%20Regency%2C%20West%20Nusa%20Tenggara!5e0!3m2!1sen!2sid!4v1710600000000!5m2!1sen!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <div class="absolute bottom-6 left-6 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-lg z-10 border border-white/50">
+                    <h4 class="font-bold text-gray-900 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        AIO Villa
+                    </h4>
+                    <p data-i18n="address" class="text-xs text-gray-500 mt-1">Selong Terraces No. B7, Selong Belanak, Lombok</p>
+                </div>
+            </div>
+
+            <div class="w-full lg:w-2/5 flex flex-col justify-center" data-aos="fade-left">
+                <div class="space-y-4 md:space-y-5">
+                    <div class="flex justify-between items-center p-4 md:p-5 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-green-50 p-2.5 md:p-3 rounded-xl text-green-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+                            <div>
+                                <h5 data-i18n="loc-1-title" class="font-bold text-gray-900 text-sm md:text-base">Pantai Selong Belanak</h5>
+                                <p data-i18n="loc-1-desc" class="text-xs md:text-sm text-gray-500">Surga Peselancar</p>
+                            </div>
+                        </div>
+                        <span class="text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-lg">5 Min</span>
+                    </div>
+
+                    <div class="flex justify-between items-center p-4 md:p-5 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-orange-50 p-2.5 md:p-3 rounded-xl text-orange-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454z"></path></svg></div>
+                            <div>
+                                <h5 data-i18n="loc-2-title" class="font-bold text-gray-900 text-sm md:text-base">Bandara Int. Lombok</h5>
+                                <p data-i18n="loc-2-desc" class="text-xs md:text-sm text-gray-500">Akses Utama</p>
+                            </div>
+                        </div>
+                        <span class="text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-lg">30 Min</span>
+                    </div>
+
+                    <div class="flex justify-between items-center p-4 md:p-5 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-indigo-50 p-2.5 md:p-3 rounded-xl text-indigo-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>
+                            <div>
+                                <h5 data-i18n="loc-3-title" class="font-bold text-gray-900 text-sm md:text-base">Sirkuit Mandalika</h5>
+                                <p data-i18n="loc-3-desc" class="text-xs md:text-sm text-gray-500">Pusat Olahraga Internasional</p>
+                            </div>
+                        </div>
+                        <span class="text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-lg">40 Min</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="kontak" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+        <div class="bg-blue-900 rounded-3xl md:rounded-[2.5rem] shadow-2xl p-6 md:p-12 flex flex-col lg:flex-row gap-10 md:gap-12 border border-blue-800 overflow-hidden relative">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-screen filter blur-[80px] opacity-50 pointer-events-none"></div>
+            
+            <div class="w-full lg:w-1/2 relative z-10" data-aos="fade-right">
+                <h2 data-i18n="sec-contact" class="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Hubungi Manajemen</h2>
+                <p data-i18n="contact-desc" class="text-blue-200 mb-8 leading-relaxed text-sm md:text-base max-w-md">Ada pertanyaan khusus untuk acara Anda? Tim manajemen siap membantu 24/7.</p>
+                
+                <div class="space-y-6 text-white">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-md">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        </div>
+                        <div><p class="font-bold text-lg">Alamat</p><p data-i18n="address" class="text-blue-200 text-sm">Selong Terraces No. B7, Selong Belanak, Lombok</p></div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-md">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <div><p class="font-bold text-lg">Email</p><p class="text-blue-200 text-sm">hello@aiovilla.com</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full lg:w-1/2 relative z-10" data-aos="fade-left">
+                <form class="bg-white p-6 md:p-8 rounded-3xl shadow-xl space-y-4 md:space-y-5">
+                    <h3 data-i18n="form-title" class="text-xl font-bold text-gray-900 border-b border-gray-100 pb-3 md:pb-4">Kirim Pesan</h3>
+                    <input type="text" placeholder="Nama Lengkap" class="w-full border border-gray-200 rounded-xl p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm md:text-base transition">
+                    <input type="email" placeholder="Email Anda" class="w-full border border-gray-200 rounded-xl p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm md:text-base transition">
+                    <textarea rows="3" placeholder="Pesan..." class="w-full border border-gray-200 rounded-xl p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm md:text-base transition"></textarea>
+                    <button type="button" data-i18n="btn-send" class="w-full bg-gray-900 text-white py-3.5 rounded-xl font-bold hover:bg-gray-800 transition transform hover:-translate-y-0.5">Kirim Sekarang</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-950 text-gray-400 py-12 md:py-16 border-t border-gray-900 relative overflow-hidden mt-4">
         <div class="absolute top-0 right-0 w-64 md:w-96 h-64 md:h-96 bg-blue-900/20 rounded-full blur-[60px] md:blur-[80px]"></div>
-        <div class="absolute bottom-0 left-0 w-64 md:w-96 h-64 md:h-96 bg-purple-900/20 rounded-full blur-[60px] md:blur-[80px]"></div>
-        
         <div class="max-w-7xl mx-auto px-4 text-center relative z-10">
             <div class="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4 tracking-tighter">AIO<span class="font-light">Villa</span></div>
-            <p class="mb-6 md:mb-8 text-sm md:text-base text-gray-500 max-w-sm mx-auto px-4">Mendefinisikan ulang kemewahan dan ketenangan di jantung Kota Bogor.</p>
+            <p data-i18n="footer-desc" class="mb-6 md:mb-8 text-sm md:text-base text-gray-500 max-w-sm mx-auto px-4">Mendefinisikan ulang kemewahan di Selong Belanak, Lombok.</p>
             <div class="border-t border-gray-800 pt-6 md:pt-8 mt-6 md:mt-8">
-                <p class="text-xs md:text-sm">© 2026 AIO Villa Management. Hak Cipta Dilindungi.</p>
+                <p class="text-xs md:text-sm">© 2026 AIO Villa Management.</p>
             </div>
         </div>
     </footer>
 
-    <div id="orderModal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 hidden flex-col justify-end md:justify-center items-center opacity-0 transition-opacity duration-500 p-4">
-        
+    <div id="orderModal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] hidden flex-col justify-end md:justify-center items-center opacity-0 transition-opacity duration-500 p-4">
         <div class="fractal-glass rounded-[2rem] shadow-2xl w-full max-w-2xl relative transform translate-y-10 md:translate-y-0 md:scale-95 transition-transform duration-500 max-h-[85vh] md:max-h-[90vh] flex flex-col border border-white/30" id="orderModalContent">
             
-            <button onclick="closeModal()" class="absolute top-5 right-5 md:top-6 md:right-6 text-white hover:text-red-400 transition bg-white/10 hover:bg-white/20 rounded-full p-2 z-10 backdrop-blur-md">
-                <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            <button onclick="closeModal()" class="absolute top-4 right-4 md:top-6 md:right-6 text-white hover:text-red-400 hover:bg-white/20 transition bg-white/10 rounded-full p-2 z-[60] backdrop-blur-md cursor-pointer">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             
             <div class="p-6 md:p-8 pb-4 border-b border-white/20 relative z-10">
-                <h2 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Cek Ketersediaan</h2>
-                <p class="text-sm md:text-base text-gray-200 mt-1 md:mt-2 font-light">Pilih jadwal liburan Anda dan kami akan menguncinya.</p>
+                <h2 data-i18n="modal-title" class="text-2xl md:text-3xl font-bold text-white tracking-tight">Cek Ketersediaan</h2>
             </div>
             
             <div class="p-6 md:p-8 pt-4 overflow-y-auto modal-scroll relative z-10">
@@ -244,30 +462,28 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                         <div>
                             <label class="block text-xs md:text-sm font-medium text-gray-100 mb-1.5 md:mb-2">Nama Lengkap</label>
-                            <input type="text" id="nama" required placeholder="Nama Anda" class="w-full border border-white/20 rounded-xl p-3 md:p-3.5 bg-white/10 text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-400 outline-none backdrop-blur-sm transition text-sm md:text-base">
+                            <input type="text" id="nama" required class="w-full border border-white/20 rounded-xl p-3 md:p-3.5 bg-white/10 text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-400 outline-none backdrop-blur-sm transition text-sm md:text-base">
                         </div>
                         <div>
                             <label class="block text-xs md:text-sm font-medium text-gray-100 mb-1.5 md:mb-2">Email</label>
-                            <input type="email" id="email" required placeholder="email@contoh.com" class="w-full border border-white/20 rounded-xl p-3 md:p-3.5 bg-white/10 text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-400 outline-none backdrop-blur-sm transition text-sm md:text-base">
+                            <input type="email" id="email" required class="w-full border border-white/20 rounded-xl p-3 md:p-3.5 bg-white/10 text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-400 outline-none backdrop-blur-sm transition text-sm md:text-base">
                         </div>
                         <div>
                             <label class="block text-xs md:text-sm font-medium text-gray-100 mb-1.5 md:mb-2">Nomor Telepon</label>
-                            <input type="tel" id="phone" required placeholder="0812xxxxxxx" class="w-full border border-white/20 rounded-xl p-3 md:p-3.5 bg-white/10 text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-400 outline-none backdrop-blur-sm transition text-sm md:text-base">
+                            <input type="tel" id="phone" required class="w-full border border-white/20 rounded-xl p-3 md:p-3.5 bg-white/10 text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-400 outline-none backdrop-blur-sm transition text-sm md:text-base">
                         </div>
                         <div>
-                            <label class="block text-xs md:text-sm font-medium text-gray-100 mb-1.5 md:mb-2">Pilih Tanggal</label>
-                            <input type="text" id="tanggal-booking" required placeholder="Tentukan dari Kalender" class="w-full border border-white/20 rounded-xl p-3 md:p-3.5 bg-white/10 text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-400 outline-none backdrop-blur-sm transition cursor-pointer text-sm md:text-base" readonly>
+                            <label data-i18n="modal-date" class="block text-xs md:text-sm font-medium text-gray-100 mb-1.5 md:mb-2">Pilih Tanggal</label>
+                            <input type="text" id="tanggal-booking" required class="w-full border border-white/20 rounded-xl p-3 md:p-3.5 bg-white/10 text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-400 outline-none backdrop-blur-sm transition cursor-pointer text-sm md:text-base" readonly>
                         </div>
                     </div>
-
                     <div>
-                        <label class="block text-xs md:text-sm font-medium text-gray-100 mb-1.5 md:mb-2">Catatan Khusus</label>
-                        <textarea id="notes" rows="2" placeholder="Keperluan extra bed, jam kedatangan..." class="w-full border border-white/20 rounded-xl p-3 md:p-3.5 bg-white/10 text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-400 outline-none backdrop-blur-sm transition text-sm md:text-base"></textarea>
+                        <label data-i18n="modal-notes" class="block text-xs md:text-sm font-medium text-gray-100 mb-1.5 md:mb-2">Catatan Khusus</label>
+                        <textarea id="notes" rows="2" class="w-full border border-white/20 rounded-xl p-3 md:p-3.5 bg-white/10 text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-400 outline-none backdrop-blur-sm transition text-sm md:text-base"></textarea>
                     </div>
-
                     <div class="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 pt-5 md:pt-6 border-t border-white/20">
-                        <button type="button" onclick="closeModal()" class="w-full sm:w-auto px-6 py-3 rounded-xl font-medium text-white hover:bg-white/10 border border-transparent hover:border-white/20 transition backdrop-blur-sm order-2 sm:order-1">Batal</button>
-                        <button type="submit" class="w-full sm:w-auto bg-blue-600/90 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-500 transition shadow-[0_0_20px_rgba(37,99,235,0.4)] backdrop-blur-md order-1 sm:order-2">Lanjutkan Pesanan</button>
+                        <button type="button" onclick="closeModal()" data-i18n="btn-cancel" class="w-full sm:w-auto px-6 py-3 rounded-xl font-medium text-white hover:bg-white/10 border border-transparent hover:border-white/20 transition backdrop-blur-sm order-2 sm:order-1">Batal</button>
+                        <button type="submit" data-i18n="btn-continue" class="w-full sm:w-auto bg-blue-600/90 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-500 transition shadow-[0_0_20px_rgba(37,99,235,0.4)] backdrop-blur-md order-1 sm:order-2">Lanjutkan Pesanan</button>
                     </div>
                 </form>
             </div>
@@ -279,35 +495,214 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     
     <script>
-        // Init AOS
         AOS.init({ duration: 900, easing: 'ease-out-cubic', once: true, offset: 50 });
         
-        // Init Swiper
         var swiper = new Swiper(".mySwiper", {
             slidesPerView: 1.1, spaceBetween: 15, grabCursor: true,
             pagination: { el: ".swiper-pagination", clickable: true },
             breakpoints: { 640: { slidesPerView: 1.5, spaceBetween: 20 }, 768: { slidesPerView: 2.2, spaceBetween: 30 }, 1024: { slidesPerView: 3.2, spaceBetween: 30 } }
         });
 
-        // Efek Navbar Glassmorphism
-        window.addEventListener('scroll', function() {
-            const navContainer = document.getElementById('nav-container');
-            if (window.scrollY > 50) {
-                navContainer.classList.add('bg-white/90', 'shadow-sm');
-                navContainer.classList.remove('fractal-glass', 'border-white/40');
-                navContainer.querySelectorAll('a, div').forEach(el => el.classList.replace('text-white', 'text-gray-900'));
-                navContainer.querySelector('button').classList.replace('bg-white/90', 'bg-gray-900');
-                navContainer.querySelector('button').classList.replace('text-gray-900', 'text-white');
+        // TRANSLATION LOGIC LOMBOK UPDATE
+        const translations = {
+            "id": {
+                "nav-home": "Beranda", "nav-detail": "Detail", "nav-gallery": "Galeri", "nav-services": "Layanan", "nav-location": "Lokasi Maps", "nav-contact": "Kontak", "nav-avail": "Ketersediaan", "nav-status": "Cek Status",
+                "btn-order": "Order Sekarang", "hero-tag": "Eksklusivitas Tropis", "hero-title": "Menyatu dengan <br class='hidden sm:block'> Keindahan Alam",
+                "hero-desc": "Kenyamanan modern dalam balutan arsitektur premium untuk pengalaman liburan tak terlupakan.",
+                "btn-book": "Pesan Sekarang", "btn-check": "Lihat Ketersediaan",
+                "sec-detail": "Kemewahan Tersembunyi", "detail-desc": "Desain arsitektur yang menghargai alam. Menawarkan privasi penuh, material batu alam premium, dan suasana santai yang sempurna untuk melepas penat di alam eksotis Lombok.",
+                "stat-bed": "Kamar Tidur Utama", "stat-bath": "Kamar Mandi Mewah", "stat-area": "Luas Bangunan", "stat-land": "Luas Tanah Tropis",
+                "sec-gallery": "Estetika di Setiap Sudut", "gal-1": "Kamar Mandi Alam", "gal-2": "Kamar Utama", "gal-3": "Lorong Tropis", "gal-4": "Pancuran Alam",
+                "sec-services": "Layanan Bintang Lima", "srv-1-title": "Layanan Concierge", "srv-1-desc": "Asistensi personal 24 jam penuh untuk mengatur seluruh aktivitas liburan Anda.",
+                "srv-2-title": "Koki Pribadi", "srv-2-desc": "Nikmati hidangan kuliner lokal dan internasional yang disajikan langsung di meja makan Anda.",
+                "srv-3-title": "Transportasi VIP", "srv-3-desc": "Layanan antar jemput bandara internasional dan mobil eksklusif siap sedia.",
+                "sec-reviews": "Apa Kata Tamu Kami", "sec-faq": "Informasi & Peraturan Villa",
+                "faq-yes": "Diperbolehkan", "faq-y1": "Membawa makanan & minuman ringan dari luar.", "faq-y2": "Menggunakan fasilitas dapur.", "faq-y3": "Mengadakan acara kecil di area taman.",
+                "faq-no": "Tidak Diperbolehkan", "faq-n1": "Membawa hewan peliharaan.", "faq-n2": "Merokok di dalam area kamar.", "faq-n3": "Membawa tamu menginap berlebih.",
+                "sec-location": "Lokasi Strategis Kami", "loc-desc": "Berada di kawasan premium Selong Belanak, menyuguhkan pemandangan alam Lombok yang memukau.",
+                "loc-1-title": "Pantai Selong Belanak", "loc-1-desc": "Surga Peselancar", 
+                "loc-2-title": "Bandara Int. Lombok", "loc-2-desc": "Akses Utama", 
+                "loc-3-title": "Sirkuit Mandalika", "loc-3-desc": "Pusat Olahraga Internasional",
+                "sec-contact": "Hubungi Manajemen", "contact-desc": "Ada pertanyaan khusus untuk acara Anda? Tim manajemen siap membantu 24/7.",
+                "address": "Selong Terraces No. B7, Selong Belanak, Praya Barat, Central Lombok Regency, West Nusa Tenggara 83572", "form-title": "Kirim Pesan", "btn-send": "Kirim Sekarang",
+                "footer-desc": "Mendefinisikan ulang kemewahan di Selong Belanak, Lombok.",
+                "modal-title": "Cek Ketersediaan", "modal-date": "Pilih Tanggal", "modal-notes": "Catatan Khusus", "btn-cancel": "Batal", "btn-continue": "Lanjutkan Pesanan",
+                "alert-no-booking": "Anda belum memiliki pesanan aktif di perangkat ini."
+            },
+            "en": {
+                "nav-home": "Home", "nav-detail": "Details", "nav-gallery": "Gallery", "nav-services": "Services", "nav-location": "Location Maps", "nav-contact": "Contact", "nav-avail": "Availability", "nav-status": "Check Status",
+                "btn-order": "Book Now", "hero-tag": "Tropical Exclusivity", "hero-title": "Harmonizing with <br class='hidden sm:block'> Nature's Beauty",
+                "hero-desc": "Modern comfort draped in premium architecture for an unforgettable holiday experience.",
+                "btn-book": "Book Now", "btn-check": "Check Availability",
+                "sec-detail": "Hidden Luxury", "detail-desc": "Architectural design that respects nature. Offering full privacy, premium natural stone materials, and a perfect relaxing atmosphere in the exotic nature of Lombok.",
+                "stat-bed": "Master Bedrooms", "stat-bath": "Luxury Bathrooms", "stat-area": "Building Area", "stat-land": "Tropical Land Area",
+                "sec-gallery": "Aesthetics in Every Corner", "gal-1": "Nature Bathroom", "gal-2": "Master Bedroom", "gal-3": "Tropical Hallway", "gal-4": "Nature Shower",
+                "sec-services": "Five-Star Services", "srv-1-title": "Concierge Service", "srv-1-desc": "Full 24-hour personal assistance to arrange all your holiday activities.",
+                "srv-2-title": "Private Chef", "srv-2-desc": "Enjoy local and international culinary delights served directly at your dining table.",
+                "srv-3-title": "VIP Transport", "srv-3-desc": "International airport pickup service and exclusive cars ready on standby.",
+                "sec-reviews": "What Our Guests Say", "sec-faq": "Villa Information & Rules",
+                "faq-yes": "Allowed", "faq-y1": "Bringing outside light food & beverages.", "faq-y2": "Using kitchen facilities.", "faq-y3": "Hosting small events in the garden area.",
+                "faq-no": "Not Allowed", "faq-n1": "Bringing pets.", "faq-n2": "Smoking inside the room area.", "faq-n3": "Bringing extra guests to stay.",
+                "sec-location": "Our Strategic Location", "loc-desc": "Located in the premium Selong Belanak area, offering stunning views of Lombok's nature.",
+                "loc-1-title": "Selong Belanak Beach", "loc-1-desc": "Surfer's Paradise", 
+                "loc-2-title": "Lombok Int. Airport", "loc-2-desc": "Main Access", 
+                "loc-3-title": "Mandalika Circuit", "loc-3-desc": "Int. Sports Center",
+                "sec-contact": "Contact Management", "contact-desc": "Have special questions for your event? The management team is ready to help 24/7.",
+                "address": "Selong Terraces No. B7, Selong Belanak, Praya Barat, Central Lombok Regency, West Nusa Tenggara 83572", "form-title": "Send Message", "btn-send": "Send Now",
+                "footer-desc": "Redefining luxury in Selong Belanak, Lombok.",
+                "modal-title": "Check Availability", "modal-date": "Select Dates", "modal-notes": "Special Notes", "btn-cancel": "Cancel", "btn-continue": "Continue Booking",
+                "alert-no-booking": "You have no active bookings on this device."
+            }
+        };
+
+        let currentLang = 'id';
+
+        function toggleLang() {
+            currentLang = currentLang === 'id' ? 'en' : 'id';
+            
+            if(currentLang === 'en') {
+                document.getElementById('lang-desk-id').classList.add('text-gray-400', 'font-normal');
+                document.getElementById('lang-desk-id').classList.remove('text-white');
+                document.getElementById('lang-desk-en').classList.add('text-white');
+                document.getElementById('lang-desk-en').classList.remove('text-gray-400', 'font-normal');
+                
+                document.getElementById('lang-mob-id').classList.replace('text-blue-600', 'text-gray-400');
+                document.getElementById('lang-mob-en').classList.replace('text-gray-400', 'text-blue-600');
             } else {
-                navContainer.classList.remove('bg-white/90', 'shadow-sm');
-                navContainer.classList.add('fractal-glass', 'border-white/40');
-                navContainer.querySelectorAll('a, div').forEach(el => el.classList.replace('text-gray-900', 'text-white'));
-                navContainer.querySelector('button').classList.replace('bg-gray-900', 'bg-white/90');
-                navContainer.querySelector('button').classList.replace('text-white', 'text-gray-900');
+                document.getElementById('lang-desk-id').classList.remove('text-gray-400', 'font-normal');
+                document.getElementById('lang-desk-id').classList.add('text-white');
+                document.getElementById('lang-desk-en').classList.remove('text-white');
+                document.getElementById('lang-desk-en').classList.add('text-gray-400', 'font-normal');
+                
+                document.getElementById('lang-mob-en').classList.replace('text-blue-600', 'text-gray-400');
+                document.getElementById('lang-mob-id').classList.replace('text-gray-400', 'text-blue-600');
+            }
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key];
+                }
+            });
+
+            // Notifikasi SweetAlert Animated saat switch bahasa
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: currentLang === 'id' ? 'Bahasa diubah ke Indonesia' : 'Language changed to English',
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+                showClass: { popup: 'animate__animated animate__fadeInRight' },
+                hideClass: { popup: 'animate__animated animate__fadeOutRight' }
+            });
+        }
+
+        const reviews = [
+            { name: "Budi Santoso", text: "Villanya sangat bersih, fasilitas kolam renangnya juara! Sangat direkomendasikan." },
+            { name: "Siti Rahmawati", text: "Pelayanan butler 24 jam sangat membantu. Desain kamarnya elegan." },
+            { name: "Andi Wijaya", text: "Pengalaman menginap yang luar biasa. Suasana sangat tenang." },
+            { name: "Dewi Lestari", text: "Koki pribadinya masakannya enak banget! Sarapan di pinggir kolam favorit saya." },
+            { name: "Rizky Pratama", text: "Interiornya sangat estetik. Spot fotonya banyak banget. Pasti akan kembali lagi." }
+        ];
+
+        const marqueeContent = document.getElementById('marquee-content');
+        let marqueeHTML = '';
+        
+        const buildReviewCard = (review) => `
+            <div class="bg-gray-50 border border-gray-100 p-6 rounded-2xl w-80 shrink-0 shadow-sm">
+                <div class="text-yellow-400 text-lg mb-2">★★★★★</div>
+                <p class="text-gray-600 text-sm mb-4 line-clamp-3">"${review.text}"</p>
+                <div class="font-bold text-gray-900 text-sm">- ${review.name}</div>
+            </div>
+        `;
+
+        const repeatedReviews = [...reviews, ...reviews];
+        repeatedReviews.forEach(review => {
+            marqueeHTML += buildReviewCard(review);
+        });
+        marqueeContent.innerHTML = marqueeHTML;
+
+        const mobileSidebar = document.getElementById('mobile-sidebar');
+        const mobileOverlay = document.getElementById('mobile-overlay');
+        
+        function toggleSidebar() {
+            if (mobileSidebar.classList.contains('-translate-x-full')) {
+                mobileSidebar.classList.remove('-translate-x-full');
+                mobileOverlay.classList.remove('hidden');
+                setTimeout(() => mobileOverlay.classList.remove('opacity-0'), 10);
+            } else {
+                mobileSidebar.classList.add('-translate-x-full');
+                mobileOverlay.classList.add('opacity-0');
+                setTimeout(() => mobileOverlay.classList.add('hidden'), 300);
+            }
+        }
+
+        // FLOATING NAVBAR FIX
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            const navContainer = document.getElementById('nav-container');
+            const navTexts = navContainer.querySelectorAll('.nav-text, #hamburger-icon');
+            const langBtn = document.getElementById('lang-btn');
+            
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-white/95', 'shadow-md', 'backdrop-blur-md');
+                navContainer.classList.remove('fractal-glass', 'border-white/40', 'rounded-2xl');
+                
+                navTexts.forEach(el => el.classList.replace('text-white', 'text-gray-900'));
+                if(langBtn) {
+                    langBtn.classList.replace('bg-white/10', 'bg-gray-100');
+                    langBtn.classList.replace('border-white/20', 'border-gray-200');
+                }
+                
+                const btn = navContainer.querySelector('#nav-btn');
+                if(btn) {
+                    btn.classList.replace('bg-white/90', 'bg-gray-900');
+                    btn.classList.replace('text-gray-900', 'text-white');
+                }
+            } else {
+                navbar.classList.remove('bg-white/95', 'shadow-md', 'backdrop-blur-md');
+                navContainer.classList.add('fractal-glass', 'border-white/40', 'rounded-2xl');
+                
+                navTexts.forEach(el => el.classList.replace('text-gray-900', 'text-white'));
+                if(langBtn) {
+                    langBtn.classList.replace('bg-gray-100', 'bg-white/10');
+                    langBtn.classList.replace('border-gray-200', 'border-white/20');
+                }
+                
+                const btn = navContainer.querySelector('#nav-btn');
+                if(btn) {
+                    btn.classList.replace('bg-gray-900', 'bg-white/90');
+                    btn.classList.replace('text-white', 'text-gray-900');
+                }
             }
         });
 
-        /* --- LOGIKA MODAL --- */
+        // ANIMASI TRANSISI HALAMAN URL
+        function navigateWithTransition(url) {
+            document.body.classList.add('page-exit');
+            setTimeout(() => {
+                window.location.href = url;
+            }, 400); // 400ms adalah waktu animasi page-exit
+        }
+
+        function cekStatusPesanan() {
+            const activeBookingId = localStorage.getItem('activeBookingId');
+            if (activeBookingId) {
+                navigateWithTransition('dashboard.html');
+            } else {
+                Swal.fire({
+                    icon: 'info',
+                    title: currentLang === 'id' ? 'Oops!' : 'Oops!',
+                    text: translations[currentLang]['alert-no-booking'],
+                    confirmButtonColor: '#2563eb',
+                    showClass: { popup: 'animate__animated animate__fadeInDown' },
+                    hideClass: { popup: 'animate__animated animate__fadeOutUp' }
+                });
+            }
+        }
+
         const modal = document.getElementById('orderModal');
         const modalContent = document.getElementById('orderModalContent');
 
@@ -316,9 +711,18 @@
             modal.style.display = 'flex';
             setTimeout(() => {
                 modal.classList.remove('opacity-0');
-                modalContent.classList.remove('translate-y-10', 'md:scale-95'); // Animasi naik (slide-up) untuk HP
+                modalContent.classList.remove('translate-y-10', 'md:scale-95'); 
                 document.body.style.overflow = 'hidden';
             }, 10);
+
+            // FITUR AUTO-FILL
+            const sessionData = localStorage.getItem('userSessionInfo');
+            if (sessionData) {
+                const parsed = JSON.parse(sessionData);
+                document.getElementById('nama').value = parsed.nama || '';
+                document.getElementById('email').value = parsed.email || '';
+                document.getElementById('phone').value = parsed.phone || '';
+            }
         }
 
         function closeModal() {
@@ -333,7 +737,6 @@
 
         modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
 
-        /* --- SINKRONISASI SUPABASE & FLATPICKR --- */
         const SUPABASE_URL = 'https://oyumpfcjphymiaxlshjt.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_rnnwDTrBaZguDWkFqgWLEA_kcLo0CDZ';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -364,6 +767,7 @@
 
         document.addEventListener('DOMContentLoaded', fetchBookedDates);
 
+        // Submit form dengan SweetAlert Animasi sebelum ke booking.html
         document.getElementById('shortOrderForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const bookingData = {
@@ -374,7 +778,19 @@
                 notes: document.getElementById('notes').value
             };
             localStorage.setItem('bookingData', JSON.stringify(bookingData));
-            window.location.href = 'booking.html'; 
+            localStorage.setItem('userSessionInfo', JSON.stringify({ nama: bookingData.nama, email: bookingData.email, phone: bookingData.phone }));
+
+            // Tampilkan SweetAlert Loading Transisi
+            Swal.fire({
+                title: currentLang === 'id' ? 'Menyiapkan Pesanan...' : 'Preparing Order...',
+                html: currentLang === 'id' ? 'Mohon tunggu sebentar.' : 'Please wait a moment.',
+                timer: 1500,
+                timerProgressBar: true,
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            }).then(() => {
+                navigateWithTransition('booking.html'); 
+            });
         });
     </script>
 </body>
