@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cek Ketersediaan - AIO Villa</title>
+    <title>Check Availability - AIO Villa</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -120,7 +120,7 @@
                 
                 <div class="flex items-center gap-2 md:gap-4">
                     <button onclick="toggleLang()" class="font-bold flex items-center gap-1 hover:bg-gray-200 transition bg-gray-100 px-2 py-1 md:px-3 md:py-1.5 rounded-lg border border-gray-200 text-xs md:text-sm shadow-sm">
-                        <span id="lang-id" class="text-blue-600">ID</span> / <span id="lang-en" class="text-gray-400 font-normal">EN</span>
+                        <span id="lang-en" class="text-blue-600">EN</span> / <span id="lang-id" class="text-gray-400 font-normal">ID</span>
                     </button>
                 </div>
             </div>
@@ -129,8 +129,8 @@
 
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div class="text-center mb-8 md:mb-10" data-aos="fade-down">
-            <h1 data-i18n="title" class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 md:mb-4 tracking-tight">Kalender Ketersediaan</h1>
-            <p data-i18n="desc" class="text-sm md:text-base text-gray-500 max-w-lg mx-auto px-2">Cek tanggal kosong untuk merencanakan liburan Anda. Tanggal berwarna merah muda dengan coretan berarti villa telah dipesan.</p>
+            <h1 data-i18n="title" class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 md:mb-4 tracking-tight">Availability Calendar</h1>
+            <p data-i18n="desc" class="text-sm md:text-base text-gray-500 max-w-lg mx-auto px-2">Check available dates to plan your vacation. Strikethrough pink dates mean the villa is already booked.</p>
         </div>
 
         <div class="bg-white p-4 sm:p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] shadow-xl md:shadow-2xl shadow-blue-900/5 border border-gray-100 mb-8 md:mb-10 flex justify-center flex-col items-center" data-aos="zoom-in" data-aos-delay="100">
@@ -138,18 +138,18 @@
             <div class="flex flex-wrap gap-4 md:gap-8 mb-6 md:mb-8 w-full justify-center border-b border-gray-100 pb-5 md:pb-6">
                 <div class="flex items-center gap-2 md:gap-3">
                     <div class="w-5 h-5 md:w-6 md:h-6 rounded-md md:rounded-lg bg-white border border-gray-200 shadow-sm"></div>
-                    <span data-i18n="lbl-avail" class="text-xs md:text-sm font-bold text-gray-600">Tersedia</span>
+                    <span data-i18n="lbl-avail" class="text-xs md:text-sm font-bold text-gray-600">Available</span>
                 </div>
                 <div class="flex items-center gap-2 md:gap-3">
                     <div class="w-5 h-5 md:w-6 md:h-6 rounded-md md:rounded-lg bg-red-100 text-red-500 flex items-center justify-center line-through text-[10px] md:text-xs border border-red-200 shadow-sm"></div>
-                    <span data-i18n="lbl-booked" class="text-xs md:text-sm font-bold text-red-600">Sudah Dipesan</span>
+                    <span data-i18n="lbl-booked" class="text-xs md:text-sm font-bold text-red-600">Already Booked</span>
                 </div>
             </div>
 
             <div class="w-full flex justify-center items-center min-h-[300px] overflow-hidden" id="calendar-container">
                 <div id="loading-state" class="flex flex-col items-center gap-4 md:gap-6 py-10 w-full">
                     <div class="modern-pulse"><div></div><div></div></div>
-                    <p data-i18n="loading" class="text-blue-600 font-semibold text-sm md:text-base animate-pulse text-center px-4">Menyinkronkan data dengan sistem...</p>
+                    <p id="loading-text" data-i18n="loading" class="text-blue-600 font-semibold text-sm md:text-base animate-pulse text-center px-4">Syncing data with the system...</p>
                 </div>
                 
                 <input type="text" id="availability-calendar" class="hidden">
@@ -158,7 +158,7 @@
 
         <div class="text-center" data-aos="fade-up" data-aos-delay="200">
             <a href="javascript:void(0)" onclick="navigateWithTransition('index.html')" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 md:gap-3 bg-gray-900 text-white px-6 md:px-10 py-3.5 md:py-4 rounded-xl md:rounded-2xl font-bold hover:bg-gray-800 transition shadow-[0_10px_20px_rgba(0,0,0,0.1)] transform hover:-translate-y-1 text-sm md:text-lg">
-                <span data-i18n="btn-back">Kembali ke Beranda</span>
+                <span data-i18n="btn-back">Return to Home</span>
                 <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
             </a>
         </div>
@@ -204,14 +204,14 @@
             }
         };
 
-        let currentLang = 'id';
+        let currentLang = 'en'; // <-- Ini yang menentukan base languagenya
         let disabledDateRangesGlobal = [];
 
         function toggleLang() {
-            currentLang = currentLang === 'id' ? 'en' : 'id';
+            currentLang = currentLang === 'en' ? 'id' : 'en';
             
-            document.getElementById('lang-id').className = currentLang === 'id' ? 'text-blue-600' : 'text-gray-400 font-normal';
             document.getElementById('lang-en').className = currentLang === 'en' ? 'text-blue-600' : 'text-gray-400 font-normal';
+            document.getElementById('lang-id').className = currentLang === 'id' ? 'text-blue-600' : 'text-gray-400 font-normal';
             
             document.querySelectorAll('[data-i18n]').forEach(el => { 
                 el.innerHTML = translations[currentLang][el.getAttribute('data-i18n')]; 
@@ -272,6 +272,7 @@
                 }, 800);
 
             } catch (err) {
+                // Bugfix: Menambahkan id="loading-text" pada tag HTML agar baris ini tidak error
                 document.getElementById('loading-text').innerText = currentLang === 'id' ? "Gagal memuat data. Silakan refresh halaman." : "Failed to load data. Please refresh the page.";
                 document.querySelector('.modern-pulse').style.display = 'none';
             }
