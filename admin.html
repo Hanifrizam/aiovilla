@@ -5,94 +5,189 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - AIO Villa</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; overflow-x: hidden; }
         .spinner { border: 3px solid #f3f3f3; border-top: 3px solid #2563eb; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* Custom Scrollbar untuk tabel */
+        .custom-scroll::-webkit-scrollbar { height: 6px; width: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 8px;}
+        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px;}
     </style>
 </head>
 <body class="text-gray-800">
 
-    <div id="login-section" class="min-h-screen flex items-center justify-center p-4">
-        <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-100">
+    <div id="login-section" class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-[100px] opacity-20"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-[100px] opacity-20"></div>
+
+        <div class="bg-white/80 backdrop-blur-xl p-8 md:p-10 rounded-[2rem] shadow-2xl w-full max-w-md border border-white relative z-10">
             <div class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-gray-900 tracking-tighter">AIO<span class="text-blue-600 font-light">Villa</span></h1>
-                <p class="text-sm text-gray-500 mt-2">Portal Manajemen Admin</p>
+                <h1 class="text-4xl font-bold text-gray-900 tracking-tighter mb-2">AIO<span class="text-blue-600 font-light">Villa</span></h1>
+                <p class="text-sm text-gray-500 font-medium">Portal Manajemen Admin</p>
             </div>
             
             <form id="login-form" class="space-y-5">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Email Admin</label>
-                    <input type="email" id="admin-email" required class="w-full border border-gray-300 rounded-lg p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none">
+                    <label class="block text-sm font-bold text-gray-700 mb-1.5">Email Admin</label>
+                    <input type="email" id="admin-email" required class="w-full border border-gray-200 rounded-xl p-3.5 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none transition">
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
-                    <input type="password" id="admin-password" required class="w-full border border-gray-300 rounded-lg p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none">
+                    <label class="block text-sm font-bold text-gray-700 mb-1.5">Password</label>
+                    <input type="password" id="admin-password" required class="w-full border border-gray-200 rounded-xl p-3.5 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none transition">
                 </div>
-                <button type="submit" id="btn-login" class="w-full bg-gray-900 text-white font-bold py-3 rounded-lg hover:bg-gray-800 transition shadow-md flex justify-center items-center h-12">
-                    Masuk
+                <button type="submit" id="btn-login" class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 transition shadow-[0_10px_20px_rgba(37,99,235,0.3)] flex justify-center items-center h-14 mt-4">
+                    Masuk ke Dashboard
                 </button>
-                <p id="login-error" class="text-red-500 text-sm text-center hidden">Email atau password salah, atau Anda tidak memiliki akses.</p>
+                <p id="login-error" class="text-red-500 text-sm text-center hidden bg-red-50 p-3 rounded-lg border border-red-100">Kredensial salah atau Anda tidak memiliki akses.</p>
             </form>
-            <div class="mt-6 text-center">
-                <a href="index.html" class="text-sm text-blue-600 hover:underline">&larr; Kembali ke Beranda</a>
+            <div class="mt-8 text-center">
+                <a href="index.html" class="text-sm text-gray-500 hover:text-blue-600 font-medium transition">&larr; Kembali ke Beranda Situs</a>
             </div>
         </div>
     </div>
 
-    <div id="dashboard-section" class="hidden min-h-screen flex flex-col">
-        <nav class="bg-white border-b border-gray-200 sticky top-0 z-40">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between h-16 items-center">
-                    <div class="text-xl font-bold text-gray-900 tracking-tighter">AIO<span class="text-blue-600 font-light">Villa</span> <span class="text-gray-400 text-sm font-normal ml-2">| Admin Panel</span></div>
-                    <button onclick="logoutAdmin()" class="text-sm font-medium text-red-600 hover:bg-red-50 px-4 py-2 rounded-lg transition">Keluar</button>
-                </div>
+    <div id="dashboard-section" class="hidden min-h-screen bg-gray-50 flex">
+        
+        <aside class="w-64 bg-white border-r border-gray-200 fixed h-screen z-20 hidden md:flex flex-col">
+            <div class="h-20 flex items-center px-8 border-b border-gray-100">
+                <div class="text-2xl font-bold text-gray-900 tracking-tighter">AIO<span class="text-blue-600 font-light">Villa</span></div>
             </div>
-        </nav>
-
-        <div class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
-            <div class="flex justify-between items-end mb-6">
-                <div>
-                    <h2 class="text-2xl font-bold text-gray-900">Daftar Pemesanan</h2>
-                    <p class="text-sm text-gray-500 mt-1">Kelola semua jadwal reservasi AIO Villa yang masuk dari pelanggan.</p>
-                </div>
-                <button onclick="fetchBookings()" class="bg-blue-50 text-blue-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-100 transition flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> Segarkan
+            <div class="p-6 flex-1">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Menu Utama</p>
+                <nav class="space-y-2">
+                    <button onclick="switchTab('tab-stats')" id="nav-stats" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-50 text-blue-600 font-semibold transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                        Ringkasan
+                    </button>
+                    <button onclick="switchTab('tab-data')" id="nav-data" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                        Data Pesanan
+                    </button>
+                </nav>
+            </div>
+            <div class="p-6 border-t border-gray-100">
+                <button onclick="logoutAdmin()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 font-medium transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    Keluar Sistem
                 </button>
             </div>
+        </aside>
 
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-gray-50 border-b border-gray-100 text-sm text-gray-500 uppercase tracking-wider">
-                                <th class="p-4 font-semibold">Tgl Transaksi</th>
-                                <th class="p-4 font-semibold">Nama Pemesan</th>
-                                <th class="p-4 font-semibold">Kontak</th>
-                                <th class="p-4 font-semibold">Check-in</th>
-                                <th class="p-4 font-semibold">Check-out</th>
-                                <th class="p-4 font-semibold">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-body" class="text-sm divide-y divide-gray-100">
-                            <tr><td colspan="6" class="p-8 text-center text-gray-500">Memuat data...</td></tr>
-                        </tbody>
-                    </table>
+        <div class="flex-1 md:ml-64 flex flex-col min-h-screen">
+            
+            <header class="h-20 bg-white border-b border-gray-100 flex items-center justify-between px-6 lg:px-10 sticky top-0 z-10">
+                <h2 class="text-xl font-bold text-gray-800" id="header-title">Ringkasan Dashboard</h2>
+                <div class="flex items-center gap-4">
+                    <div class="hidden sm:block text-right">
+                        <p class="text-sm font-bold text-gray-900">Admin AIO Villa</p>
+                        <p class="text-xs text-gray-500">Super Administrator</p>
+                    </div>
+                    <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold border-2 border-blue-100">
+                        A
+                    </div>
                 </div>
-            </div>
+            </header>
+
+            <main class="p-6 lg:p-10 flex-1">
+                
+                <div id="tab-stats" class="block animate-[fade-in_0.3s_ease-out]">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500 mb-1">Total Pesanan Masuk</p>
+                                    <h3 class="text-3xl font-bold text-gray-900" id="stat-total">0</h3>
+                                </div>
+                                <div class="p-3 bg-blue-50 text-blue-600 rounded-xl"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg></div>
+                            </div>
+                            <p class="text-xs text-green-600 font-medium">Dari database sistem</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500 mb-1">Pesanan Menunggu</p>
+                                    <h3 class="text-3xl font-bold text-yellow-600" id="stat-pending">0</h3>
+                                </div>
+                                <div class="p-3 bg-yellow-50 text-yellow-600 rounded-xl"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+                            </div>
+                            <p class="text-xs text-gray-500 font-medium">Perlu dikonfirmasi</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500 mb-1">Pesanan Disetujui</p>
+                                    <h3 class="text-3xl font-bold text-green-600" id="stat-confirmed">0</h3>
+                                </div>
+                                <div class="p-3 bg-green-50 text-green-600 rounded-xl"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+                            </div>
+                            <p class="text-xs text-gray-500 font-medium">Telah dibayar</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500 mb-1">Pengunjung Web</p>
+                                    <h3 class="text-3xl font-bold text-gray-900">1,284</h3>
+                                </div>
+                                <div class="p-3 bg-purple-50 text-purple-600 rounded-xl"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></div>
+                            </div>
+                            <p class="text-xs text-green-600 font-medium">↑ 12% bulan ini (Simulasi)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 text-center flex flex-col items-center justify-center min-h-[300px]">
+                        <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-4 text-blue-500">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Pantau Pertumbuhan Bisnis</h3>
+                        <p class="text-gray-500 max-w-md mx-auto">Silakan menuju tab <b>Data Pesanan</b> untuk melihat detail form pemesanan pelanggan, catatan khusus, serta melakukan konfirmasi atau penolakan reservasi.</p>
+                        <button onclick="switchTab('tab-data')" class="mt-6 bg-gray-900 text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-gray-800 transition">Lihat Data Pesanan</button>
+                    </div>
+                </div>
+
+                <div id="tab-data" class="hidden animate-[fade-in_0.3s_ease-out]">
+                    <div class="flex justify-between items-end mb-6">
+                        <div>
+                            <p class="text-sm text-gray-500 mt-1">Data otomatis tersinkronisasi dengan kalender ketersediaan website.</p>
+                        </div>
+                        <button onclick="fetchBookings()" class="bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-gray-50 transition flex items-center gap-2 shadow-sm">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> Refresh Data
+                        </button>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="overflow-x-auto custom-scroll">
+                            <table class="w-full text-left border-collapse whitespace-nowrap min-w-[1000px]">
+                                <thead>
+                                    <tr class="bg-gray-50/80 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-widest font-bold">
+                                        <th class="p-5">Konsumen</th>
+                                        <th class="p-5">Tanggal Booking</th>
+                                        <th class="p-5 w-64">Catatan (Notes)</th>
+                                        <th class="p-5 text-center">Status</th>
+                                        <th class="p-5 text-center">Aksi Konfirmasi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-body" class="text-sm divide-y divide-gray-100">
+                                    <tr><td colspan="5" class="p-10 text-center text-gray-500 font-medium">Memuat data pesanan...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
         </div>
     </div>
 
     <script>
-        // INISIALISASI SUPABASE (Gunakan URL dan Key dari screenshot kamu)
+        // INISIALISASI SUPABASE
         const SUPABASE_URL = 'https://oyumpfcjphymiaxlshjt.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_rnnwDTrBaZguDWkFqgWLEA_kcLo0CDZ';
-        
-        // Perhatikan perubahan nama variabel di bawah ini menjadi supabaseClient
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // Elemen UI
@@ -102,18 +197,18 @@
         const btnLogin = document.getElementById('btn-login');
         const errorMsg = document.getElementById('login-error');
 
-        // 1. Cek Sesi saat halaman dimuat
+        // 1. Cek Sesi
         document.addEventListener('DOMContentLoaded', async () => {
             const { data: { session } } = await supabaseClient.auth.getSession();
             if (session) {
-                tampilkanDashboard();
+                masukDashboard();
             } else {
                 loginSection.classList.remove('hidden');
                 dashboardSection.classList.add('hidden');
             }
         });
 
-        // 2. Fungsi Login Admin
+        // 2. Fungsi Login
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             errorMsg.classList.add('hidden');
@@ -122,83 +217,188 @@
             const email = document.getElementById('admin-email').value;
             const password = document.getElementById('admin-password').value;
 
-            const { data, error } = await supabaseClient.auth.signInWithPassword({
-                email: email,
-                password: password,
-            });
+            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
 
             if (error) {
                 errorMsg.classList.remove('hidden');
-                btnLogin.innerHTML = 'Masuk';
+                btnLogin.innerHTML = 'Masuk ke Dashboard';
             } else {
                 btnLogin.innerHTML = 'Berhasil!';
-                setTimeout(() => {
-                    tampilkanDashboard();
-                    btnLogin.innerHTML = 'Masuk';
-                }, 500);
+                setTimeout(() => { masukDashboard(); btnLogin.innerHTML = 'Masuk ke Dashboard'; }, 500);
             }
         });
 
-        // 3. Tampilkan Dashboard & Ambil Data
-        async function tampilkanDashboard() {
+        async function masukDashboard() {
             loginSection.classList.add('hidden');
             dashboardSection.classList.remove('hidden');
             await fetchBookings();
         }
 
-        // 4. Ambil Data dari Supabase
-        async function fetchBookings() {
-            tableBody.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-gray-500">Memuat data pesanan...</td></tr>';
+        // 3. Tab Switching Logic
+        function switchTab(tabId) {
+            document.getElementById('tab-stats').classList.add('hidden');
+            document.getElementById('tab-data').classList.add('hidden');
             
-            // Mengambil data menggunakan supabaseClient
+            document.getElementById('nav-stats').className = 'w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition';
+            document.getElementById('nav-data').className = 'w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition';
+            
+            document.getElementById(tabId).classList.remove('hidden');
+            
+            if(tabId === 'tab-stats') {
+                document.getElementById('header-title').innerText = "Ringkasan Dashboard";
+                document.getElementById('nav-stats').className = 'w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-50 text-blue-600 font-bold transition';
+            } else {
+                document.getElementById('header-title').innerText = "Manajemen Data Pesanan";
+                document.getElementById('nav-data').className = 'w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-50 text-blue-600 font-bold transition';
+            }
+        }
+
+        // 4. Fetch Data & Hitung Statistik
+        async function fetchBookings() {
+            tableBody.innerHTML = '<tr><td colspan="5" class="p-10 text-center text-gray-500 font-medium"><div class="spinner border-blue-600 mx-auto mb-3"></div>Mengambil data...</td></tr>';
+            
             const { data, error } = await supabaseClient
                 .from('bookings')
                 .select('*')
                 .order('created_at', { ascending: false });
 
             if (error) {
-                console.error('Gagal mengambil data:', error);
-                tableBody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-red-500">Gagal mengambil data. Pastikan RLS sudah dikonfigurasi.</td></tr>`;
+                console.error(error);
+                tableBody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-red-500">Gagal mengambil data dari database.</td></tr>`;
                 return;
             }
 
+            let countPending = 0;
+            let countConfirmed = 0;
+            
             if (data.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-gray-500">Belum ada pesanan masuk.</td></tr>';
-                return;
+                tableBody.innerHTML = '<tr><td colspan="5" class="p-10 text-center text-gray-500">Belum ada pesanan masuk.</td></tr>';
+            } else {
+                let html = '';
+                data.forEach(item => {
+                    if(item.status === 'pending') countPending++;
+                    if(item.status === 'confirmed') countConfirmed++;
+
+                    // Perbaikan: Mengubah tglDibuat menjadi tglTransaksi agar sesuai dengan pemanggilan di bawah
+                    const tglTransaksi = new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                    const tglCheckin = new Date(item.checkin).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                    const tglCheckout = new Date(item.checkout).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                    
+                    let statusBadge = '';
+                    let actionButtons = '';
+
+                    if(item.status === 'pending') {
+                        statusBadge = `<span class="bg-yellow-50 text-yellow-600 border border-yellow-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">Menunggu</span>`;
+                        actionButtons = `
+                            <div class="flex justify-center gap-2">
+                                <button onclick="updateStatus('${item.id}', 'confirmed')" class="bg-green-100 text-green-700 hover:bg-green-500 hover:text-white p-2.5 rounded-lg transition" title="Setujui">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                </button>
+                                <button onclick="updateStatus('${item.id}', 'cancelled')" class="bg-red-100 text-red-700 hover:bg-red-500 hover:text-white p-2.5 rounded-lg transition" title="Tolak">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                </button>
+                            </div>
+                        `;
+                    } else if(item.status === 'confirmed') {
+                        statusBadge = `<span class="bg-green-50 text-green-600 border border-green-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">Disetujui</span>`;
+                        actionButtons = `<span class="text-gray-400 text-sm italic">Selesai</span>`;
+                    } else {
+                        statusBadge = `<span class="bg-red-50 text-red-600 border border-red-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">Ditolak</span>`;
+                        actionButtons = `<span class="text-gray-400 text-sm italic">Dibatalkan</span>`;
+                    }
+
+                    const notesText = item.catatan ? item.catatan : '<i class="text-gray-400">Tidak ada catatan</i>';
+
+                    html += `
+                        <tr class="hover:bg-gray-50 transition border-b border-gray-50 last:border-0">
+                            <td class="p-5">
+                                <div class="font-bold text-gray-900 text-base">${item.nama}</div>
+                                <div class="text-gray-500 text-sm mt-0.5">${item.email}</div>
+                                <div class="text-gray-500 text-sm font-mono mt-0.5">${item.telepon}</div>
+                            </td>
+                            <td class="p-5">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="text-xs font-bold text-gray-400 w-10">IN:</span>
+                                    <span class="font-semibold text-gray-800">${tglCheckin}</span>
+                                </div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="text-xs font-bold text-gray-400 w-10">OUT:</span>
+                                    <span class="font-semibold text-gray-800">${tglCheckout}</span>
+                                </div>
+                                <div class="text-xs text-gray-400">Dipesan tgl: ${tglTransaksi}</div>
+                            </td>
+                            <td class="p-5">
+                                <div class="bg-gray-50 border border-gray-100 p-3 rounded-xl text-sm text-gray-600 whitespace-pre-wrap min-w-[200px] h-full max-h-24 overflow-y-auto custom-scroll">${notesText}</div>
+                            </td>
+                            <td class="p-5 text-center">${statusBadge}</td>
+                            <td class="p-5 text-center">${actionButtons}</td>
+                        </tr>
+                    `;
+                });
+                tableBody.innerHTML = html;
             }
 
-            // Render ke Tabel
-            let html = '';
-            data.forEach(item => {
-                const tglTransaksi = new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-                const tglCheckin = new Date(item.checkin).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-                const tglCheckout = new Date(item.checkout).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-                
-                let statusBadge = `<span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">Pending</span>`;
-                if(item.status === 'confirmed') statusBadge = `<span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">Confirmed</span>`;
-
-                html += `
-                    <tr class="hover:bg-gray-50 transition">
-                        <td class="p-4 text-gray-500">${tglTransaksi}</td>
-                        <td class="p-4 font-medium text-gray-900">${item.nama}</td>
-                        <td class="p-4">
-                            <div class="text-gray-900">${item.telepon}</div>
-                            <div class="text-gray-500 text-xs">${item.email}</div>
-                        </td>
-                        <td class="p-4 text-gray-700">${tglCheckin}</td>
-                        <td class="p-4 text-gray-700">${tglCheckout}</td>
-                        <td class="p-4">${statusBadge}</td>
-                    </tr>
-                `;
-            });
-            tableBody.innerHTML = html;
+            document.getElementById('stat-total').innerText = data.length;
+            document.getElementById('stat-pending').innerText = countPending;
+            document.getElementById('stat-confirmed').innerText = countConfirmed;
         }
 
-        // 5. Fungsi Logout
+        // 5. Fungsi Update Status (Setujui / Tolak)
+        async function updateStatus(id, newStatus) {
+            const confirmMsg = newStatus === 'confirmed' ? "Setujui pesanan ini? Tanggal akan diblokir di kalender tamu." : "Tolak pesanan ini? Tanggal akan kembali kosong di kalender.";
+            
+            if(!confirm(confirmMsg)) return;
+
+            const { error } = await supabaseClient
+                .from('bookings')
+                .update({ status: newStatus })
+                .eq('id', id);
+
+            if (error) {
+                alert('Gagal mengupdate status. Pastikan RLS Update diizinkan untuk Admin.');
+                console.error(error);
+            } else {
+                fetchBookings();
+            }
+        }
+
+        // 6. Logout
         async function logoutAdmin() {
             await supabaseClient.auth.signOut();
             window.location.reload();
         }
     </script>
+<script>
+        // (Pastikan inisialisasi Supabase dan fungsi lainnya tetap sama seperti kode sebelumnya)
+
+        // 5. Fungsi Update Status (Setujui / Tolak dengan Catatan)
+        async function updateStatus(id, newStatus) {
+            let adminNote = null;
+            
+            if (newStatus === 'cancelled') {
+                // Minta admin memasukkan alasan penolakan
+                adminNote = prompt("TOLAK PESANAN:\nMasukkan alasan penolakan untuk dilihat pelanggan:", "Maaf, villa sedang maintenance / sudah penuh.");
+                if (adminNote === null) return; // Batal jika admin klik cancel
+            } else {
+                if(!confirm("Setujui pesanan ini? Tanggal akan diblokir di kalender ketersediaan.")) return;
+            }
+
+            const updatePayload = { status: newStatus };
+            if (adminNote) updatePayload.admin_notes = adminNote; // Menyimpan catatan ke database
+
+            const { error } = await supabaseClient
+                .from('bookings')
+                .update(updatePayload)
+                .eq('id', id);
+
+            if (error) {
+                alert('Gagal mengupdate status. Pastikan RLS Update diizinkan untuk Admin.');
+                console.error(error);
+            } else {
+                fetchBookings(); // Refresh tabel
+            }
+        }
+</script>
+
 </body>
 </html>
