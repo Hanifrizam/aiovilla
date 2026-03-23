@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIO Villa - Eksklusivitas Tropis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AIO Villa - Tropical Exclusivity</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -14,9 +14,17 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; background-color: #f8fafc; }
+        /* FIX: Prevent Mobile Horizontal Scroll */
+        html, body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            overflow-x: hidden; 
+            width: 100%;
+            max-width: 100vw;
+            position: relative;
+            background-color: #f8fafc; 
+        }
         
-        /* FIX: Animasi Pindah Halaman (Tanpa Transform untuk mencegah bug pada position: fixed) */
+        /* Animasi Pindah Halaman */
         .page-enter { animation: pageFadeIn 0.8s ease-out forwards; }
         .page-exit { animation: pageFadeOut 0.4s ease-in forwards; }
         
@@ -99,7 +107,7 @@
         .swal2-popup { border-radius: 1.5rem !important; }
     </style>
 </head>
-<body class="text-gray-800 page-enter">
+<body class="text-gray-800 page-enter relative overflow-x-hidden">
 
     <div id="mobile-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] hidden transition-opacity duration-300 opacity-0 lg:hidden" onclick="toggleSidebar()"></div>
 
@@ -112,28 +120,28 @@
         </div>
         <div class="p-6 flex flex-col gap-4 overflow-y-auto">
             <button onclick="toggleLang()" class="flex items-center justify-center gap-2 bg-gray-100 p-2 rounded-lg font-bold text-gray-800 mb-2 hover:bg-gray-200 transition">
-                <span id="lang-mob-id" class="text-blue-600">ID</span> / <span id="lang-mob-en" class="text-gray-400">EN</span>
+                <span id="lang-mob-en" class="text-blue-600">EN</span> / <span id="lang-mob-id" class="text-gray-400">ID</span>
             </button>
-            <a href="#" onclick="toggleSidebar()" data-i18n="nav-home" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Beranda</a>
-            <a href="#info" onclick="toggleSidebar()" data-i18n="nav-detail" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Detail Villa</a>
-            <a href="#galeri" onclick="toggleSidebar()" data-i18n="nav-gallery" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Galeri</a>
-            <a href="#layanan" onclick="toggleSidebar()" data-i18n="nav-services" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Layanan & Fasilitas</a>
-            <a href="#lokasi" onclick="toggleSidebar()" data-i18n="nav-location" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Lokasi Maps</a>
-            <a href="#kontak" onclick="toggleSidebar()" data-i18n="nav-contact" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Hubungi Kami</a>
+            <a href="#" onclick="toggleSidebar()" data-i18n="nav-home" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Home</a>
+            <a href="#info" onclick="toggleSidebar()" data-i18n="nav-detail" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Details</a>
+            <a href="#galeri" onclick="toggleSidebar()" data-i18n="nav-gallery" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Gallery</a>
+            <a href="#layanan" onclick="toggleSidebar()" data-i18n="nav-services" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Services</a>
+            <a href="#lokasi" onclick="toggleSidebar()" data-i18n="nav-location" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Location Maps</a>
+            <a href="#kontak" onclick="toggleSidebar()" data-i18n="nav-contact" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Contact</a>
             
             <div class="h-px bg-gray-100 my-2"></div>
             
             <a href="javascript:void(0)" onclick="cekStatusPesanan(); toggleSidebar();" class="text-blue-600 font-bold hover:bg-blue-50 transition p-2 rounded-lg flex items-center gap-2 group">
                 <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span data-i18n="nav-status">Cek Status Pesanan</span>
+                <span data-i18n="nav-status">Check Status</span>
             </a>
 
             <a href="javascript:void(0)" onclick="navigateWithTransition('ketersediaan.html')" class="flex items-center gap-2 text-blue-600 font-bold p-2 rounded-lg hover:bg-blue-50 transition group">
                 <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                <span data-i18n="nav-avail">Cek Ketersediaan</span>
+                <span data-i18n="nav-avail">Availability</span>
             </a>
             <button onclick="toggleSidebar(); openModal();" data-i18n="btn-order" class="mt-4 bg-gray-900 text-white w-full py-3.5 rounded-xl font-bold shadow-md hover:bg-gray-800 transition transform hover:-translate-y-1">
-                Order Sekarang
+                Book Now
             </button>
         </div>
     </div>
@@ -150,25 +158,25 @@
                 </div>
                 
                 <div class="hidden lg:flex space-x-6 items-center text-sm font-medium">
-                    <a href="#" data-i18n="nav-home" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Beranda</a>
-                    <a href="#info" data-i18n="nav-detail" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Detail</a>
-                    <a href="#galeri" data-i18n="nav-gallery" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Galeri</a>
-                    <a href="#layanan" data-i18n="nav-services" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Layanan</a>
-                    <a href="#kontak" data-i18n="nav-contact" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Kontak</a>
-                    <a href="javascript:void(0)" onclick="cekStatusPesanan()" data-i18n="nav-status" class="nav-text text-white hover:text-blue-200 transition drop-shadow font-semibold border-l border-white/20 pl-6 ml-2">Cek Status</a>
+                    <a href="#" data-i18n="nav-home" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Home</a>
+                    <a href="#info" data-i18n="nav-detail" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Details</a>
+                    <a href="#galeri" data-i18n="nav-gallery" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Gallery</a>
+                    <a href="#layanan" data-i18n="nav-services" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Services</a>
+                    <a href="#kontak" data-i18n="nav-contact" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Contact</a>
+                    <a href="javascript:void(0)" onclick="cekStatusPesanan()" data-i18n="nav-status" class="nav-text text-white hover:text-blue-200 transition drop-shadow font-semibold border-l border-white/20 pl-6 ml-2">Check Status</a>
                     
                     <a href="javascript:void(0)" onclick="navigateWithTransition('ketersediaan.html')" class="nav-text text-white flex items-center gap-1.5 hover:text-blue-200 transition drop-shadow font-bold group">
                         <svg class="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        <span data-i18n="nav-avail">Ketersediaan</span>
+                        <span data-i18n="nav-avail">Availability</span>
                     </a>
                     
                     <button onclick="toggleLang()" id="lang-btn" class="nav-text text-white font-bold ml-2 flex items-center gap-1 hover:bg-white/20 transition bg-white/10 border-white/20 px-3 py-1.5 rounded-lg border shadow-sm">
-                        <span id="lang-desk-id">ID</span> / <span id="lang-desk-en" class="text-gray-400 font-normal">EN</span>
+                        <span id="lang-desk-en">EN</span> / <span id="lang-desk-id" class="text-gray-400 font-normal">ID</span>
                     </button>
                 </div>
                 
                 <button onclick="openModal()" id="nav-btn" data-i18n="btn-order" class="bg-white/90 text-gray-900 px-4 py-2 md:px-6 md:py-2.5 text-sm md:text-base rounded-xl hover:bg-white hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)] whitespace-nowrap ml-2 hidden sm:block">
-                    Order Sekarang
+                    Book Now
                 </button>
             </div>
         </div>
@@ -181,44 +189,44 @@
 
         <div class="relative z-10 text-center flex flex-col items-center animate-float w-full">
             <div class="fractal-glass p-6 sm:p-8 md:p-12 rounded-3xl w-full max-w-[95%] md:max-w-3xl border border-white/20 shadow-2xl">
-                <span data-i18n="hero-tag" data-aos="fade-down" class="px-4 py-1.5 rounded-full bg-white/20 border border-white/30 text-white text-xs font-semibold tracking-widest uppercase mb-4 md:mb-6 inline-block backdrop-blur-md">Eksklusivitas Tropis</span>
-                <h1 data-i18n="hero-title" data-aos="fade-up" data-aos-delay="100" class="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4 md:mb-6 drop-shadow-xl tracking-tight leading-tight">Menyatu dengan <br class="hidden sm:block"> Keindahan Alam</h1>
-                <p data-i18n="hero-desc" data-aos="fade-up" data-aos-delay="200" class="text-base sm:text-lg md:text-xl text-gray-100 mb-8 md:mb-10 drop-shadow max-w-xl mx-auto font-light px-2">Kenyamanan modern dalam balutan arsitektur premium untuk pengalaman liburan tak terlupakan.</p>
+                <span data-i18n="hero-tag" data-aos="fade-down" class="px-4 py-1.5 rounded-full bg-white/20 border border-white/30 text-white text-xs font-semibold tracking-widest uppercase mb-4 md:mb-6 inline-block backdrop-blur-md">Tropical Exclusivity</span>
+                <h1 data-i18n="hero-title" data-aos="fade-up" data-aos-delay="100" class="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4 md:mb-6 drop-shadow-xl tracking-tight leading-tight">Harmonizing with <br class="hidden sm:block"> Nature's Beauty</h1>
+                <p data-i18n="hero-desc" data-aos="fade-up" data-aos-delay="200" class="text-base sm:text-lg md:text-xl text-gray-100 mb-8 md:mb-10 drop-shadow max-w-xl mx-auto font-light px-2">Modern comfort draped in premium architecture for an unforgettable holiday experience.</p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center w-full px-4 sm:px-0">
                     <button onclick="openModal()" data-i18n="btn-book" data-aos="zoom-in" data-aos-delay="300" class="w-full sm:w-auto bg-blue-600 text-white px-8 md:px-10 py-3.5 md:py-4 rounded-2xl font-bold hover:bg-blue-500 transition-all shadow-[0_10px_30px_rgba(37,99,235,0.5)] transform hover:-translate-y-1">
-                        Pesan Sekarang
+                        Book Now
                     </button>
                     <a href="javascript:void(0)" onclick="navigateWithTransition('ketersediaan.html')" data-i18n="btn-check" data-aos="zoom-in" data-aos-delay="400" class="w-full sm:w-auto bg-white/20 backdrop-blur-md border border-white/30 text-white px-8 md:px-10 py-3.5 md:py-4 rounded-2xl font-bold hover:bg-white/30 transition-all transform hover:-translate-y-1 text-center">
-                        Lihat Ketersediaan
+                        Check Availability
                     </a>
                 </div>
             </div>
         </div>
     </header>
 
-    <section id="info" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 -mt-16 md:-mt-10">
+    <section id="info" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 -mt-16 md:-mt-10 overflow-hidden">
         <div class="bg-white rounded-3xl md:rounded-[2.5rem] shadow-2xl p-6 md:p-12 flex flex-col lg:flex-row gap-8 md:gap-12 items-center border border-gray-50">
             <div class="w-full lg:w-1/2 text-center lg:text-left" data-aos="fade-right">
-                <h2 data-i18n="sec-detail" class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">Kemewahan Tersembunyi</h2>
+                <h2 data-i18n="sec-detail" class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">Hidden Luxury</h2>
                 <p data-i18n="detail-desc" class="text-gray-500 mb-8 md:mb-10 leading-relaxed text-base md:text-lg">
-                    Desain arsitektur yang menghargai alam. Menawarkan privasi penuh, material batu alam premium, dan suasana santai yang sempurna untuk melepas penat di alam eksotis Lombok.
+                    Architectural design that respects nature. Offering full privacy, premium natural stone materials, and a perfect relaxing atmosphere in the exotic nature of Lombok.
                 </p>
                 <div class="grid grid-cols-2 gap-4 md:gap-6 text-left">
                     <div class="bg-gray-50 p-4 md:p-6 rounded-2xl border border-gray-100 transition-transform hover:-translate-y-1 hover:shadow-md">
                         <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1">8</span>
-                        <span data-i18n="stat-bed" class="text-xs md:text-sm text-gray-500 font-medium">Kamar Tidur</span>
+                        <span data-i18n="stat-bed" class="text-xs md:text-sm text-gray-500 font-medium">Master Bedrooms</span>
                     </div>
                     <div class="bg-gray-50 p-4 md:p-6 rounded-2xl border border-gray-100 transition-transform hover:-translate-y-1 hover:shadow-md">
                         <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1">10</span>
-                        <span data-i18n="stat-bath" class="text-xs md:text-sm text-gray-500 font-medium">Kamar Mandi</span>
+                        <span data-i18n="stat-bath" class="text-xs md:text-sm text-gray-500 font-medium">Luxury Bathrooms</span>
                     </div>
                     <div class="bg-gray-50 p-4 md:p-6 rounded-2xl border border-gray-100 transition-transform hover:-translate-y-1 hover:shadow-md">
                         <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1">500<span class="text-lg md:text-xl">m²</span></span>
-                        <span data-i18n="stat-area" class="text-xs md:text-sm text-gray-500 font-medium">Luas Bangunan</span>
+                        <span data-i18n="stat-area" class="text-xs md:text-sm text-gray-500 font-medium">Building Area</span>
                     </div>
                     <div class="bg-gray-50 p-4 md:p-6 rounded-2xl border border-gray-100 transition-transform hover:-translate-y-1 hover:shadow-md">
                         <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1">2000<span class="text-lg md:text-xl">m²</span></span>
-                        <span data-i18n="stat-land" class="text-xs md:text-sm text-gray-500 font-medium">Luas Tanah</span>
+                        <span data-i18n="stat-land" class="text-xs md:text-sm text-gray-500 font-medium">Tropical Land Area</span>
                     </div>
                 </div>
             </div>
@@ -229,38 +237,38 @@
         </div>
     </section>
 
-    <section id="galeri" class="py-16 md:py-24 overflow-hidden bg-gray-50">
+    <section id="galeri" class="py-16 md:py-24 overflow-hidden bg-gray-50 w-full">
         <div class="text-center mb-10 md:mb-16 px-4" data-aos="fade-up">
-            <h2 data-i18n="sec-gallery" class="text-3xl md:text-4xl font-bold text-gray-900 mb-6 tracking-tight">Estetika di Setiap Sudut</h2>
+            <h2 data-i18n="sec-gallery" class="text-3xl md:text-4xl font-bold text-gray-900 mb-6 tracking-tight">Aesthetics in Every Corner</h2>
         </div>
-        <div class="swiper mySwiper pl-4 md:pl-8 lg:pl-20 pb-12 md:pb-16" data-aos="fade-up" data-aos-delay="100">
+        <div class="swiper mySwiper pl-4 md:pl-8 lg:pl-20 pb-12 md:pb-16 w-full" data-aos="fade-up" data-aos-delay="100">
             <div class="swiper-wrapper">
                 <div class="swiper-slide overflow-hidden relative group cursor-grab shadow-sm">
                     <img src="Gambar Villa (2).jpeg" alt="Bathtub" class="w-full h-[280px] md:h-[400px] object-cover group-hover:scale-110 transition duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
                     <div class="absolute bottom-6 md:bottom-8 left-6 md:left-8">
-                        <p data-i18n="gal-1" class="text-white font-bold text-lg md:text-xl drop-shadow-md transform translate-y-2 group-hover:translate-y-0 transition">Kamar Mandi Alam</p>
+                        <p data-i18n="gal-1" class="text-white font-bold text-lg md:text-xl drop-shadow-md transform translate-y-2 group-hover:translate-y-0 transition">Nature Bathroom</p>
                     </div>
                 </div>
                 <div class="swiper-slide overflow-hidden relative group cursor-grab shadow-sm">
                     <img src="Gambar Villa (3).jpeg" alt="Bed" class="w-full h-[280px] md:h-[400px] object-cover group-hover:scale-110 transition duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
                     <div class="absolute bottom-6 md:bottom-8 left-6 md:left-8">
-                        <p data-i18n="gal-2" class="text-white font-bold text-lg md:text-xl drop-shadow-md transform translate-y-2 group-hover:translate-y-0 transition">Kamar Utama</p>
+                        <p data-i18n="gal-2" class="text-white font-bold text-lg md:text-xl drop-shadow-md transform translate-y-2 group-hover:translate-y-0 transition">Master Bedroom</p>
                     </div>
                 </div>
                 <div class="swiper-slide overflow-hidden relative group cursor-grab shadow-sm">
                     <img src="Gambar Villa (6).jpeg" alt="Path" class="w-full h-[280px] md:h-[400px] object-cover group-hover:scale-110 transition duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
                     <div class="absolute bottom-6 md:bottom-8 left-6 md:left-8">
-                        <p data-i18n="gal-3" class="text-white font-bold text-lg md:text-xl drop-shadow-md transform translate-y-2 group-hover:translate-y-0 transition">Lorong Tropis</p>
+                        <p data-i18n="gal-3" class="text-white font-bold text-lg md:text-xl drop-shadow-md transform translate-y-2 group-hover:translate-y-0 transition">Tropical Hallway</p>
                     </div>
                 </div>
                 <div class="swiper-slide overflow-hidden relative group cursor-grab shadow-sm">
                     <img src="Gambar Villa (8).jpeg" alt="Outdoor Shower" class="w-full h-[280px] md:h-[400px] object-cover group-hover:scale-110 transition duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
                     <div class="absolute bottom-6 md:bottom-8 left-6 md:left-8">
-                        <p data-i18n="gal-4" class="text-white font-bold text-lg md:text-xl drop-shadow-md transform translate-y-2 group-hover:translate-y-0 transition">Pancuran Alam</p>
+                        <p data-i18n="gal-4" class="text-white font-bold text-lg md:text-xl drop-shadow-md transform translate-y-2 group-hover:translate-y-0 transition">Nature Shower</p>
                     </div>
                 </div>
             </div>
@@ -269,36 +277,36 @@
     </section>
 
     <section id="layanan" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 data-i18n="sec-services" class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-10 md:mb-16 tracking-tight" data-aos="fade-up">Layanan Bintang Lima</h2>
+        <h2 data-i18n="sec-services" class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-10 md:mb-16 tracking-tight" data-aos="fade-up">Five-Star Services</h2>
         
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 mb-16">
             <div class="bg-white p-8 md:p-10 rounded-3xl border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group" data-aos="fade-up" data-aos-delay="50">
                 <div class="w-14 h-14 md:w-16 md:h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-5 md:mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                     <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
                 </div>
-                <h3 data-i18n="srv-1-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">Layanan Concierge</h3>
-                <p data-i18n="srv-1-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">Asistensi personal 24 jam penuh untuk mengatur seluruh aktivitas liburan Anda.</p>
+                <h3 data-i18n="srv-1-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">Concierge Service</h3>
+                <p data-i18n="srv-1-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">Full 24-hour personal assistance to arrange all your holiday activities.</p>
             </div>
             <div class="bg-white p-8 md:p-10 rounded-3xl border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group" data-aos="fade-up" data-aos-delay="100">
                 <div class="w-14 h-14 md:w-16 md:h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-5 md:mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                     <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"></path></svg>
                 </div>
-                <h3 data-i18n="srv-2-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">Koki Pribadi</h3>
-                <p data-i18n="srv-2-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">Nikmati hidangan kuliner lokal dan internasional yang disajikan langsung di meja makan Anda.</p>
+                <h3 data-i18n="srv-2-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">Private Chef</h3>
+                <p data-i18n="srv-2-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">Enjoy local and international culinary delights served directly at your dining table.</p>
             </div>
             <div class="bg-white p-8 md:p-10 rounded-3xl border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group sm:col-span-2 md:col-span-1" data-aos="fade-up" data-aos-delay="150">
                 <div class="w-14 h-14 md:w-16 md:h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-5 md:mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                     <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
                 </div>
-                <h3 data-i18n="srv-3-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">Transportasi VIP</h3>
-                <p data-i18n="srv-3-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">Layanan antar jemput bandara internasional dan mobil eksklusif siap sedia.</p>
+                <h3 data-i18n="srv-3-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">VIP Transport</h3>
+                <p data-i18n="srv-3-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">International airport pickup service and exclusive cars ready on standby.</p>
             </div>
         </div>
     </section>
 
-    <section class="py-20 bg-white overflow-hidden border-y border-gray-100">
+    <section class="py-20 bg-white overflow-hidden border-y border-gray-100 w-full">
         <div class="text-center mb-10 px-4" data-aos="fade-up">
-            <h2 data-i18n="sec-reviews" class="text-3xl font-bold text-gray-900 tracking-tight">Apa Kata Tamu Kami</h2>
+            <h2 data-i18n="sec-reviews" class="text-3xl font-bold text-gray-900 tracking-tight">What Our Guests Say</h2>
         </div>
         <div class="marquee-container" data-aos="fade-up" data-aos-delay="100">
             <div class="marquee-content" id="marquee-content">
@@ -306,9 +314,9 @@
         </div>
     </section>
 
-    <section class="py-12 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-gray-50 rounded-[2rem] md:rounded-[3rem] mt-10 md:mt-16 mb-6 md:mb-10">
+    <section class="py-12 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-gray-50 rounded-[2rem] md:rounded-[3rem] mt-10 md:mt-16 mb-6 md:mb-10 overflow-hidden">
         <div class="text-center mb-10 md:mb-12" data-aos="fade-up">
-            <h2 data-i18n="sec-faq" class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mb-4">Informasi & Peraturan Villa</h2>
+            <h2 data-i18n="sec-faq" class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mb-4">Villa Information & Rules</h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
@@ -317,12 +325,12 @@
                     <div class="w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     </div>
-                    <h3 data-i18n="faq-yes" class="text-xl md:text-2xl font-bold text-gray-900">Diperbolehkan</h3>
+                    <h3 data-i18n="faq-yes" class="text-xl md:text-2xl font-bold text-gray-900">Allowed</h3>
                 </div>
                 <ul class="space-y-4 text-gray-600 text-sm md:text-base">
-                    <li class="flex gap-3 items-start"><span class="text-green-500 font-bold">✓</span> <span data-i18n="faq-y1">Membawa makanan & minuman ringan dari luar.</span></li>
-                    <li class="flex gap-3 items-start"><span class="text-green-500 font-bold">✓</span> <span data-i18n="faq-y2">Menggunakan fasilitas dapur.</span></li>
-                    <li class="flex gap-3 items-start"><span class="text-green-500 font-bold">✓</span> <span data-i18n="faq-y3">Mengadakan acara kecil di area taman.</span></li>
+                    <li class="flex gap-3 items-start"><span class="text-green-500 font-bold">✓</span> <span data-i18n="faq-y1">Bringing outside light food & beverages.</span></li>
+                    <li class="flex gap-3 items-start"><span class="text-green-500 font-bold">✓</span> <span data-i18n="faq-y2">Using kitchen facilities.</span></li>
+                    <li class="flex gap-3 items-start"><span class="text-green-500 font-bold">✓</span> <span data-i18n="faq-y3">Hosting small events in the garden area.</span></li>
                 </ul>
             </div>
 
@@ -331,21 +339,21 @@
                     <div class="w-10 h-10 bg-red-100 text-red-600 rounded-full flex items-center justify-center">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </div>
-                    <h3 data-i18n="faq-no" class="text-xl md:text-2xl font-bold text-gray-900">Tidak Diperbolehkan</h3>
+                    <h3 data-i18n="faq-no" class="text-xl md:text-2xl font-bold text-gray-900">Not Allowed</h3>
                 </div>
                 <ul class="space-y-4 text-gray-600 text-sm md:text-base">
-                    <li class="flex gap-3 items-start"><span class="text-red-500 font-bold">✗</span> <span data-i18n="faq-n1">Membawa hewan peliharaan.</span></li>
-                    <li class="flex gap-3 items-start"><span class="text-red-500 font-bold">✗</span> <span data-i18n="faq-n2">Merokok di dalam area kamar.</span></li>
-                    <li class="flex gap-3 items-start"><span class="text-red-500 font-bold">✗</span> <span data-i18n="faq-n3">Membawa tamu menginap berlebih.</span></li>
+                    <li class="flex gap-3 items-start"><span class="text-red-500 font-bold">✗</span> <span data-i18n="faq-n1">Bringing pets.</span></li>
+                    <li class="flex gap-3 items-start"><span class="text-red-500 font-bold">✗</span> <span data-i18n="faq-n2">Smoking inside the room area.</span></li>
+                    <li class="flex gap-3 items-start"><span class="text-red-500 font-bold">✗</span> <span data-i18n="faq-n3">Bringing extra guests to stay.</span></li>
                 </ul>
             </div>
         </div>
     </section>
 
-    <section id="lokasi" class="pt-8 md:pt-10 pb-16 md:pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-gray-100">
+    <section id="lokasi" class="pt-8 md:pt-10 pb-16 md:pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-gray-100 overflow-hidden">
         <div class="text-center mb-10 md:mb-16" data-aos="fade-up">
-            <h2 data-i18n="sec-location" class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mb-4">Lokasi Strategis Kami</h2>
-            <p data-i18n="loc-desc" class="text-gray-500 max-w-2xl mx-auto text-sm md:text-base">Berada di kawasan premium Selong Belanak, menyuguhkan pemandangan alam Lombok yang memukau.</p>
+            <h2 data-i18n="sec-location" class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mb-4">Our Strategic Location</h2>
+            <p data-i18n="loc-desc" class="text-gray-500 max-w-2xl mx-auto text-sm md:text-base">Located in the premium Selong Belanak area, offering stunning views of Lombok's nature.</p>
         </div>
 
         <div class="flex flex-col lg:flex-row gap-8 md:gap-12 items-center">
@@ -366,8 +374,8 @@
                         <div class="flex items-center gap-4">
                             <div class="bg-green-50 p-2.5 md:p-3 rounded-xl text-green-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
                             <div>
-                                <h5 data-i18n="loc-1-title" class="font-bold text-gray-900 text-sm md:text-base">Pantai Selong Belanak</h5>
-                                <p data-i18n="loc-1-desc" class="text-xs md:text-sm text-gray-500">Surga Peselancar</p>
+                                <h5 data-i18n="loc-1-title" class="font-bold text-gray-900 text-sm md:text-base">Selong Belanak Beach</h5>
+                                <p data-i18n="loc-1-desc" class="text-xs md:text-sm text-gray-500">Surfer's Paradise</p>
                             </div>
                         </div>
                         <span class="text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-lg">5 Min</span>
@@ -377,8 +385,8 @@
                         <div class="flex items-center gap-4">
                             <div class="bg-orange-50 p-2.5 md:p-3 rounded-xl text-orange-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454z"></path></svg></div>
                             <div>
-                                <h5 data-i18n="loc-2-title" class="font-bold text-gray-900 text-sm md:text-base">Bandara Int. Lombok</h5>
-                                <p data-i18n="loc-2-desc" class="text-xs md:text-sm text-gray-500">Akses Utama</p>
+                                <h5 data-i18n="loc-2-title" class="font-bold text-gray-900 text-sm md:text-base">Lombok Int. Airport</h5>
+                                <p data-i18n="loc-2-desc" class="text-xs md:text-sm text-gray-500">Main Access</p>
                             </div>
                         </div>
                         <span class="text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-lg">30 Min</span>
@@ -388,8 +396,8 @@
                         <div class="flex items-center gap-4">
                             <div class="bg-indigo-50 p-2.5 md:p-3 rounded-xl text-indigo-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>
                             <div>
-                                <h5 data-i18n="loc-3-title" class="font-bold text-gray-900 text-sm md:text-base">Sirkuit Mandalika</h5>
-                                <p data-i18n="loc-3-desc" class="text-xs md:text-sm text-gray-500">Pusat Olahraga Internasional</p>
+                                <h5 data-i18n="loc-3-title" class="font-bold text-gray-900 text-sm md:text-base">Mandalika Circuit</h5>
+                                <p data-i18n="loc-3-desc" class="text-xs md:text-sm text-gray-500">Int. Sports Center</p>
                             </div>
                         </div>
                         <span class="text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-lg">40 Min</span>
@@ -399,13 +407,13 @@
         </div>
     </section>
 
-    <section id="kontak" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-        <div class="bg-blue-900 rounded-3xl md:rounded-[2.5rem] shadow-2xl p-6 md:p-12 flex flex-col lg:flex-row gap-10 md:gap-12 border border-blue-800 overflow-hidden relative">
+    <section id="kontak" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 overflow-hidden">
+        <div class="bg-blue-900 rounded-3xl md:rounded-[2.5rem] shadow-2xl p-6 md:p-12 flex flex-col lg:flex-row gap-10 md:gap-12 border border-blue-800 relative">
             <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-screen filter blur-[80px] opacity-50 pointer-events-none"></div>
             
             <div class="w-full lg:w-1/2 relative z-10" data-aos="fade-right">
-                <h2 data-i18n="sec-contact" class="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Hubungi Manajemen</h2>
-                <p data-i18n="contact-desc" class="text-blue-200 mb-8 leading-relaxed text-sm md:text-base max-w-md">Ada pertanyaan khusus untuk acara Anda? Tim manajemen siap membantu 24/7.</p>
+                <h2 data-i18n="sec-contact" class="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Contact Management</h2>
+                <p data-i18n="contact-desc" class="text-blue-200 mb-8 leading-relaxed text-sm md:text-base max-w-md">Have special questions for your event? The management team is ready to help 24/7.</p>
                 
                 <div class="space-y-6 text-white">
                     <div class="flex items-center gap-4">
@@ -425,11 +433,11 @@
 
             <div class="w-full lg:w-1/2 relative z-10" data-aos="fade-left">
                 <form class="bg-white p-6 md:p-8 rounded-3xl shadow-xl space-y-4 md:space-y-5">
-                    <h3 data-i18n="form-title" class="text-xl font-bold text-gray-900 border-b border-gray-100 pb-3 md:pb-4">Kirim Pesan</h3>
-                    <input type="text" placeholder="Nama Lengkap" class="w-full border border-gray-200 rounded-xl p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm md:text-base transition">
-                    <input type="email" placeholder="Email Anda" class="w-full border border-gray-200 rounded-xl p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm md:text-base transition">
-                    <textarea rows="3" placeholder="Pesan..." class="w-full border border-gray-200 rounded-xl p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm md:text-base transition"></textarea>
-                    <button type="button" data-i18n="btn-send" class="w-full bg-gray-900 text-white py-3.5 rounded-xl font-bold hover:bg-gray-800 transition transform hover:-translate-y-0.5">Kirim Sekarang</button>
+                    <h3 data-i18n="form-title" class="text-xl font-bold text-gray-900 border-b border-gray-100 pb-3 md:pb-4">Send Message</h3>
+                    <input type="text" placeholder="Full Name" class="w-full border border-gray-200 rounded-xl p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm md:text-base transition">
+                    <input type="email" placeholder="Your Email" class="w-full border border-gray-200 rounded-xl p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm md:text-base transition">
+                    <textarea rows="3" placeholder="Message..." class="w-full border border-gray-200 rounded-xl p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm md:text-base transition"></textarea>
+                    <button type="button" data-i18n="btn-send" class="w-full bg-gray-900 text-white py-3.5 rounded-xl font-bold hover:bg-gray-800 transition transform hover:-translate-y-0.5">Send Now</button>
                 </form>
             </div>
         </div>
@@ -439,7 +447,7 @@
         <div class="absolute top-0 right-0 w-64 md:w-96 h-64 md:h-96 bg-blue-900/20 rounded-full blur-[60px] md:blur-[80px]"></div>
         <div class="max-w-7xl mx-auto px-4 text-center relative z-10">
             <div class="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4 tracking-tighter">AIO<span class="font-light">Villa</span></div>
-            <p data-i18n="footer-desc" class="mb-6 md:mb-8 text-sm md:text-base text-gray-500 max-w-sm mx-auto px-4">Mendefinisikan ulang kemewahan di Selong Belanak, Lombok.</p>
+            <p data-i18n="footer-desc" class="mb-6 md:mb-8 text-sm md:text-base text-gray-500 max-w-sm mx-auto px-4">Redefining luxury in Selong Belanak, Lombok.</p>
             <div class="border-t border-gray-800 pt-6 md:pt-8 mt-6 md:mt-8">
                 <p class="text-xs md:text-sm">© 2026 AIO Villa Management.</p>
             </div>
@@ -454,14 +462,14 @@
             </button>
             
             <div class="p-6 md:p-8 pb-4 border-b border-white/20 relative z-10">
-                <h2 data-i18n="modal-title" class="text-2xl md:text-3xl font-bold text-white tracking-tight">Cek Ketersediaan</h2>
+                <h2 data-i18n="modal-title" class="text-2xl md:text-3xl font-bold text-white tracking-tight">Check Availability</h2>
             </div>
             
             <div class="p-6 md:p-8 pt-4 overflow-y-auto modal-scroll relative z-10">
                 <form id="shortOrderForm" class="space-y-5 md:space-y-6">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                         <div>
-                            <label class="block text-xs md:text-sm font-medium text-gray-100 mb-1.5 md:mb-2">Nama Lengkap</label>
+                            <label class="block text-xs md:text-sm font-medium text-gray-100 mb-1.5 md:mb-2">Full Name</label>
                             <input type="text" id="nama" required class="w-full border border-white/20 rounded-xl p-3 md:p-3.5 bg-white/10 text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-400 outline-none backdrop-blur-sm transition text-sm md:text-base">
                         </div>
                         <div>
@@ -469,21 +477,21 @@
                             <input type="email" id="email" required class="w-full border border-white/20 rounded-xl p-3 md:p-3.5 bg-white/10 text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-400 outline-none backdrop-blur-sm transition text-sm md:text-base">
                         </div>
                         <div>
-                            <label class="block text-xs md:text-sm font-medium text-gray-100 mb-1.5 md:mb-2">Nomor Telepon</label>
+                            <label class="block text-xs md:text-sm font-medium text-gray-100 mb-1.5 md:mb-2">Phone Number</label>
                             <input type="tel" id="phone" required class="w-full border border-white/20 rounded-xl p-3 md:p-3.5 bg-white/10 text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-400 outline-none backdrop-blur-sm transition text-sm md:text-base">
                         </div>
                         <div>
-                            <label data-i18n="modal-date" class="block text-xs md:text-sm font-medium text-gray-100 mb-1.5 md:mb-2">Pilih Tanggal</label>
+                            <label data-i18n="modal-date" class="block text-xs md:text-sm font-medium text-gray-100 mb-1.5 md:mb-2">Select Dates</label>
                             <input type="text" id="tanggal-booking" required class="w-full border border-white/20 rounded-xl p-3 md:p-3.5 bg-white/10 text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-400 outline-none backdrop-blur-sm transition cursor-pointer text-sm md:text-base" readonly>
                         </div>
                     </div>
                     <div>
-                        <label data-i18n="modal-notes" class="block text-xs md:text-sm font-medium text-gray-100 mb-1.5 md:mb-2">Catatan Khusus</label>
+                        <label data-i18n="modal-notes" class="block text-xs md:text-sm font-medium text-gray-100 mb-1.5 md:mb-2">Special Notes</label>
                         <textarea id="notes" rows="2" class="w-full border border-white/20 rounded-xl p-3 md:p-3.5 bg-white/10 text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-400 outline-none backdrop-blur-sm transition text-sm md:text-base"></textarea>
                     </div>
                     <div class="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 pt-5 md:pt-6 border-t border-white/20">
-                        <button type="button" onclick="closeModal()" data-i18n="btn-cancel" class="w-full sm:w-auto px-6 py-3 rounded-xl font-medium text-white hover:bg-white/10 border border-transparent hover:border-white/20 transition backdrop-blur-sm order-2 sm:order-1">Batal</button>
-                        <button type="submit" data-i18n="btn-continue" class="w-full sm:w-auto bg-blue-600/90 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-500 transition shadow-[0_0_20px_rgba(37,99,235,0.4)] backdrop-blur-md order-1 sm:order-2">Lanjutkan Pesanan</button>
+                        <button type="button" onclick="closeModal()" data-i18n="btn-cancel" class="w-full sm:w-auto px-6 py-3 rounded-xl font-medium text-white hover:bg-white/10 border border-transparent hover:border-white/20 transition backdrop-blur-sm order-2 sm:order-1">Cancel</button>
+                        <button type="submit" data-i18n="btn-continue" class="w-full sm:w-auto bg-blue-600/90 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-500 transition shadow-[0_0_20px_rgba(37,99,235,0.4)] backdrop-blur-md order-1 sm:order-2">Continue Booking</button>
                     </div>
                 </form>
             </div>
@@ -555,27 +563,27 @@
             }
         };
 
-        let currentLang = 'id';
+        let currentLang = 'en';
 
         function toggleLang() {
-            currentLang = currentLang === 'id' ? 'en' : 'id';
+            currentLang = currentLang === 'en' ? 'id' : 'en';
             
-            if(currentLang === 'en') {
-                document.getElementById('lang-desk-id').classList.add('text-gray-400', 'font-normal');
-                document.getElementById('lang-desk-id').classList.remove('text-white');
-                document.getElementById('lang-desk-en').classList.add('text-white');
-                document.getElementById('lang-desk-en').classList.remove('text-gray-400', 'font-normal');
-                
-                document.getElementById('lang-mob-id').classList.replace('text-blue-600', 'text-gray-400');
-                document.getElementById('lang-mob-en').classList.replace('text-gray-400', 'text-blue-600');
-            } else {
-                document.getElementById('lang-desk-id').classList.remove('text-gray-400', 'font-normal');
-                document.getElementById('lang-desk-id').classList.add('text-white');
-                document.getElementById('lang-desk-en').classList.remove('text-white');
+            if(currentLang === 'id') {
                 document.getElementById('lang-desk-en').classList.add('text-gray-400', 'font-normal');
+                document.getElementById('lang-desk-en').classList.remove('text-white');
+                document.getElementById('lang-desk-id').classList.add('text-white');
+                document.getElementById('lang-desk-id').classList.remove('text-gray-400', 'font-normal');
                 
                 document.getElementById('lang-mob-en').classList.replace('text-blue-600', 'text-gray-400');
                 document.getElementById('lang-mob-id').classList.replace('text-gray-400', 'text-blue-600');
+            } else {
+                document.getElementById('lang-desk-en').classList.remove('text-gray-400', 'font-normal');
+                document.getElementById('lang-desk-en').classList.add('text-white');
+                document.getElementById('lang-desk-id').classList.remove('text-white');
+                document.getElementById('lang-desk-id').classList.add('text-gray-400', 'font-normal');
+                
+                document.getElementById('lang-mob-id').classList.replace('text-blue-600', 'text-gray-400');
+                document.getElementById('lang-mob-en').classList.replace('text-gray-400', 'text-blue-600');
             }
 
             document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -585,7 +593,6 @@
                 }
             });
 
-            // Notifikasi SweetAlert Animated saat switch bahasa
             Swal.fire({
                 toast: true,
                 position: 'top-end',
@@ -639,7 +646,6 @@
             }
         }
 
-        // FLOATING NAVBAR FIX
         window.addEventListener('scroll', function() {
             const navbar = document.getElementById('navbar');
             const navContainer = document.getElementById('nav-container');
@@ -679,12 +685,11 @@
             }
         });
 
-        // ANIMASI TRANSISI HALAMAN URL
         function navigateWithTransition(url) {
             document.body.classList.add('page-exit');
             setTimeout(() => {
                 window.location.href = url;
-            }, 400); // 400ms adalah waktu animasi page-exit
+            }, 400); 
         }
 
         function cekStatusPesanan() {
@@ -694,7 +699,7 @@
             } else {
                 Swal.fire({
                     icon: 'info',
-                    title: currentLang === 'id' ? 'Oops!' : 'Oops!',
+                    title: 'Oops!',
                     text: translations[currentLang]['alert-no-booking'],
                     confirmButtonColor: '#2563eb',
                     showClass: { popup: 'animate__animated animate__fadeInDown' },
@@ -715,7 +720,6 @@
                 document.body.style.overflow = 'hidden';
             }, 10);
 
-            // FITUR AUTO-FILL
             const sessionData = localStorage.getItem('userSessionInfo');
             if (sessionData) {
                 const parsed = JSON.parse(sessionData);
@@ -767,7 +771,6 @@
 
         document.addEventListener('DOMContentLoaded', fetchBookedDates);
 
-        // Submit form dengan SweetAlert Animasi sebelum ke booking.html
         document.getElementById('shortOrderForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const bookingData = {
@@ -780,7 +783,6 @@
             localStorage.setItem('bookingData', JSON.stringify(bookingData));
             localStorage.setItem('userSessionInfo', JSON.stringify({ nama: bookingData.nama, email: bookingData.email, phone: bookingData.phone }));
 
-            // Tampilkan SweetAlert Loading Transisi
             Swal.fire({
                 title: currentLang === 'id' ? 'Menyiapkan Pesanan...' : 'Preparing Order...',
                 html: currentLang === 'id' ? 'Mohon tunggu sebentar.' : 'Please wait a moment.',
