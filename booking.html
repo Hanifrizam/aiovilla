@@ -9,26 +9,47 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; background-color: #f8fafc; }
         .btn-loading { cursor: wait; opacity: 0.8; }
+
+        /* Animasi Transisi Halaman yang Smooth */
+        .page-enter { animation: pageFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        .page-exit { animation: pageFadeOut 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        
+        @keyframes pageFadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pageFadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-15px); }
+        }
+
+        /* Styling font SweetAlert agar senada dengan tema Villa */
+        .swal2-title, .swal2-html-container { font-family: 'Plus Jakarta Sans', sans-serif !important; }
+        .swal2-popup { border-radius: 1.5rem !important; }
     </style>
 </head>
-<body class="text-gray-800">
+<body class="text-gray-800 page-enter">
 
     <nav class="bg-white/90 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
                 <div class="flex items-center gap-4">
-                    <a href="index.html" class="p-2 hover:bg-gray-100 rounded-full transition text-gray-600">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                    </a>
-                    <a href="index.html" class="text-2xl font-bold text-gray-900 hover:opacity-80 transition tracking-tighter">AIO<span class="text-blue-600 font-light">Villa</span></a>
+                    <button onclick="navigateWithTransition('index.html')" class="p-2 hover:bg-gray-100 rounded-full transition text-gray-600 focus:outline-none">
+                        <svg class="w-6 h-6 transform hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    </button>
+                    <a href="javascript:void(0)" onclick="navigateWithTransition('index.html')" class="text-2xl font-bold text-gray-900 hover:opacity-80 transition tracking-tighter">AIO<span class="text-blue-600 font-light">Villa</span></a>
                 </div>
-                <div class="flex items-center gap-3">
-                    <span class="text-sm font-bold text-gray-900 bg-blue-50 text-blue-600 px-5 py-2.5 rounded-xl shadow-sm">Konfirmasi Pesanan</span>
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleLang()" class="font-bold flex items-center gap-1 hover:opacity-80 transition bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200 text-sm shadow-sm">
+                        <span id="lang-desk-id" class="text-blue-600">ID</span> / <span id="lang-desk-en" class="text-gray-400 font-normal">EN</span>
+                    </button>
+                    <span data-i18n="nav-confirm" class="text-sm font-bold text-gray-900 bg-blue-50 text-blue-600 px-5 py-2.5 rounded-xl shadow-sm hidden sm:block">Konfirmasi Pesanan</span>
                 </div>
             </div>
         </div>
@@ -42,38 +63,38 @@
                     <img src="Gambar Villa (3).jpeg" alt="Kamar Utama" class="w-full h-full object-cover min-h-[350px]">
                 </div>
                 <div class="w-full md:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
-                    <span class="text-blue-600 font-bold text-xs mb-3 tracking-widest uppercase bg-blue-50 w-max px-3 py-1 rounded-lg">Eksklusif</span>
-                    <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 tracking-tight">Master Suite Tropis</h1>
-                    <p class="text-gray-500 mb-8 leading-relaxed text-lg">Nikmati kenyamanan maksimal di kamar utama kami yang luas. Didesain dengan sentuhan kayu alami, tempat tidur king-size premium, dan akses langsung ke taman serta kolam renang pribadi.</p>
+                    <span data-i18n="badge" class="text-blue-600 font-bold text-xs mb-3 tracking-widest uppercase bg-blue-50 w-max px-3 py-1 rounded-lg">Eksklusif</span>
+                    <h1 data-i18n="room-title" class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 tracking-tight">Master Suite Tropis</h1>
+                    <p data-i18n="room-desc" class="text-gray-500 mb-8 leading-relaxed text-lg">Nikmati kenyamanan maksimal di kamar utama kami yang luas. Didesain dengan sentuhan kayu alami, tempat tidur king-size premium, dan akses langsung ke taman serta kolam renang pribadi.</p>
                     
-                    <h3 class="font-bold text-gray-900 mb-5 text-lg">Fasilitas yang Anda Dapatkan</h3>
+                    <h3 data-i18n="fac-title" class="font-bold text-gray-900 mb-5 text-lg">Fasilitas yang Anda Dapatkan</h3>
                     <div class="grid grid-cols-2 gap-y-5 gap-x-2 text-sm text-gray-600 font-medium">
                         <div class="flex items-center gap-3">
-                            <div class="bg-blue-50 p-1.5 rounded-lg text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div> Private Pool
+                            <div class="bg-blue-50 p-1.5 rounded-lg text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div> <span data-i18n="fac-1">Private Pool</span>
                         </div>
                         <div class="flex items-center gap-3">
-                            <div class="bg-blue-50 p-1.5 rounded-lg text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div> Bathtub Batu Alam
+                            <div class="bg-blue-50 p-1.5 rounded-lg text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div> <span data-i18n="fac-2">Bathtub Batu Alam</span>
                         </div>
                         <div class="flex items-center gap-3">
-                            <div class="bg-blue-50 p-1.5 rounded-lg text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div> Sarapan In-Villa
+                            <div class="bg-blue-50 p-1.5 rounded-lg text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div> <span data-i18n="fac-3">Sarapan In-Villa</span>
                         </div>
                         <div class="flex items-center gap-3">
-                            <div class="bg-blue-50 p-1.5 rounded-lg text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div> WiFi Premium
+                            <div class="bg-blue-50 p-1.5 rounded-lg text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div> <span data-i18n="fac-4">WiFi Premium</span>
                         </div>
                         <div class="flex items-center gap-3">
-                            <div class="bg-blue-50 p-1.5 rounded-lg text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div> Smart TV 65"
+                            <div class="bg-blue-50 p-1.5 rounded-lg text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div> <span data-i18n="fac-5">Smart TV 65"</span>
                         </div>
                         <div class="flex items-center gap-3">
-                            <div class="bg-blue-50 p-1.5 rounded-lg text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div> Layanan Butler
+                            <div class="bg-blue-50 p-1.5 rounded-lg text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div> <span data-i18n="fac-6">Layanan Butler</span>
                         </div>
                     </div>
                 </div>
             </div>
             
             <div class="grid grid-cols-3 gap-1 p-1 bg-white">
-                <img src="Gambar Villa (2).jpeg" alt="Fasilitas 1" class="w-full h-56 object-cover rounded-bl-[1.8rem]">
-                <img src="Gambar Villa (7).jpeg" alt="Fasilitas 2" class="w-full h-56 object-cover">
-                <img src="Gambar Villa (8).jpeg" alt="Fasilitas 3" class="w-full h-56 object-cover rounded-br-[1.8rem]">
+                <img src="Gambar Villa (2).jpeg" alt="Fasilitas 1" class="w-full h-56 object-cover rounded-bl-[1.8rem] hover:opacity-90 transition cursor-pointer">
+                <img src="Gambar Villa (7).jpeg" alt="Fasilitas 2" class="w-full h-56 object-cover hover:opacity-90 transition cursor-pointer">
+                <img src="Gambar Villa (8).jpeg" alt="Fasilitas 3" class="w-full h-56 object-cover rounded-br-[1.8rem] hover:opacity-90 transition cursor-pointer">
             </div>
         </div>
 
@@ -81,44 +102,49 @@
             
             <div class="w-full lg:w-2/3 space-y-8">
                 <div class="bg-white p-8 md:p-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b border-gray-100 pb-4 tracking-tight">Data Pemesan</h2>
+                    <h2 data-i18n="data-title" class="text-2xl font-bold text-gray-900 mb-6 border-b border-gray-100 pb-4 tracking-tight">Data Pemesan</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
-                            <label class="block text-sm font-semibold text-gray-500 mb-1.5">Nama Lengkap</label>
+                            <label data-i18n="lbl-name" class="block text-sm font-semibold text-gray-500 mb-1.5">Nama Lengkap</label>
                             <p id="review-nama" class="font-bold text-gray-900 text-lg">-</p>
                         </div>
                         <div>
-                            <label class="block text-sm font-semibold text-gray-500 mb-1.5">Email</label>
+                            <label data-i18n="lbl-email" class="block text-sm font-semibold text-gray-500 mb-1.5">Email</label>
                             <p id="review-email" class="font-bold text-gray-900 text-lg">-</p>
                         </div>
                         <div>
-                            <label class="block text-sm font-semibold text-gray-500 mb-1.5">Nomor Telepon</label>
+                            <label data-i18n="lbl-phone" class="block text-sm font-semibold text-gray-500 mb-1.5">Nomor Telepon</label>
                             <p id="review-phone" class="font-bold text-gray-900 text-lg">-</p>
                         </div>
                         <div>
-                            <label class="block text-sm font-semibold text-gray-500 mb-1.5">Catatan Khusus</label>
+                            <label data-i18n="lbl-notes" class="block text-sm font-semibold text-gray-500 mb-1.5">Catatan Khusus</label>
                             <p id="review-notes" class="font-bold text-gray-900 text-lg">-</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="bg-white p-8 md:p-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-2 tracking-tight">Konfirmasi Jadwal</h2>
-                    <p class="text-sm text-gray-500 mb-8 border-b border-gray-100 pb-6">Periksa kembali tanggal pilihan Anda sebelum kami menyimpannya ke dalam sistem.</p>
+                    <h2 data-i18n="info-title" class="text-2xl font-bold text-gray-900 mb-2 tracking-tight">Informasi Penting</h2>
+                    <p data-i18n="info-desc" class="text-sm text-gray-500 mb-4 border-b border-gray-100 pb-6">Pesanan Anda akan ditinjau oleh pihak manajemen. Pembayaran dilakukan <b>setelah pesanan Anda disetujui</b>. Anda dapat memantau status pesanan di halaman Dashboard.</p>
                     
                     <div class="w-full flex justify-center">
                         <input type="text" id="calendar-view" class="hidden">
                     </div>
                 </div>
                 
-                <button id="confirm-button" onclick="simpanKeDatabase(this)" class="w-full bg-blue-600 text-white font-bold text-lg py-5 rounded-2xl shadow-[0_10px_30px_rgba(37,99,235,0.3)] hover:bg-blue-700 hover:shadow-[0_10px_40px_rgba(37,99,235,0.4)] transition-all transform hover:-translate-y-1 flex justify-center items-center mt-8">
-                    <span>Konfirmasi & Simpan Pesanan</span>
-                </button>
+                <div class="flex flex-col sm:flex-row gap-4 mt-8">
+                    <button onclick="navigateWithTransition('index.html')" class="w-full sm:w-1/3 bg-white border border-gray-200 text-gray-700 font-bold py-4 rounded-2xl hover:bg-gray-50 transition-all shadow-sm flex justify-center items-center gap-2">
+                        <span data-i18n="btn-cancel">Batal & Kembali</span>
+                    </button>
+                    <button id="confirm-button" onclick="simpanKeDatabase(this)" class="w-full sm:w-2/3 bg-blue-600 text-white font-bold text-lg py-4 rounded-2xl shadow-[0_10px_30px_rgba(37,99,235,0.3)] hover:bg-blue-700 hover:shadow-[0_10px_40px_rgba(37,99,235,0.4)] transition-all transform hover:-translate-y-1 flex justify-center items-center">
+                        <span data-i18n="btn-save">Konfirmasi & Ajukan Pesanan</span>
+                    </button>
+                </div>
             </div>
 
             <div class="w-full lg:w-1/3">
                 <div class="bg-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 sticky top-28">
-                    <h3 class="text-2xl font-bold mb-6 text-gray-900 border-b border-gray-100 pb-4 tracking-tight">Ringkasan Biaya</h3>
+                    <h3 data-i18n="cost-title" class="text-2xl font-bold mb-6 text-gray-900 border-b border-gray-100 pb-4 tracking-tight">Ringkasan Biaya</h3>
                     
                     <div class="space-y-4 text-sm mb-8">
                         <div class="flex justify-between items-center bg-gray-50 p-4 rounded-xl border border-gray-100">
@@ -133,7 +159,7 @@
 
                     <div class="border-t border-gray-100 pt-6 space-y-4">
                         <div class="flex justify-between text-gray-600 items-center">
-                            <span class="font-medium">Kamar (<span id="calc-nights">0</span> malam)</span>
+                            <span class="font-medium"><span data-i18n="lbl-room">Kamar</span> (<span id="calc-nights">0</span> <span data-i18n="lbl-night">malam</span>)</span>
                             <span id="display-price" class="font-bold text-gray-900">Rp 0</span>
                         </div>
                         <div class="flex justify-between text-gray-600 items-center">
@@ -141,7 +167,7 @@
                             <span id="display-tax" class="font-bold text-gray-900">Rp 0</span>
                         </div>
                         <div class="flex justify-between font-bold text-2xl pt-6 border-t border-gray-100 mt-4 items-center">
-                            <span class="text-gray-900">Total</span>
+                            <span data-i18n="lbl-total" class="text-gray-900">Total Estimasi</span>
                             <span id="display-total" class="text-blue-600">Rp 0</span>
                         </div>
                     </div>
@@ -163,24 +189,69 @@
         const basePricePerNight = 1500000;
         let globalBookingData = null; 
 
+        // TRANSLATION LOGIC
+        const translations = {
+            "id": { 
+                "nav-confirm": "Konfirmasi Pesanan", "data-title": "Data Pemesan", "lbl-name": "Nama Lengkap", "lbl-email": "Email", "lbl-phone": "Nomor Telepon", "lbl-notes": "Catatan Khusus", "info-title": "Informasi Penting", 
+                "info-desc": "Pesanan Anda akan ditinjau oleh pihak manajemen. Pembayaran dilakukan <b>setelah pesanan Anda disetujui</b>. Anda dapat memantau status pesanan di halaman Dashboard.", 
+                "btn-cancel": "Batal & Kembali", "btn-save": "Konfirmasi & Ajukan Pesanan", "cost-title": "Ringkasan Biaya", "lbl-room": "Kamar", "lbl-night": "malam", "lbl-total": "Total Estimasi", "badge": "Eksklusivitas", "room-title": "Master Suite Tropis", "room-desc": "Nikmati kenyamanan maksimal di kamar utama kami yang luas. Didesain dengan sentuhan kayu alami, tempat tidur king-size premium, dan akses langsung ke taman serta kolam renang pribadi.",
+                "fac-title": "Fasilitas yang Anda Dapatkan", "fac-1": "Private Pool", "fac-2": "Bathtub Batu Alam", "fac-3": "Sarapan In-Villa", "fac-4": "WiFi Premium", "fac-5": "Smart TV 65\"", "fac-6": "Layanan Butler"
+            },
+            "en": { 
+                "nav-confirm": "Confirm Order", "data-title": "Guest Details", "lbl-name": "Full Name", "lbl-email": "Email", "lbl-phone": "Phone Number", "lbl-notes": "Special Notes", "info-title": "Important Info", 
+                "info-desc": "Your order will be reviewed by management. Payment is made <b>after your order is approved</b>. You can track your order status on the Dashboard page.", 
+                "btn-cancel": "Cancel & Return", "btn-save": "Confirm & Submit Order", "cost-title": "Cost Summary", "lbl-room": "Room", "lbl-night": "nights", "lbl-total": "Estimated Total", "badge": "Exclusive", "room-title": "Tropical Master Suite", "room-desc": "Enjoy maximum comfort in our spacious master bedroom. Designed with natural wood touches, a premium king-size bed, and direct access to the garden and private pool.",
+                "fac-title": "Facilities Included", "fac-1": "Private Pool", "fac-2": "Natural Stone Bathtub", "fac-3": "In-Villa Breakfast", "fac-4": "Premium WiFi", "fac-5": "65\" Smart TV", "fac-6": "Butler Service"
+            }
+        };
+
+        let currentLang = 'id';
+        function toggleLang() {
+            currentLang = currentLang === 'id' ? 'en' : 'id';
+            document.getElementById('lang-desk-id').className = currentLang === 'id' ? 'text-blue-600' : 'text-gray-400 font-normal';
+            document.getElementById('lang-desk-en').className = currentLang === 'en' ? 'text-blue-600' : 'text-gray-400 font-normal';
+            document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = translations[currentLang][el.getAttribute('data-i18n')]; });
+        }
+
         function formatRupiah(number) {
             return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(number);
+        }
+
+        // ANIMASI TRANSISI HALAMAN
+        function navigateWithTransition(url) {
+            document.body.classList.add('page-exit');
+            setTimeout(() => {
+                window.location.href = url;
+            }, 400); // 400ms delay for animation
         }
 
         document.addEventListener("DOMContentLoaded", function() {
             const savedData = localStorage.getItem('bookingData');
             
+            // SweetAlert Notifikasi jika masuk tanpa data form (Auto-fill protection check)
             if (!savedData) {
-                window.location.href = "index.html";
+                Swal.fire({
+                    icon: 'warning',
+                    title: currentLang === 'id' ? 'Oops!' : 'Oops!',
+                    text: currentLang === 'id' ? 'Data pesanan tidak ditemukan. Mengarahkan kembali ke beranda...' : 'Booking data not found. Redirecting to home...',
+                    showConfirmButton: false,
+                    timer: 2500,
+                    allowOutsideClick: false,
+                    showClass: { popup: 'animate__animated animate__fadeInDown' },
+                    hideClass: { popup: 'animate__animated animate__fadeOutUp' }
+                }).then(() => {
+                    navigateWithTransition('index.html');
+                });
                 return;
             }
 
             globalBookingData = JSON.parse(savedData);
 
+            // AUTO-FILL IMPLEMENTATION
             document.getElementById('review-nama').innerText = globalBookingData.nama;
             document.getElementById('review-email').innerText = globalBookingData.email;
             document.getElementById('review-phone').innerText = globalBookingData.phone;
-            document.getElementById('review-notes').innerText = globalBookingData.notes || "Tidak ada catatan.";
+            document.getElementById('review-notes').innerText = globalBookingData.notes || "-";
 
             let checkin = "";
             let checkout = "";
@@ -222,22 +293,25 @@
         });
 
         async function simpanKeDatabase(btn) {
-            btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Memproses...`;
-            btn.classList.add('btn-loading');
-            btn.disabled = true;
+            let [checkinDate, checkoutDate] = globalBookingData.tanggal.includes(" to ") ? globalBookingData.tanggal.split(" to ") : [globalBookingData.tanggal, globalBookingData.tanggal];
 
-            let checkinDate = globalBookingData.tanggal;
-            let checkoutDate = globalBookingData.tanggal;
-            if (globalBookingData.tanggal.includes(" to ")) {
-                const dates = globalBookingData.tanggal.split(" to ");
-                checkinDate = dates[0];
-                checkoutDate = dates[1];
-            }
+            const bookingId = crypto.randomUUID(); 
 
+            // SweetAlert Loading Animation
+            Swal.fire({
+                title: currentLang === 'id' ? 'Menyimpan Pesanan...' : 'Saving Order...',
+                html: currentLang === 'id' ? 'Mohon jangan tutup jendela ini.' : 'Please do not close this window.',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
+            // Syntax Insert Supabase
             const { data, error } = await supabaseClient
                 .from('bookings')
                 .insert([
                     { 
+                        id: bookingId,
                         nama: globalBookingData.nama, 
                         email: globalBookingData.email,
                         telepon: globalBookingData.phone,
@@ -250,14 +324,29 @@
 
             if (error) {
                 console.error('Error Supabase:', error);
-                alert('Terjadi kesalahan saat menyimpan data. Pastikan konfigurasi Supabase sudah benar.');
-                btn.innerHTML = 'Konfirmasi & Simpan Pesanan';
-                btn.classList.remove('btn-loading');
-                btn.disabled = false;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: currentLang === 'id' ? 'Terjadi kesalahan saat menyimpan data. Pastikan koneksi dan database stabil.' : 'An error occurred while saving data.',
+                    confirmButtonColor: '#2563eb'
+                });
             } else {
-                alert('Pesanan berhasil disimpan di sistem! Kami akan menghubungi Anda segera.');
+                // Clear the temporary cart
                 localStorage.removeItem('bookingData');
-                window.location.href = 'index.html';
+                
+                // Simpan ID pesanan untuk pelacakan di dashboard
+                localStorage.setItem('activeBookingId', bookingId);
+                
+                // SweetAlert Success Animation
+                Swal.fire({
+                    icon: 'success',
+                    title: currentLang === 'id' ? 'Pesanan Terkirim!' : 'Order Submitted!',
+                    text: currentLang === 'id' ? 'Mengarahkan ke halaman dashboard Anda...' : 'Redirecting to your dashboard...',
+                    showConfirmButton: false,
+                    timer: 2000
+                }).then(() => {
+                    navigateWithTransition('dashboard.html');
+                });
             }
         }
     </script>
