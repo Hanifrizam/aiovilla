@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Status Pesanan - AIO Villa</title>
+    <title>Order Status - AIO Villa</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -38,11 +38,11 @@
                 <div class="flex items-center gap-4">
                     <button onclick="fetchStatus()" class="hidden sm:flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                        <span data-i18n="nav-refresh">Perbarui</span>
+                        <span data-i18n="nav-refresh">Refresh</span>
                     </button>
 
                     <button onclick="toggleLang()" class="font-bold flex items-center gap-1 hover:opacity-80 transition bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200 text-sm">
-                        <span id="lang-id" class="text-blue-600">ID</span> / <span id="lang-en" class="text-gray-400 font-normal">EN</span>
+                        <span id="lang-en" class="text-blue-600">EN</span> / <span id="lang-id" class="text-gray-400 font-normal">ID</span>
                     </button>
                 </div>
             </div>
@@ -76,11 +76,11 @@
             </div>
             
             <div class="p-8 md:p-10">
-                <h3 data-i18n="detail-title" class="font-bold text-xl text-gray-900 mb-6 border-b border-gray-100 pb-3 tracking-tight">Informasi Reservasi</h3>
+                <h3 data-i18n="detail-title" class="font-bold text-xl text-gray-900 mb-6 border-b border-gray-100 pb-3 tracking-tight">Reservation Info</h3>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-base">
                     <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1" data-i18n="lbl-name">Nama Pemesan</p>
+                        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1" data-i18n="lbl-name">Guest Name</p>
                         <p id="b-nama" class="font-bold text-gray-900">-</p>
                     </div>
                     <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
@@ -94,10 +94,10 @@
                     <div class="flex gap-4">
                         <div class="text-red-500 mt-1"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
                         <div>
-                            <p class="text-red-700 font-bold mb-1.5" data-i18n="reject-note">Catatan Penolakan dari Admin:</p>
+                            <p class="text-red-700 font-bold mb-1.5" data-i18n="reject-note">Rejection Note from Admin:</p>
                             <p id="admin-notes" class="text-red-600 font-medium leading-relaxed mb-4">-</p>
                             <a href="index.html" class="inline-flex items-center gap-2 bg-red-600 text-white px-6 py-2.5 rounded-xl font-bold hover:bg-red-700 shadow-md transition transform hover:-translate-y-0.5 text-sm" data-i18n="btn-rebook">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg> Pesan Ulang Tanggal Lain
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg> Rebook Another Date
                             </a>
                         </div>
                     </div>
@@ -106,18 +106,18 @@
                 <div id="payment-box" class="hidden mt-10 border-t border-gray-100 pt-8 animate-[fade-in_0.5s_ease-out]">
                     
                     <div class="bg-blue-50/50 rounded-2xl p-6 mb-8 border border-blue-100">
-                        <h3 data-i18n="cost-title" class="font-bold text-gray-900 mb-4 text-lg">Ringkasan Tagihan</h3>
+                        <h3 data-i18n="cost-title" class="font-bold text-gray-900 mb-4 text-lg">Billing Summary</h3>
                         <div class="space-y-3 text-sm">
-                            <div class="flex justify-between text-gray-600"><span id="lbl-room-night">Kamar</span><span id="price-room" class="font-semibold text-gray-900">-</span></div>
-                            <div class="flex justify-between text-gray-600"><span>Pajak & Layanan (10%)</span><span id="price-tax" class="font-semibold text-gray-900">-</span></div>
+                            <div class="flex justify-between text-gray-600"><span id="lbl-room-night">Room</span><span id="price-room" class="font-semibold text-gray-900">-</span></div>
+                            <div class="flex justify-between text-gray-600"><span data-i18n="lbl-tax">Taxes & Services (10%)</span><span id="price-tax" class="font-semibold text-gray-900">-</span></div>
                             <div class="flex justify-between items-center pt-3 border-t border-blue-100 mt-2">
-                                <span class="font-bold text-gray-900 text-base" data-i18n="lbl-total">Total Pembayaran</span>
+                                <span class="font-bold text-gray-900 text-base" data-i18n="lbl-total">Total Payment</span>
                                 <span id="price-total" class="font-bold text-2xl text-blue-600">-</span>
                             </div>
                         </div>
                     </div>
 
-                    <h3 data-i18n="pay-title" class="font-bold text-xl text-gray-900 mb-5 tracking-tight">Pilih Metode Pembayaran</h3>
+                    <h3 data-i18n="pay-title" class="font-bold text-xl text-gray-900 mb-5 tracking-tight">Select Payment Method</h3>
                     <div class="space-y-4 mb-8">
                         <label class="relative block cursor-pointer group">
                             <input type="radio" name="payment" checked class="payment-radio peer sr-only">
@@ -125,7 +125,7 @@
                                 <div class="flex items-center gap-4">
                                     <div class="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center border border-gray-100 text-blue-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg></div>
                                     <div>
-                                        <p class="font-bold text-gray-900 text-base" data-i18n="pay-va">Virtual Account Bank</p>
+                                        <p class="font-bold text-gray-900 text-base" data-i18n="pay-va">Bank Virtual Account</p>
                                         <p class="text-xs text-gray-500 font-medium mt-0.5">BCA, Mandiri, BNI, BRI</p>
                                     </div>
                                 </div>
@@ -149,7 +149,7 @@
                     </div>
 
                     <button onclick="processPayment()" class="w-full bg-gray-900 text-white font-bold py-5 text-lg rounded-2xl hover:bg-gray-800 transition-all shadow-[0_10px_20px_rgba(0,0,0,0.1)] transform hover:-translate-y-1 flex items-center justify-center gap-3">
-                        <span data-i18n="btn-pay">Bayar Sekarang</span> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        <span data-i18n="btn-pay">Process Payment</span> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </button>
                 </div>
 
@@ -174,24 +174,30 @@
                 "status-wait": "Menunggu Konfirmasi", "status-wait-desc": "Tim AIO Villa sedang meninjau ketersediaan jadwal Anda. Silakan muat ulang halaman ini secara berkala.", 
                 "status-ok": "Pesanan Disetujui!", "status-ok-desc": "Jadwal Anda telah diamankan. Silakan selesaikan pembayaran di bawah ini.", 
                 "status-no": "Pesanan Dibatalkan", "status-no-desc": "Mohon maaf, pengajuan Anda tidak dapat kami penuhi saat ini.",
-                "cost-title": "Ringkasan Tagihan", "lbl-total": "Total Pembayaran", "pay-va": "Virtual Account Bank", "pay-ew": "E-Wallet / QRIS"
+                "cost-title": "Ringkasan Tagihan", "lbl-total": "Total Pembayaran", "pay-va": "Virtual Account Bank", "pay-ew": "E-Wallet / QRIS", "lbl-tax": "Pajak & Layanan (10%)"
             },
             "en": { 
                 "nav-refresh": "Refresh", "loading": "Syncing with system...", "detail-title": "Reservation Info", "lbl-name": "Guest Name", "reject-note": "Rejection Note from Admin:", "btn-rebook": "Rebook Another Date", "pay-title": "Select Payment Method", "btn-pay": "Process Payment", 
                 "status-wait": "Waiting for Approval", "status-wait-desc": "The AIO Villa team is reviewing your schedule availability. Please refresh this page periodically.", 
                 "status-ok": "Order Approved!", "status-ok-desc": "Your schedule is secured. Please complete the payment below.", 
                 "status-no": "Order Cancelled", "status-no-desc": "We apologize, we cannot fulfill your request at this time.",
-                "cost-title": "Billing Summary", "lbl-total": "Total Payment", "pay-va": "Bank Virtual Account", "pay-ew": "E-Wallet / QRIS"
+                "cost-title": "Billing Summary", "lbl-total": "Total Payment", "pay-va": "Bank Virtual Account", "pay-ew": "E-Wallet / QRIS", "lbl-tax": "Taxes & Services (10%)"
             }
         };
 
-        let currentLang = 'id';
+        let currentLang = 'en'; // Default ke English
         function toggleLang() {
-            currentLang = currentLang === 'id' ? 'en' : 'id';
-            document.getElementById('lang-id').className = currentLang === 'id' ? 'text-blue-600' : 'text-gray-400 font-normal';
+            currentLang = currentLang === 'en' ? 'id' : 'en';
             document.getElementById('lang-en').className = currentLang === 'en' ? 'text-blue-600' : 'text-gray-400 font-normal';
+            document.getElementById('lang-id').className = currentLang === 'id' ? 'text-blue-600' : 'text-gray-400 font-normal';
             document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = translations[currentLang][el.getAttribute('data-i18n')]; });
-            fetchStatus(); // re-render teks header spesifik
+            
+            // Refresh halaman UI kosong jika belum ada pesanan, agar bahasanya terganti
+            if(!localStorage.getItem('activeBookingId')) {
+                fetchStatus(); 
+            } else {
+                fetchStatus(); // re-render teks header spesifik
+            }
         }
 
         function formatRupiah(number) {
@@ -202,16 +208,19 @@
             const bookingId = localStorage.getItem('activeBookingId');
             
             // Sembunyikan card, tampilkan skeleton saat merefresh
-            document.getElementById('booking-card').classList.add('hidden');
-            document.getElementById('loading-state').style.display = 'block';
+            const bookingCard = document.getElementById('booking-card');
+            const loadingState = document.getElementById('loading-state');
+            
+            if(bookingCard) bookingCard.classList.add('hidden');
+            if(loadingState) loadingState.style.display = 'block';
 
             if(!bookingId) {
                 document.getElementById('main-content').innerHTML = `
                     <div class="text-center py-20 bg-white rounded-[2rem] shadow-xl border border-gray-100 p-12">
                         <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-400"><svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
-                        <h2 class="text-2xl font-bold text-gray-900 mb-2">Tidak ada pesanan aktif.</h2>
-                        <p class="text-gray-500 mb-8">Anda belum memiliki reservasi yang sedang berjalan di perangkat ini.</p>
-                        <a href="index.html" class="bg-blue-600 text-white px-8 py-3.5 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg inline-block">Kembali ke Beranda & Pesan</a>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">${currentLang === 'id' ? 'Tidak ada pesanan aktif.' : 'No active orders.'}</h2>
+                        <p class="text-gray-500 mb-8">${currentLang === 'id' ? 'Anda belum memiliki reservasi yang sedang berjalan di perangkat ini.' : 'You have no ongoing reservations on this device.'}</p>
+                        <a href="index.html" class="bg-blue-600 text-white px-8 py-3.5 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg inline-block">${currentLang === 'id' ? 'Kembali ke Beranda & Pesan' : 'Back to Home & Book'}</a>
                     </div>`;
                 return;
             }
@@ -222,7 +231,8 @@
 
             // Beri sedikit delay artifisial 800ms agar skeleton loading terlihat elegan
             setTimeout(() => {
-                document.getElementById('loading-state').style.display = 'none';
+                const updatedLoadingState = document.getElementById('loading-state');
+                if(updatedLoadingState) updatedLoadingState.style.display = 'none';
                 renderDashboard(data);
             }, 800);
         }
@@ -234,6 +244,7 @@
             const titleEl = document.getElementById('status-title');
             const descEl = document.getElementById('status-desc');
             
+            if(!card) return; // safety check
             card.classList.remove('hidden');
 
             // Format Tanggal
@@ -264,7 +275,7 @@
                 
                 // Kalkulasi & Tampilkan Box Pembayaran
                 document.getElementById('payment-box').classList.remove('hidden');
-                document.getElementById('lbl-room-night').innerText = `Kamar (${diffDays} ${currentLang === 'id' ? 'malam' : 'nights'})`;
+                document.getElementById('lbl-room-night').innerText = currentLang === 'id' ? `Kamar (${diffDays} malam)` : `Room (${diffDays} nights)`;
                 
                 const subtotal = diffDays * basePricePerNight;
                 const tax = subtotal * 0.10;
