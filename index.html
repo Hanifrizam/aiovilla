@@ -38,7 +38,7 @@
         }
 
         .hero-bg {
-            background-image: url('Gambar Villa (1).jpeg');
+            background-image: url('background AIO Villa.avif');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -70,9 +70,38 @@
             100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
-        .swiper-slide { width: 85%; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 1.5rem; }
-        @media (min-width: 768px) { .swiper-slide { width: 45%; } }
-        .swiper-slide-active { transform: scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+        /* Swiper Galeri */
+        .swiper-slide-gallery { width: 85%; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 1.5rem; }
+        @media (min-width: 768px) { .swiper-slide-gallery { width: 45%; } }
+        .swiper-slide-active.swiper-slide-gallery { transform: scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+
+        /* Swiper Reflection UI/UX Interaktif */
+        .reflectionSwiper {
+            width: 100%;
+            height: 500px;
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        @media (min-width: 768px) { .reflectionSwiper { height: 600px; } }
+        
+        .reflection-content {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition-delay: 0.2s;
+        }
+        .reflection-desc {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition-delay: 0.4s;
+        }
+        .swiper-slide-active .reflection-content,
+        .swiper-slide-active .reflection-desc {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         .modal-scroll::-webkit-scrollbar { width: 6px; }
         .modal-scroll::-webkit-scrollbar-track { background: transparent; }
@@ -109,6 +138,13 @@
 </head>
 <body class="text-gray-800 page-enter relative overflow-x-hidden">
 
+    <a href="https://wa.me/6282342200355" target="_blank" class="fixed bottom-6 right-6 z-[90] bg-[#25D366] text-white p-3.5 md:p-4 rounded-full shadow-[0_10px_30px_rgba(37,211,102,0.4)] hover:bg-[#20b858] hover:scale-110 transition-all duration-300 group flex items-center gap-0 hover:gap-3 overflow-hidden cursor-pointer animate-bounce hover:animate-none">
+        <svg class="w-7 h-7 md:w-8 md:h-8 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12.031 0C5.385 0 0 5.385 0 12.031c0 2.124.552 4.195 1.604 6.01L.045 23.954l6.069-1.59A11.961 11.961 0 0012.03 24c6.646 0 12.031-5.385 12.031-12.031S18.677 0 12.031 0zm3.847 17.15c-.193.541-1.12 1.034-1.547 1.082-.426.048-.962.13-2.731-.6-2.138-.881-3.51-3.06-3.616-3.204-.106-.144-.863-1.152-.863-2.197 0-1.045.541-1.56.734-1.77.192-.212.426-.264.571-.264s.288 0 .408.005c.12.005.289-.048.452.342.164.39.561 1.37.61 1.468.048.096.08.212.016.341-.064.13-.096.212-.193.328-.096.116-.201.253-.288.352-.096.106-.196.223-.085.409.112.186.498.818 1.066 1.326.732.656 1.35 .855 1.536.95.186.096.295.08.404-.032.11-.112.473-.551.602-.74.128-.192.256-.16.426-.096.17.064 1.082.512 1.268.604.186.092.311.136.356.212.045.076.045.44-.148.98z"/>
+        </svg>
+        <span class="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 ease-in-out whitespace-nowrap font-bold text-sm md:text-base pr-1">Chat with Us</span>
+    </a>
+
     <div id="mobile-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] hidden transition-opacity duration-300 opacity-0 lg:hidden" onclick="toggleSidebar()"></div>
 
     <div id="mobile-sidebar" class="fixed inset-y-0 left-0 w-72 bg-white shadow-2xl z-[70] transform -translate-x-full transition-transform duration-300 lg:hidden flex flex-col">
@@ -125,7 +161,7 @@
             <a href="#" onclick="toggleSidebar()" data-i18n="nav-home" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Home</a>
             <a href="#info" onclick="toggleSidebar()" data-i18n="nav-detail" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Details</a>
             <a href="#galeri" onclick="toggleSidebar()" data-i18n="nav-gallery" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Gallery</a>
-            <a href="#layanan" onclick="toggleSidebar()" data-i18n="nav-services" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Services</a>
+            <a href="#story" onclick="toggleSidebar()" data-i18n="nav-story" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Our Story</a>
             <a href="#lokasi" onclick="toggleSidebar()" data-i18n="nav-location" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Location Maps</a>
             <a href="#kontak" onclick="toggleSidebar()" data-i18n="nav-contact" class="text-gray-700 font-medium hover:text-blue-600 transition p-2 rounded-lg hover:bg-blue-50">Contact</a>
             
@@ -161,7 +197,7 @@
                     <a href="#" data-i18n="nav-home" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Home</a>
                     <a href="#info" data-i18n="nav-detail" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Details</a>
                     <a href="#galeri" data-i18n="nav-gallery" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Gallery</a>
-                    <a href="#layanan" data-i18n="nav-services" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Services</a>
+                    <a href="#story" data-i18n="nav-story" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Our Story</a>
                     <a href="#kontak" data-i18n="nav-contact" class="nav-text text-white hover:text-blue-200 transition drop-shadow">Contact</a>
                     <a href="javascript:void(0)" onclick="cekStatusPesanan()" data-i18n="nav-status" class="nav-text text-white hover:text-blue-200 transition drop-shadow font-semibold border-l border-white/20 pl-6 ml-2">Check Status</a>
                     
@@ -190,8 +226,8 @@
         <div class="relative z-10 text-center flex flex-col items-center animate-float w-full">
             <div class="fractal-glass p-6 sm:p-8 md:p-12 rounded-3xl w-full max-w-[95%] md:max-w-3xl border border-white/20 shadow-2xl">
                 <span data-i18n="hero-tag" data-aos="fade-down" class="px-4 py-1.5 rounded-full bg-white/20 border border-white/30 text-white text-xs font-semibold tracking-widest uppercase mb-4 md:mb-6 inline-block backdrop-blur-md">Tropical Exclusivity</span>
-                <h1 data-i18n="hero-title" data-aos="fade-up" data-aos-delay="100" class="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4 md:mb-6 drop-shadow-xl tracking-tight leading-tight">Harmonizing with <br class="hidden sm:block"> Nature's Beauty</h1>
-                <p data-i18n="hero-desc" data-aos="fade-up" data-aos-delay="200" class="text-base sm:text-lg md:text-xl text-gray-100 mb-8 md:mb-10 drop-shadow max-w-xl mx-auto font-light px-2">Modern comfort draped in premium architecture for an unforgettable holiday experience.</p>
+                <h1 data-i18n="hero-title" data-aos="fade-up" data-aos-delay="100" class="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4 md:mb-6 drop-shadow-xl tracking-tight leading-tight">Authenticity <br class="hidden sm:block">in Every Corner</h1>
+                <p data-i18n="hero-desc" data-aos="fade-up" data-aos-delay="200" class="text-base sm:text-lg md:text-xl text-gray-100 mb-8 md:mb-10 drop-shadow max-w-xl mx-auto font-light px-2">Beautiful, Natural Material, Real People</p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center w-full px-4 sm:px-0">
                     <button onclick="openModal()" data-i18n="btn-book" data-aos="zoom-in" data-aos-delay="300" class="w-full sm:w-auto bg-blue-600 text-white px-8 md:px-10 py-3.5 md:py-4 rounded-2xl font-bold hover:bg-blue-500 transition-all shadow-[0_10px_30px_rgba(37,99,235,0.5)] transform hover:-translate-y-1">
                         Book Now
@@ -207,7 +243,7 @@
     <section id="info" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 -mt-16 md:-mt-10 overflow-hidden">
         <div class="bg-white rounded-3xl md:rounded-[2.5rem] shadow-2xl p-6 md:p-12 flex flex-col lg:flex-row gap-8 md:gap-12 items-center border border-gray-50">
             <div class="w-full lg:w-1/2 text-center lg:text-left" data-aos="fade-right">
-                <h2 data-i18n="sec-detail" class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">Hidden Luxury</h2>
+                <h2 data-i18n="sec-detail" class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">The Beautiful of Selong Belanak</h2>
                 <p data-i18n="detail-desc" class="text-gray-500 mb-8 md:mb-10 leading-relaxed text-base md:text-lg">
                     Architectural design that respects nature. Offering full privacy, premium natural stone materials, and a perfect relaxing atmosphere in the exotic nature of Lombok.
                 </p>
@@ -232,7 +268,7 @@
             </div>
             <div class="w-full lg:w-1/2 relative mt-6 lg:mt-0" data-aos="fade-left">
                 <div class="hidden md:block absolute inset-0 bg-blue-600 rounded-3xl transform translate-x-4 translate-y-4 opacity-10"></div>
-                <img src="Gambar Villa (7).jpeg" alt="Villa Pool" class="w-full h-[350px] md:h-[550px] object-cover rounded-3xl shadow-xl relative z-10 transition-transform hover:scale-[1.02] duration-500">
+                <img src="Foto villa lagi.avif" alt="Villa Pool" class="w-full h-[350px] md:h-[550px] object-cover rounded-3xl shadow-xl relative z-10 transition-transform hover:scale-[1.02] duration-500">
             </div>
         </div>
     </section>
@@ -243,32 +279,39 @@
         </div>
         <div class="swiper mySwiper pl-4 md:pl-8 lg:pl-20 pb-12 md:pb-16 w-full" data-aos="fade-up" data-aos-delay="100">
             <div class="swiper-wrapper">
-                <div class="swiper-slide overflow-hidden relative group cursor-grab shadow-sm">
+                <div class="swiper-slide swiper-slide-gallery overflow-hidden relative group cursor-grab shadow-sm">
                     <img src="Gambar Villa (2).jpeg" alt="Bathtub" class="w-full h-[280px] md:h-[400px] object-cover group-hover:scale-110 transition duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
                     <div class="absolute bottom-6 md:bottom-8 left-6 md:left-8">
                         <p data-i18n="gal-1" class="text-white font-bold text-lg md:text-xl drop-shadow-md transform translate-y-2 group-hover:translate-y-0 transition">Nature Bathroom</p>
                     </div>
                 </div>
-                <div class="swiper-slide overflow-hidden relative group cursor-grab shadow-sm">
+                <div class="swiper-slide swiper-slide-gallery overflow-hidden relative group cursor-grab shadow-sm">
                     <img src="Gambar Villa (3).jpeg" alt="Bed" class="w-full h-[280px] md:h-[400px] object-cover group-hover:scale-110 transition duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
                     <div class="absolute bottom-6 md:bottom-8 left-6 md:left-8">
                         <p data-i18n="gal-2" class="text-white font-bold text-lg md:text-xl drop-shadow-md transform translate-y-2 group-hover:translate-y-0 transition">Master Bedroom</p>
                     </div>
                 </div>
-                <div class="swiper-slide overflow-hidden relative group cursor-grab shadow-sm">
+                <div class="swiper-slide swiper-slide-gallery overflow-hidden relative group cursor-grab shadow-sm">
                     <img src="Gambar Villa (6).jpeg" alt="Path" class="w-full h-[280px] md:h-[400px] object-cover group-hover:scale-110 transition duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
                     <div class="absolute bottom-6 md:bottom-8 left-6 md:left-8">
                         <p data-i18n="gal-3" class="text-white font-bold text-lg md:text-xl drop-shadow-md transform translate-y-2 group-hover:translate-y-0 transition">Tropical Hallway</p>
                     </div>
                 </div>
-                <div class="swiper-slide overflow-hidden relative group cursor-grab shadow-sm">
+                <div class="swiper-slide swiper-slide-gallery overflow-hidden relative group cursor-grab shadow-sm">
                     <img src="Gambar Villa (8).jpeg" alt="Outdoor Shower" class="w-full h-[280px] md:h-[400px] object-cover group-hover:scale-110 transition duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
                     <div class="absolute bottom-6 md:bottom-8 left-6 md:left-8">
                         <p data-i18n="gal-4" class="text-white font-bold text-lg md:text-xl drop-shadow-md transform translate-y-2 group-hover:translate-y-0 transition">Nature Shower</p>
+                    </div>
+                </div>
+                <div class="swiper-slide swiper-slide-gallery overflow-hidden relative group cursor-grab shadow-sm">
+                    <img src="Foto villa lagi 2.avif" alt="Panoramic" class="w-full h-[280px] md:h-[400px] object-cover group-hover:scale-110 transition duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
+                    <div class="absolute bottom-6 md:bottom-8 left-6 md:left-8">
+                        <p data-i18n="gal-5" class="text-white font-bold text-lg md:text-xl drop-shadow-md transform translate-y-2 group-hover:translate-y-0 transition">Panoramic Views</p>
                     </div>
                 </div>
             </div>
@@ -276,30 +319,30 @@
         </div>
     </section>
 
-    <section id="layanan" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 data-i18n="sec-services" class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-10 md:mb-16 tracking-tight" data-aos="fade-up">Five-Star Services</h2>
+    <section id="story" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 data-i18n="sec-story1" class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-10 md:mb-16 tracking-tight" data-aos="fade-up">The Philosophy of Aio</h2>
         
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 mb-16">
             <div class="bg-white p-8 md:p-10 rounded-3xl border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group" data-aos="fade-up" data-aos-delay="50">
                 <div class="w-14 h-14 md:w-16 md:h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-5 md:mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                    <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                    <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                 </div>
-                <h3 data-i18n="srv-1-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">Concierge Service</h3>
-                <p data-i18n="srv-1-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">Full 24-hour personal assistance to arrange all your holiday activities.</p>
+                <h3 data-i18n="s1-1-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">The Resting Moon</h3>
+                <p data-i18n="s1-1-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">In Maori, "aio" means the resting phase of the moon. Built to be a restful retreat, a place for contemplation and freedom from daily pressures.</p>
             </div>
             <div class="bg-white p-8 md:p-10 rounded-3xl border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group" data-aos="fade-up" data-aos-delay="100">
                 <div class="w-14 h-14 md:w-16 md:h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-5 md:mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                    <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"></path></svg>
+                    <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                 </div>
-                <h3 data-i18n="srv-2-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">Private Chef</h3>
-                <p data-i18n="srv-2-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">Enjoy local and international culinary delights served directly at your dining table.</p>
+                <h3 data-i18n="s1-2-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">Yin & Yang Balance</h3>
+                <p data-i18n="s1-2-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">Ironically, "ayo" in Bahasa means "Let's go!". The villa sets the tone for balance: poised for as much activity as you want, and as much relaxation as you need.</p>
             </div>
             <div class="bg-white p-8 md:p-10 rounded-3xl border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group sm:col-span-2 md:col-span-1" data-aos="fade-up" data-aos-delay="150">
                 <div class="w-14 h-14 md:w-16 md:h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-5 md:mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                    <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                    <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
-                <h3 data-i18n="srv-3-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">VIP Transport</h3>
-                <p data-i18n="srv-3-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">International airport pickup service and exclusive cars ready on standby.</p>
+                <h3 data-i18n="s1-3-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">The Lotus Symbolism</h3>
+                <p data-i18n="s1-3-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">Like a lotus appearing serene but gaining strength from mud, we represent the constant striving for balance between the divine and the mundane.</p>
             </div>
         </div>
     </section>
@@ -314,38 +357,86 @@
         </div>
     </section>
 
-    <section class="py-12 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-gray-50 rounded-[2rem] md:rounded-[3rem] mt-10 md:mt-16 mb-6 md:mb-10 overflow-hidden">
+    <section class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 md:mt-8 overflow-hidden">
         <div class="text-center mb-10 md:mb-12" data-aos="fade-up">
-            <h2 data-i18n="sec-faq" class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mb-4">Villa Information & Rules</h2>
+            <h2 data-i18n="sec-story2" class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mb-4">A Little Reflection on Island Life</h2>
+            <p data-i18n="story2-sub" class="text-gray-500 max-w-3xl mx-auto px-4 text-sm md:text-base">Life is made of contrasts, and at Villa Aio we find peace in living lightly amidst these authentic surroundings.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
-            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition" data-aos="fade-right">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        <div class="swiper reflectionSwiper" data-aos="fade-up" data-aos-delay="100">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide relative">
+                    <img src="Foto villa lagi.avif" alt="Community" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/60 to-transparent"></div>
+                    <div class="absolute inset-0 flex items-center p-8 md:p-16">
+                        <div class="max-w-xl text-white">
+                            <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mb-6 reflection-content">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            </div>
+                            <h3 data-i18n="s2-1-title" class="text-3xl md:text-5xl font-bold mb-4 reflection-content">Community & Spirit</h3>
+                            <p data-i18n="s2-1-desc" class="text-gray-200 text-base md:text-lg leading-relaxed reflection-desc">
+                                Selong Belanak is a thriving community. While the majority practice Islam, acceptance of other religions is a matter of course. This core of spirituality strengthens the community, producing a remarkably low crime rate and a beautiful working harmony.
+                            </p>
+                        </div>
                     </div>
-                    <h3 data-i18n="faq-yes" class="text-xl md:text-2xl font-bold text-gray-900">Allowed</h3>
                 </div>
-                <ul class="space-y-4 text-gray-600 text-sm md:text-base">
-                    <li class="flex gap-3 items-start"><span class="text-green-500 font-bold">✓</span> <span data-i18n="faq-y1">Bringing outside light food & beverages.</span></li>
-                    <li class="flex gap-3 items-start"><span class="text-green-500 font-bold">✓</span> <span data-i18n="faq-y2">Using kitchen facilities.</span></li>
-                    <li class="flex gap-3 items-start"><span class="text-green-500 font-bold">✓</span> <span data-i18n="faq-y3">Hosting small events in the garden area.</span></li>
-                </ul>
-            </div>
 
-            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition" data-aos="fade-left">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 bg-red-100 text-red-600 rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <div class="swiper-slide relative">
+                    <img src="Foto villa lagi 2.avif" alt="Activity" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/60 to-transparent"></div>
+                    <div class="absolute inset-0 flex items-center p-8 md:p-16">
+                        <div class="max-w-xl text-white">
+                            <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mb-6 reflection-content">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <h3 data-i18n="s2-2-title" class="text-3xl md:text-5xl font-bold mb-4 reflection-content">Activity & Relaxation</h3>
+                            <p data-i18n="s2-2-desc" class="text-gray-200 text-base md:text-lg leading-relaxed reflection-desc">
+                                Whether you want to surf the renowned waves, paraglide over the hills, or simply meditate to the sound of fountains. The tropical warmth and island breezes invite you to drop your cares and embrace the moment.
+                            </p>
+                        </div>
                     </div>
-                    <h3 data-i18n="faq-no" class="text-xl md:text-2xl font-bold text-gray-900">Not Allowed</h3>
                 </div>
-                <ul class="space-y-4 text-gray-600 text-sm md:text-base">
-                    <li class="flex gap-3 items-start"><span class="text-red-500 font-bold">✗</span> <span data-i18n="faq-n1">Bringing pets.</span></li>
-                    <li class="flex gap-3 items-start"><span class="text-red-500 font-bold">✗</span> <span data-i18n="faq-n2">Smoking inside the room area.</span></li>
-                    <li class="flex gap-3 items-start"><span class="text-red-500 font-bold">✗</span> <span data-i18n="faq-n3">Bringing extra guests to stay.</span></li>
-                </ul>
+
+                <div class="swiper-slide relative">
+                    <img src="Gambar Villa (6).jpeg" alt="Nature" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/60 to-transparent"></div>
+                    <div class="absolute inset-0 flex items-center p-8 md:p-16">
+                        <div class="max-w-xl text-white">
+                            <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mb-6 reflection-content">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                            </div>
+                            <h3 data-i18n="s2-3-title" class="text-3xl md:text-5xl font-bold mb-4 reflection-content">Nature & Luxury</h3>
+                            <p data-i18n="s2-3-desc" class="text-gray-200 text-base md:text-lg leading-relaxed reflection-desc">
+                                Villa Aio is a celebration of beautiful natural materials. Teak wood is used extensively, roofs are covered in hand-woven bamboo skin, alongside beautiful natural stone. It is the epitome of barefoot luxury living.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide relative">
+                    <img src="Gambar Villa (8).jpeg" alt="Culinary" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/60 to-transparent"></div>
+                    <div class="absolute inset-0 flex items-center p-8 md:p-16">
+                        <div class="max-w-xl text-white">
+                            <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mb-6 reflection-content">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"></path></svg>
+                            </div>
+                            <h3 data-i18n="s2-4-title" class="text-3xl md:text-5xl font-bold mb-4 reflection-content">Culinary & Dining</h3>
+                            <p data-i18n="s2-4-desc" class="text-gray-200 text-base md:text-lg leading-relaxed reflection-desc">
+                                Selong Belanak is blessed with wonderful local restaurants. Alternatively, embrace the joy of staying in by cooking in our fully equipped kitchen, designed to host gatherings with a view of the sea.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-6 md:bottom-12 right-6 md:right-12 z-20 flex gap-3">
+                <button class="w-12 h-12 rounded-full border border-white/30 text-white flex items-center justify-center hover:bg-white hover:text-gray-900 transition backdrop-blur-md reflection-prev">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <button class="w-12 h-12 rounded-full border border-white/30 text-white flex items-center justify-center hover:bg-white hover:text-gray-900 transition backdrop-blur-md reflection-next">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
             </div>
         </div>
     </section>
@@ -412,22 +503,31 @@
             <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-screen filter blur-[80px] opacity-50 pointer-events-none"></div>
             
             <div class="w-full lg:w-1/2 relative z-10" data-aos="fade-right">
-                <h2 data-i18n="sec-contact" class="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Contact Management</h2>
-                <p data-i18n="contact-desc" class="text-blue-200 mb-8 leading-relaxed text-sm md:text-base max-w-md">Have special questions for your event? The management team is ready to help 24/7.</p>
+                <h2 data-i18n="sec-contact" class="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Get in Touch</h2>
+                <p data-i18n="contact-desc" class="text-blue-200 mb-8 leading-relaxed text-sm md:text-base max-w-md">Whether you have inquiries or wish to reserve your tropical villa retreat, our team is here to assist you. Reach out to us and start planning your dream tropical getaway in Lombok.</p>
                 
                 <div class="space-y-6 text-white">
                     <div class="flex items-center gap-4">
                         <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-md">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                         </div>
-                        <div><p class="font-bold text-lg">Alamat</p><p data-i18n="address" class="text-blue-200 text-sm">Selong Terraces No. B7, Selong Belanak, Lombok</p></div>
+                        <div><p class="font-bold text-lg">Alamat</p><p data-i18n="address" class="text-blue-200 text-sm">Villa Aio, Selong Terraces, Selong Belanak, Lombok, Indonesia</p></div>
                     </div>
                     <div class="flex items-center gap-4">
                         <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-md">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                         </div>
-                        <div><p class="font-bold text-lg">Email</p><p class="text-blue-200 text-sm">hello@aiovilla.com</p></div>
+                        <div><p class="font-bold text-lg">Email</p><p class="text-blue-200 text-sm">villaaiolombok@gmail.com</p></div>
                     </div>
+                    <a href="https://wa.me/6282342200355" target="_blank" class="flex items-center gap-4 group cursor-pointer inline-flex w-fit">
+                        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-md group-hover:bg-[#25D366] transition-colors duration-300">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 0C5.385 0 0 5.385 0 12.031c0 2.124.552 4.195 1.604 6.01L.045 23.954l6.069-1.59A11.961 11.961 0 0012.03 24c6.646 0 12.031-5.385 12.031-12.031S18.677 0 12.031 0zm3.847 17.15c-.193.541-1.12 1.034-1.547 1.082-.426.048-.962.13-2.731-.6-2.138-.881-3.51-3.06-3.616-3.204-.106-.144-.863-1.152-.863-2.197 0-1.045.541-1.56.734-1.77.192-.212.426-.264.571-.264s.288 0 .408.005c.12.005.289-.048.452.342.164.39.561 1.37.61 1.468.048.096.08.212.016.341-.064.13-.096.212-.193.328-.096.116-.201.253-.288.352-.096.106-.196.223-.085.409.112.186.498.818 1.066 1.326.732.656 1.35 .855 1.536.95.186.096.295.08.404-.032.11-.112.473-.551.602-.74.128-.192.256-.16.426-.096.17.064 1.082.512 1.268.604.186.092.311.136.356.212.045.076.045.44-.148.98z"/></svg>
+                        </div>
+                        <div>
+                            <p class="font-bold text-lg">WhatsApp</p>
+                            <p class="text-blue-200 text-sm group-hover:text-white transition-colors duration-300">+62 823 4220 0355</p>
+                        </div>
+                    </a>
                 </div>
             </div>
 
@@ -505,58 +605,94 @@
     <script>
         AOS.init({ duration: 900, easing: 'ease-out-cubic', once: true, offset: 50 });
         
+        // Gallery Swiper
         var swiper = new Swiper(".mySwiper", {
             slidesPerView: 1.1, spaceBetween: 15, grabCursor: true,
             pagination: { el: ".swiper-pagination", clickable: true },
             breakpoints: { 640: { slidesPerView: 1.5, spaceBetween: 20 }, 768: { slidesPerView: 2.2, spaceBetween: 30 }, 1024: { slidesPerView: 3.2, spaceBetween: 30 } }
         });
 
-        // TRANSLATION LOGIC LOMBOK UPDATE
+        // Reflection Island Life Swiper (INTERAKTIF)
+        var reflectionSwiper = new Swiper(".reflectionSwiper", {
+            effect: "fade",
+            fadeEffect: { crossFade: true },
+            grabCursor: true,
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            navigation: {
+                nextEl: ".reflection-next",
+                prevEl: ".reflection-prev",
+            },
+        });
+
         const translations = {
             "id": {
-                "nav-home": "Beranda", "nav-detail": "Detail", "nav-gallery": "Galeri", "nav-services": "Layanan", "nav-location": "Lokasi Maps", "nav-contact": "Kontak", "nav-avail": "Ketersediaan", "nav-status": "Cek Status",
+                "nav-home": "Beranda", "nav-detail": "Detail", "nav-gallery": "Galeri", "nav-story": "Cerita Kami", "nav-location": "Lokasi Maps", "nav-contact": "Kontak", "nav-avail": "Ketersediaan", "nav-status": "Cek Status",
                 "btn-order": "Order Sekarang", "hero-tag": "Eksklusivitas Tropis", "hero-title": "Menyatu dengan <br class='hidden sm:block'> Keindahan Alam",
                 "hero-desc": "Kenyamanan modern dalam balutan arsitektur premium untuk pengalaman liburan tak terlupakan.",
                 "btn-book": "Pesan Sekarang", "btn-check": "Lihat Ketersediaan",
-                "sec-detail": "Kemewahan Tersembunyi", "detail-desc": "Desain arsitektur yang menghargai alam. Menawarkan privasi penuh, material batu alam premium, dan suasana santai yang sempurna untuk melepas penat di alam eksotis Lombok.",
+                "sec-detail": "Pesona Selong Belanak", "detail-desc": "Desain arsitektur yang menghargai alam. Menawarkan privasi penuh, material batu alam premium, dan suasana santai yang sempurna untuk melepas penat di alam eksotis Lombok.",
                 "stat-bed": "Kamar Tidur Utama", "stat-bath": "Kamar Mandi Mewah", "stat-area": "Luas Bangunan", "stat-land": "Luas Tanah Tropis",
-                "sec-gallery": "Estetika di Setiap Sudut", "gal-1": "Kamar Mandi Alam", "gal-2": "Kamar Utama", "gal-3": "Lorong Tropis", "gal-4": "Pancuran Alam",
-                "sec-services": "Layanan Bintang Lima", "srv-1-title": "Layanan Concierge", "srv-1-desc": "Asistensi personal 24 jam penuh untuk mengatur seluruh aktivitas liburan Anda.",
-                "srv-2-title": "Koki Pribadi", "srv-2-desc": "Nikmati hidangan kuliner lokal dan internasional yang disajikan langsung di meja makan Anda.",
-                "srv-3-title": "Transportasi VIP", "srv-3-desc": "Layanan antar jemput bandara internasional dan mobil eksklusif siap sedia.",
-                "sec-reviews": "Apa Kata Tamu Kami", "sec-faq": "Informasi & Peraturan Villa",
-                "faq-yes": "Diperbolehkan", "faq-y1": "Membawa makanan & minuman ringan dari luar.", "faq-y2": "Menggunakan fasilitas dapur.", "faq-y3": "Mengadakan acara kecil di area taman.",
-                "faq-no": "Tidak Diperbolehkan", "faq-n1": "Membawa hewan peliharaan.", "faq-n2": "Merokok di dalam area kamar.", "faq-n3": "Membawa tamu menginap berlebih.",
+                "sec-gallery": "Estetika di Setiap Sudut", "gal-1": "Kamar Mandi Alam", "gal-2": "Kamar Utama", "gal-3": "Lorong Tropis", "gal-4": "Pancuran Alam", "gal-5": "Pemandangan Memukau",
+                
+                // Story 1 Translations
+                "sec-story1": "Filosofi Aio", 
+                "s1-1-title": "Fase Bulan Beristirahat", "s1-1-desc": "Dalam bahasa Maori, 'aio' berarti fase bulan saat beristirahat. Tempat ini dibangun untuk menjadi tempat persembunyian yang tenang, ruang kontemplasi, dan kebebasan dari tekanan harian.",
+                "s1-2-title": "Keseimbangan Yin & Yang", "s1-2-desc": "Ironisnya, 'ayo' dalam Bahasa Indonesia bermakna 'Mari pergi!'. Villa ini menciptakan keseimbangan: siap untuk berbagai aktivitas yang Anda inginkan, namun tetap damai untuk relaksasi yang Anda butuhkan.",
+                "s1-3-title": "Filosofi Bunga Teratai", "s1-3-desc": "Layaknya teratai yang tampak anggun di atas air namun mendapat kekuatan dari akarnya di lumpur, Aio merepresentasikan usaha konstan menyeimbangkan spiritualitas dan kehidupan duniawi.",
+                
+                "sec-reviews": "Apa Kata Tamu Kami", 
+                
+                // Story 2 Translations (Slider Baru)
+                "sec-story2": "Refleksi Kehidupan Pulau", "story2-sub": "Kehidupan tercipta dari berbagai kontras, dan di Villa Aio kami menemukan kedamaian dengan hidup selaras di tengah lingkungan yang autentik ini.",
+                "s2-1-title": "Komunitas & Harmoni", "s2-1-desc": "Selong Belanak adalah komunitas yang hidup. Toleransi beragama sangat dijunjung tinggi. Nilai-nilai spiritual ini memperkuat warga, menghasilkan tingkat keamanan yang luar biasa dan keharmonisan di sekitarnya.",
+                "s2-2-title": "Aktivitas & Relaksasi", "s2-2-desc": "Berselancar di ombak terkenal, paralayang melintasi perbukitan, atau sekadar bermeditasi diiringi gemericik air. Kehangatan tropis mengajak Anda melepaskan segala penat dan menikmati setiap momen.",
+                "s2-3-title": "Kemewahan & Alam", "s2-3-desc": "Villa Aio merayakan keindahan material alami. Kayu jati, atap anyaman bambu buatan tangan, dipadukan serasi dengan batu alam murni. Inilah definisi dari kemewahan natural yang sesungguhnya.",
+                "s2-4-title": "Kuliner & Bersantap", "s2-4-desc": "Desa kami diberkati dengan berbagai restoran lokal yang lezat. Atau, Anda bisa bersantai di dalam dan menggunakan fasilitas dapur modern kami untuk menyiapkan hidangan spesial bersama keluarga.",
+
                 "sec-location": "Lokasi Strategis Kami", "loc-desc": "Berada di kawasan premium Selong Belanak, menyuguhkan pemandangan alam Lombok yang memukau.",
                 "loc-1-title": "Pantai Selong Belanak", "loc-1-desc": "Surga Peselancar", 
                 "loc-2-title": "Bandara Int. Lombok", "loc-2-desc": "Akses Utama", 
                 "loc-3-title": "Sirkuit Mandalika", "loc-3-desc": "Pusat Olahraga Internasional",
                 "sec-contact": "Hubungi Manajemen", "contact-desc": "Ada pertanyaan khusus untuk acara Anda? Tim manajemen siap membantu 24/7.",
-                "address": "Selong Terraces No. B7, Selong Belanak, Praya Barat, Central Lombok Regency, West Nusa Tenggara 83572", "form-title": "Kirim Pesan", "btn-send": "Kirim Sekarang",
+                "address": "Villa Aio, Selong Terraces, Selong Belanak, Lombok, Indonesia", "form-title": "Kirim Pesan", "btn-send": "Kirim Sekarang",
                 "footer-desc": "Mendefinisikan ulang kemewahan di Selong Belanak, Lombok.",
                 "modal-title": "Cek Ketersediaan", "modal-date": "Pilih Tanggal", "modal-notes": "Catatan Khusus", "btn-cancel": "Batal", "btn-continue": "Lanjutkan Pesanan",
                 "alert-no-booking": "Anda belum memiliki pesanan aktif di perangkat ini."
             },
             "en": {
-                "nav-home": "Home", "nav-detail": "Details", "nav-gallery": "Gallery", "nav-services": "Services", "nav-location": "Location Maps", "nav-contact": "Contact", "nav-avail": "Availability", "nav-status": "Check Status",
+                "nav-home": "Home", "nav-detail": "Details", "nav-gallery": "Gallery", "nav-story": "Our Story", "nav-location": "Location Maps", "nav-contact": "Contact", "nav-avail": "Availability", "nav-status": "Check Status",
                 "btn-order": "Book Now", "hero-tag": "Tropical Exclusivity", "hero-title": "Harmonizing with <br class='hidden sm:block'> Nature's Beauty",
                 "hero-desc": "Modern comfort draped in premium architecture for an unforgettable holiday experience.",
                 "btn-book": "Book Now", "btn-check": "Check Availability",
-                "sec-detail": "Hidden Luxury", "detail-desc": "Architectural design that respects nature. Offering full privacy, premium natural stone materials, and a perfect relaxing atmosphere in the exotic nature of Lombok.",
+                "sec-detail": "The Beautiful of Selong Belanak", "detail-desc": "Architectural design that respects nature. Offering full privacy, premium natural stone materials, and a perfect relaxing atmosphere in the exotic nature of Lombok.",
                 "stat-bed": "Master Bedrooms", "stat-bath": "Luxury Bathrooms", "stat-area": "Building Area", "stat-land": "Tropical Land Area",
-                "sec-gallery": "Aesthetics in Every Corner", "gal-1": "Nature Bathroom", "gal-2": "Master Bedroom", "gal-3": "Tropical Hallway", "gal-4": "Nature Shower",
-                "sec-services": "Five-Star Services", "srv-1-title": "Concierge Service", "srv-1-desc": "Full 24-hour personal assistance to arrange all your holiday activities.",
-                "srv-2-title": "Private Chef", "srv-2-desc": "Enjoy local and international culinary delights served directly at your dining table.",
-                "srv-3-title": "VIP Transport", "srv-3-desc": "International airport pickup service and exclusive cars ready on standby.",
-                "sec-reviews": "What Our Guests Say", "sec-faq": "Villa Information & Rules",
-                "faq-yes": "Allowed", "faq-y1": "Bringing outside light food & beverages.", "faq-y2": "Using kitchen facilities.", "faq-y3": "Hosting small events in the garden area.",
-                "faq-no": "Not Allowed", "faq-n1": "Bringing pets.", "faq-n2": "Smoking inside the room area.", "faq-n3": "Bringing extra guests to stay.",
+                "sec-gallery": "Aesthetics in Every Corner", "gal-1": "Nature Bathroom", "gal-2": "Master Bedroom", "gal-3": "Tropical Hallway", "gal-4": "Nature Shower", "gal-5": "Panoramic Views",
+                
+                // Story 1 Translations
+                "sec-story1": "The Philosophy of Aio", 
+                "s1-1-title": "The Resting Moon", "s1-1-desc": "In Maori, 'aio' means the resting phase of the moon. Built to be a restful retreat, a place for contemplation and freedom from daily pressures in the Western world.",
+                "s1-2-title": "Yin & Yang Balance", "s1-2-desc": "Ironically, 'ayo' in Bahasa Indonesia means 'Let's go!'. The villa sets the tone for balance: poised for as much activity as you want, and as much relaxation as you need.",
+                "s1-3-title": "The Lotus Symbolism", "s1-3-desc": "Like a lotus appearing serene but gaining strength from its roots in the mud, Aio represents our constant striving for balance between the divine and the mundane.",
+
+                "sec-reviews": "What Our Guests Say", 
+                
+                // Story 2 Translations (Slider Baru)
+                "sec-story2": "A Little Reflection on Island Life", "story2-sub": "Life is made of contrasts, and at Villa Aio we find peace in living lightly amidst these authentic surroundings.",
+                "s2-1-title": "Community & Spirit", "s2-1-desc": "Selong Belanak is a thriving community. While the majority practice Islam, acceptance of other religions is a matter of course. This core of spirituality strengthens the community, producing a remarkably low crime rate and a beautiful working harmony.",
+                "s2-2-title": "Activity & Relaxation", "s2-2-desc": "Whether you want to surf the renowned waves, paraglide over the hills, or simply meditate to the sound of fountains. The tropical warmth and island breezes invite you to drop your cares and embrace the moment.",
+                "s2-3-title": "Nature & Luxury", "s2-3-desc": "Villa Aio is a celebration of beautiful natural materials. Teak wood is used extensively, roofs are covered in hand-woven bamboo skin, alongside beautiful natural stone. It is the epitome of barefoot luxury living.",
+                "s2-4-title": "Culinary & Dining", "s2-4-desc": "Selong Belanak is blessed with wonderful local restaurants. Alternatively, embrace the joy of staying in by cooking in our fully equipped kitchen, designed to host gatherings with a view of the sea.",
+
                 "sec-location": "Our Strategic Location", "loc-desc": "Located in the premium Selong Belanak area, offering stunning views of Lombok's nature.",
                 "loc-1-title": "Selong Belanak Beach", "loc-1-desc": "Surfer's Paradise", 
                 "loc-2-title": "Lombok Int. Airport", "loc-2-desc": "Main Access", 
                 "loc-3-title": "Mandalika Circuit", "loc-3-desc": "Int. Sports Center",
-                "sec-contact": "Contact Management", "contact-desc": "Have special questions for your event? The management team is ready to help 24/7.",
-                "address": "Selong Terraces No. B7, Selong Belanak, Praya Barat, Central Lombok Regency, West Nusa Tenggara 83572", "form-title": "Send Message", "btn-send": "Send Now",
+                "sec-contact": "Contact Management", "contact-desc": "Whether you have inquiries or wish to reserve your tropical villa retreat, our team is here to assist you. Reach out to us and start planning your dream tropical getaway in Lombok.",
+                "address": "Villa Aio, Selong Terraces, Selong Belanak, Lombok, Indonesia", "form-title": "Send Message", "btn-send": "Send Now",
                 "footer-desc": "Redefining luxury in Selong Belanak, Lombok.",
                 "modal-title": "Check Availability", "modal-date": "Select Dates", "modal-notes": "Special Notes", "btn-cancel": "Cancel", "btn-continue": "Continue Booking",
                 "alert-no-booking": "You have no active bookings on this device."
