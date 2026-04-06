@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -149,7 +150,7 @@
 
     <div id="mobile-sidebar" class="fixed inset-y-0 left-0 w-72 bg-white shadow-2xl z-[70] transform -translate-x-full transition-transform duration-300 lg:hidden flex flex-col">
         <div class="p-6 border-b border-gray-100 flex justify-between items-center">
-            <div class="text-2xl font-bold text-gray-900 tracking-tighter">AIO<span class="text-blue-600 font-light">Villa</span></div>
+            <div class="text-2xl font-bold text-gray-900 tracking-tighter ui-villa-name">AIO<span class="text-blue-600 font-light">Villa</span></div>
             <button onclick="toggleSidebar()" class="p-2 text-gray-500 hover:text-red-500 hover:bg-gray-100 rounded-full transition">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
@@ -190,7 +191,7 @@
                     <button onclick="toggleSidebar()" id="hamburger-icon" class="lg:hidden text-white hover:text-blue-200 transition focus:outline-none p-1">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </button>
-                    <div class="text-xl md:text-2xl font-bold nav-text text-white tracking-tighter cursor-pointer drop-shadow-md transition">AIO<span class="font-light">Villa</span></div>
+                    <div class="text-xl md:text-2xl font-bold nav-text text-white tracking-tighter cursor-pointer drop-shadow-md transition ui-villa-name">AIO<span class="font-light">Villa</span></div>
                 </div>
                 
                 <div class="hidden lg:flex space-x-6 items-center text-sm font-medium">
@@ -207,7 +208,7 @@
                     </a>
                     
                     <button onclick="toggleLang()" id="lang-btn" class="nav-text text-white font-bold ml-2 flex items-center gap-1 hover:bg-white/20 transition bg-white/10 border-white/20 px-3 py-1.5 rounded-lg border shadow-sm">
-                        <span id="lang-desk-en">EN</span> / <span id="lang-desk-id" class="text-gray-400 font-normal">ID</span>
+                        <span id="lang-desk-en" class="text-white">EN</span> / <span id="lang-desk-id" class="text-gray-400 font-normal">ID</span>
                     </button>
                 </div>
                 
@@ -226,8 +227,8 @@
         <div class="relative z-10 text-center flex flex-col items-center animate-float w-full">
             <div class="fractal-glass p-6 sm:p-8 md:p-12 rounded-3xl w-full max-w-[95%] md:max-w-3xl border border-white/20 shadow-2xl">
                 <span data-i18n="hero-tag" data-aos="fade-down" class="px-4 py-1.5 rounded-full bg-white/20 border border-white/30 text-white text-xs font-semibold tracking-widest uppercase mb-4 md:mb-6 inline-block backdrop-blur-md">Tropical Exclusivity</span>
-                <h1 data-i18n="hero-title" data-aos="fade-up" data-aos-delay="100" class="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4 md:mb-6 drop-shadow-xl tracking-tight leading-tight">Authenticity <br class="hidden sm:block">in Every Corner</h1>
-                <p data-i18n="hero-desc" data-aos="fade-up" data-aos-delay="200" class="text-base sm:text-lg md:text-xl text-gray-100 mb-8 md:mb-10 drop-shadow max-w-xl mx-auto font-light px-2">Beautiful, Natural Material, Real People</p>
+                <h1 data-i18n="hero-title" data-aos="fade-up" data-aos-delay="100" class="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4 md:mb-6 drop-shadow-xl tracking-tight leading-tight">Harmonizing with <br class="hidden sm:block"> Nature's Beauty</h1>
+                <p data-i18n="hero-desc" data-aos="fade-up" data-aos-delay="200" class="text-base sm:text-lg md:text-xl text-gray-100 mb-8 md:mb-10 drop-shadow max-w-xl mx-auto font-light px-2">Modern comfort draped in premium architecture for an unforgettable holiday experience.</p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center w-full px-4 sm:px-0">
                     <button onclick="openModal()" data-i18n="btn-book" data-aos="zoom-in" data-aos-delay="300" class="w-full sm:w-auto bg-blue-600 text-white px-8 md:px-10 py-3.5 md:py-4 rounded-2xl font-bold hover:bg-blue-500 transition-all shadow-[0_10px_30px_rgba(37,99,235,0.5)] transform hover:-translate-y-1">
                         Book Now
@@ -249,19 +250,19 @@
                 </p>
                 <div class="grid grid-cols-2 gap-4 md:gap-6 text-left">
                     <div class="bg-gray-50 p-4 md:p-6 rounded-2xl border border-gray-100 transition-transform hover:-translate-y-1 hover:shadow-md">
-                        <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1">8</span>
+                        <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1 ui-stat-bed">8</span>
                         <span data-i18n="stat-bed" class="text-xs md:text-sm text-gray-500 font-medium">Master Bedrooms</span>
                     </div>
                     <div class="bg-gray-50 p-4 md:p-6 rounded-2xl border border-gray-100 transition-transform hover:-translate-y-1 hover:shadow-md">
-                        <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1">10</span>
+                        <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1 ui-stat-bath">10</span>
                         <span data-i18n="stat-bath" class="text-xs md:text-sm text-gray-500 font-medium">Luxury Bathrooms</span>
                     </div>
                     <div class="bg-gray-50 p-4 md:p-6 rounded-2xl border border-gray-100 transition-transform hover:-translate-y-1 hover:shadow-md">
-                        <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1">500<span class="text-lg md:text-xl">m²</span></span>
+                        <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1 ui-stat-area">500<span class="text-lg md:text-xl">m²</span></span>
                         <span data-i18n="stat-area" class="text-xs md:text-sm text-gray-500 font-medium">Building Area</span>
                     </div>
                     <div class="bg-gray-50 p-4 md:p-6 rounded-2xl border border-gray-100 transition-transform hover:-translate-y-1 hover:shadow-md">
-                        <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1">2000<span class="text-lg md:text-xl">m²</span></span>
+                        <span class="block text-2xl md:text-3xl font-bold text-blue-600 mb-1 ui-stat-land">2000<span class="text-lg md:text-xl">m²</span></span>
                         <span data-i18n="stat-land" class="text-xs md:text-sm text-gray-500 font-medium">Tropical Land Area</span>
                     </div>
                 </div>
@@ -328,21 +329,21 @@
                     <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                 </div>
                 <h3 data-i18n="s1-1-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">The Resting Moon</h3>
-                <p data-i18n="s1-1-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">In Maori, "aio" means the resting phase of the moon. Built to be a restful retreat, a place for contemplation and freedom from daily pressures.</p>
+                <p data-i18n="s1-1-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">In Maori, 'aio' means the resting phase of the moon. Built to be a restful retreat, a place for contemplation and freedom from daily pressures in the Western world.</p>
             </div>
             <div class="bg-white p-8 md:p-10 rounded-3xl border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group" data-aos="fade-up" data-aos-delay="100">
                 <div class="w-14 h-14 md:w-16 md:h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-5 md:mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                     <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                 </div>
                 <h3 data-i18n="s1-2-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">Yin & Yang Balance</h3>
-                <p data-i18n="s1-2-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">Ironically, "ayo" in Bahasa means "Let's go!". The villa sets the tone for balance: poised for as much activity as you want, and as much relaxation as you need.</p>
+                <p data-i18n="s1-2-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">Ironically, 'ayo' in Bahasa Indonesia means 'Let's go!'. The villa sets the tone for balance: poised for as much activity as you want, and as much relaxation as you need.</p>
             </div>
             <div class="bg-white p-8 md:p-10 rounded-3xl border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group sm:col-span-2 md:col-span-1" data-aos="fade-up" data-aos-delay="150">
                 <div class="w-14 h-14 md:w-16 md:h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-5 md:mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                     <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
                 <h3 data-i18n="s1-3-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">The Lotus Symbolism</h3>
-                <p data-i18n="s1-3-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">Like a lotus appearing serene but gaining strength from mud, we represent the constant striving for balance between the divine and the mundane.</p>
+                <p data-i18n="s1-3-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">Like a lotus appearing serene but gaining strength from its roots in the mud, Aio represents our constant striving for balance between the divine and the mundane.</p>
             </div>
         </div>
     </section>
@@ -419,7 +420,7 @@
                     <div class="absolute inset-0 flex items-center p-8 md:p-16">
                         <div class="max-w-xl text-white">
                             <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mb-6 reflection-content">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"></path></svg>
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"></path></svg>
                             </div>
                             <h3 data-i18n="s2-4-title" class="text-3xl md:text-5xl font-bold mb-4 reflection-content">Culinary & Dining</h3>
                             <p data-i18n="s2-4-desc" class="text-gray-200 text-base md:text-lg leading-relaxed reflection-desc">
@@ -441,6 +442,80 @@
         </div>
     </section>
 
+    <section id="layanan" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 data-i18n="sec-services" class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-10 md:mb-16 tracking-tight" data-aos="fade-up">Five-Star Services</h2>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 mb-16">
+            <div class="bg-white p-8 md:p-10 rounded-3xl border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group" data-aos="fade-up" data-aos-delay="50">
+                <div class="w-14 h-14 md:w-16 md:h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-5 md:mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                </div>
+                <h3 data-i18n="srv-1-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">Concierge Service</h3>
+                <p data-i18n="srv-1-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">Full 24-hour personal assistance to arrange all your holiday activities.</p>
+            </div>
+            <div class="bg-white p-8 md:p-10 rounded-3xl border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-14 h-14 md:w-16 md:h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-5 md:mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"></path></svg>
+                </div>
+                <h3 data-i18n="srv-2-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">Private Chef</h3>
+                <p data-i18n="srv-2-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">Enjoy local and international culinary delights served directly at your dining table.</p>
+            </div>
+            <div class="bg-white p-8 md:p-10 rounded-3xl border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group sm:col-span-2 md:col-span-1" data-aos="fade-up" data-aos-delay="150">
+                <div class="w-14 h-14 md:w-16 md:h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-5 md:mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                </div>
+                <h3 data-i18n="srv-3-title" class="font-bold text-lg md:text-xl mb-2 md:mb-3 text-gray-900">VIP Transport</h3>
+                <p data-i18n="srv-3-desc" class="text-gray-500 leading-relaxed text-sm md:text-base">International airport pickup service and exclusive cars ready on standby.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white overflow-hidden border-y border-gray-100 w-full">
+        <div class="text-center mb-10 px-4" data-aos="fade-up">
+            <h2 data-i18n="sec-reviews" class="text-3xl font-bold text-gray-900 tracking-tight">What Our Guests Say</h2>
+        </div>
+        <div class="marquee-container" data-aos="fade-up" data-aos-delay="100">
+            <div class="marquee-content" id="marquee-content">
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-gray-50 rounded-[2rem] md:rounded-[3rem] mt-10 md:mt-16 mb-6 md:mb-10">
+        <div class="text-center mb-10 md:mb-12" data-aos="fade-up">
+            <h2 data-i18n="sec-faq" class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mb-4">Villa Information & Rules</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition" data-aos="fade-right">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <h3 data-i18n="faq-yes" class="text-xl md:text-2xl font-bold text-gray-900">Allowed</h3>
+                </div>
+                <ul class="space-y-4 text-gray-600 text-sm md:text-base">
+                    <li class="flex gap-3 items-start"><span class="text-green-500 font-bold">✓</span> <span data-i18n="faq-y1">Bringing outside light food & beverages.</span></li>
+                    <li class="flex gap-3 items-start"><span class="text-green-500 font-bold">✓</span> <span data-i18n="faq-y2">Using kitchen facilities.</span></li>
+                    <li class="flex gap-3 items-start"><span class="text-green-500 font-bold">✓</span> <span data-i18n="faq-y3">Hosting small events in the garden area.</span></li>
+                </ul>
+            </div>
+
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition" data-aos="fade-left">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 bg-red-100 text-red-600 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </div>
+                    <h3 data-i18n="faq-no" class="text-xl md:text-2xl font-bold text-gray-900">Not Allowed</h3>
+                </div>
+                <ul class="space-y-4 text-gray-600 text-sm md:text-base">
+                    <li class="flex gap-3 items-start"><span class="text-red-500 font-bold">✗</span> <span data-i18n="faq-n1">Bringing pets.</span></li>
+                    <li class="flex gap-3 items-start"><span class="text-red-500 font-bold">✗</span> <span data-i18n="faq-n2">Smoking inside the room area.</span></li>
+                    <li class="flex gap-3 items-start"><span class="text-red-500 font-bold">✗</span> <span data-i18n="faq-n3">Bringing extra guests to stay.</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
     <section id="lokasi" class="pt-8 md:pt-10 pb-16 md:pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-gray-100 overflow-hidden">
         <div class="text-center mb-10 md:mb-16" data-aos="fade-up">
             <h2 data-i18n="sec-location" class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mb-4">Our Strategic Location</h2>
@@ -453,9 +528,9 @@
                 <div class="absolute bottom-6 left-6 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-lg z-10 border border-white/50">
                     <h4 class="font-bold text-gray-900 flex items-center gap-2">
                         <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        AIO Villa
+                        <span class="ui-villa-name">AIO Villa</span>
                     </h4>
-                    <p data-i18n="address" class="text-xs text-gray-500 mt-1">Selong Terraces No. B7, Selong Belanak, Lombok</p>
+                    <p data-i18n="address" class="text-xs text-gray-500 mt-1 ui-address-val">Selong Terraces No. B7, Selong Belanak, Lombok</p>
                 </div>
             </div>
 
@@ -503,7 +578,7 @@
             <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-screen filter blur-[80px] opacity-50 pointer-events-none"></div>
             
             <div class="w-full lg:w-1/2 relative z-10" data-aos="fade-right">
-                <h2 data-i18n="sec-contact" class="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Get in Touch</h2>
+                <h2 data-i18n="sec-contact" class="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Contact Management</h2>
                 <p data-i18n="contact-desc" class="text-blue-200 mb-8 leading-relaxed text-sm md:text-base max-w-md">Whether you have inquiries or wish to reserve your tropical villa retreat, our team is here to assist you. Reach out to us and start planning your dream tropical getaway in Lombok.</p>
                 
                 <div class="space-y-6 text-white">
@@ -511,13 +586,13 @@
                         <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-md">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                         </div>
-                        <div><p class="font-bold text-lg">Alamat</p><p data-i18n="address" class="text-blue-200 text-sm">Villa Aio, Selong Terraces, Selong Belanak, Lombok, Indonesia</p></div>
+                        <div><p class="font-bold text-lg">Alamat</p><p data-i18n="address" class="text-blue-200 text-sm ui-address-val">Villa Aio, Selong Terraces, Selong Belanak, Lombok, Indonesia</p></div>
                     </div>
                     <div class="flex items-center gap-4">
                         <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-md">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                         </div>
-                        <div><p class="font-bold text-lg">Email</p><p class="text-blue-200 text-sm">villaaiolombok@gmail.com</p></div>
+                        <div><p class="font-bold text-lg">Email</p><p class="text-blue-200 text-sm ui-email-val">villaaiolombok@gmail.com</p></div>
                     </div>
                     <a href="https://wa.me/6282342200355" target="_blank" class="flex items-center gap-4 group cursor-pointer inline-flex w-fit">
                         <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-md group-hover:bg-[#25D366] transition-colors duration-300">
@@ -525,7 +600,7 @@
                         </div>
                         <div>
                             <p class="font-bold text-lg">WhatsApp</p>
-                            <p class="text-blue-200 text-sm group-hover:text-white transition-colors duration-300">+62 823 4220 0355</p>
+                            <p class="text-blue-200 text-sm group-hover:text-white transition-colors duration-300 ui-phone-val">+62 823 4220 0355</p>
                         </div>
                     </a>
                 </div>
@@ -546,7 +621,7 @@
     <footer class="bg-gray-950 text-gray-400 py-12 md:py-16 border-t border-gray-900 relative overflow-hidden mt-4">
         <div class="absolute top-0 right-0 w-64 md:w-96 h-64 md:h-96 bg-blue-900/20 rounded-full blur-[60px] md:blur-[80px]"></div>
         <div class="max-w-7xl mx-auto px-4 text-center relative z-10">
-            <div class="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4 tracking-tighter">AIO<span class="font-light">Villa</span></div>
+            <div class="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4 tracking-tighter ui-villa-name">AIO<span class="font-light">Villa</span></div>
             <p data-i18n="footer-desc" class="mb-6 md:mb-8 text-sm md:text-base text-gray-500 max-w-sm mx-auto px-4">Redefining luxury in Selong Belanak, Lombok.</p>
             <div class="border-t border-gray-800 pt-6 md:pt-8 mt-6 md:mt-8">
                 <p class="text-xs md:text-sm">© 2026 AIO Villa Management.</p>
@@ -605,29 +680,24 @@
     <script>
         AOS.init({ duration: 900, easing: 'ease-out-cubic', once: true, offset: 50 });
         
-        // Gallery Swiper
         var swiper = new Swiper(".mySwiper", {
             slidesPerView: 1.1, spaceBetween: 15, grabCursor: true,
             pagination: { el: ".swiper-pagination", clickable: true },
             breakpoints: { 640: { slidesPerView: 1.5, spaceBetween: 20 }, 768: { slidesPerView: 2.2, spaceBetween: 30 }, 1024: { slidesPerView: 3.2, spaceBetween: 30 } }
         });
 
-        // Reflection Island Life Swiper (INTERAKTIF)
         var reflectionSwiper = new Swiper(".reflectionSwiper", {
             effect: "fade",
             fadeEffect: { crossFade: true },
             grabCursor: true,
             loop: true,
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-            },
-            navigation: {
-                nextEl: ".reflection-next",
-                prevEl: ".reflection-prev",
-            },
+            autoplay: { delay: 5000, disableOnInteraction: false },
+            navigation: { nextEl: ".reflection-next", prevEl: ".reflection-prev" },
         });
 
+        let currentLang = 'en';
+
+        // TRANSLATION LOGIC BASE ENGLISH
         const translations = {
             "id": {
                 "nav-home": "Beranda", "nav-detail": "Detail", "nav-gallery": "Galeri", "nav-story": "Cerita Kami", "nav-location": "Lokasi Maps", "nav-contact": "Kontak", "nav-avail": "Ketersediaan", "nav-status": "Cek Status",
@@ -638,21 +708,23 @@
                 "stat-bed": "Kamar Tidur Utama", "stat-bath": "Kamar Mandi Mewah", "stat-area": "Luas Bangunan", "stat-land": "Luas Tanah Tropis",
                 "sec-gallery": "Estetika di Setiap Sudut", "gal-1": "Kamar Mandi Alam", "gal-2": "Kamar Utama", "gal-3": "Lorong Tropis", "gal-4": "Pancuran Alam", "gal-5": "Pemandangan Memukau",
                 
-                // Story 1 Translations
                 "sec-story1": "Filosofi Aio", 
                 "s1-1-title": "Fase Bulan Beristirahat", "s1-1-desc": "Dalam bahasa Maori, 'aio' berarti fase bulan saat beristirahat. Tempat ini dibangun untuk menjadi tempat persembunyian yang tenang, ruang kontemplasi, dan kebebasan dari tekanan harian.",
                 "s1-2-title": "Keseimbangan Yin & Yang", "s1-2-desc": "Ironisnya, 'ayo' dalam Bahasa Indonesia bermakna 'Mari pergi!'. Villa ini menciptakan keseimbangan: siap untuk berbagai aktivitas yang Anda inginkan, namun tetap damai untuk relaksasi yang Anda butuhkan.",
                 "s1-3-title": "Filosofi Bunga Teratai", "s1-3-desc": "Layaknya teratai yang tampak anggun di atas air namun mendapat kekuatan dari akarnya di lumpur, Aio merepresentasikan usaha konstan menyeimbangkan spiritualitas dan kehidupan duniawi.",
                 
-                "sec-reviews": "Apa Kata Tamu Kami", 
-                
-                // Story 2 Translations (Slider Baru)
                 "sec-story2": "Refleksi Kehidupan Pulau", "story2-sub": "Kehidupan tercipta dari berbagai kontras, dan di Villa Aio kami menemukan kedamaian dengan hidup selaras di tengah lingkungan yang autentik ini.",
                 "s2-1-title": "Komunitas & Harmoni", "s2-1-desc": "Selong Belanak adalah komunitas yang hidup. Toleransi beragama sangat dijunjung tinggi. Nilai-nilai spiritual ini memperkuat warga, menghasilkan tingkat keamanan yang luar biasa dan keharmonisan di sekitarnya.",
                 "s2-2-title": "Aktivitas & Relaksasi", "s2-2-desc": "Berselancar di ombak terkenal, paralayang melintasi perbukitan, atau sekadar bermeditasi diiringi gemericik air. Kehangatan tropis mengajak Anda melepaskan segala penat dan menikmati setiap momen.",
                 "s2-3-title": "Kemewahan & Alam", "s2-3-desc": "Villa Aio merayakan keindahan material alami. Kayu jati, atap anyaman bambu buatan tangan, dipadukan serasi dengan batu alam murni. Inilah definisi dari kemewahan natural yang sesungguhnya.",
                 "s2-4-title": "Kuliner & Bersantap", "s2-4-desc": "Desa kami diberkati dengan berbagai restoran lokal yang lezat. Atau, Anda bisa bersantai di dalam dan menggunakan fasilitas dapur modern kami untuk menyiapkan hidangan spesial bersama keluarga.",
 
+                "sec-services": "Layanan Bintang Lima", "srv-1-title": "Layanan Concierge", "srv-1-desc": "Asistensi personal 24 jam penuh untuk mengatur seluruh aktivitas liburan Anda.",
+                "srv-2-title": "Koki Pribadi", "srv-2-desc": "Nikmati hidangan kuliner lokal dan internasional yang disajikan langsung di meja makan Anda.",
+                "srv-3-title": "Transportasi VIP", "srv-3-desc": "Layanan antar jemput bandara internasional dan mobil eksklusif siap sedia.",
+                "sec-reviews": "Apa Kata Tamu Kami", "sec-faq": "Informasi & Peraturan Villa",
+                "faq-yes": "Diperbolehkan", "faq-y1": "Membawa makanan & minuman ringan dari luar.", "faq-y2": "Menggunakan fasilitas dapur.", "faq-y3": "Mengadakan acara kecil di area taman.",
+                "faq-no": "Tidak Diperbolehkan", "faq-n1": "Membawa hewan peliharaan.", "faq-n2": "Merokok di dalam area kamar.", "faq-n3": "Membawa tamu menginap berlebih.",
                 "sec-location": "Lokasi Strategis Kami", "loc-desc": "Berada di kawasan premium Selong Belanak, menyuguhkan pemandangan alam Lombok yang memukau.",
                 "loc-1-title": "Pantai Selong Belanak", "loc-1-desc": "Surga Peselancar", 
                 "loc-2-title": "Bandara Int. Lombok", "loc-2-desc": "Akses Utama", 
@@ -672,21 +744,23 @@
                 "stat-bed": "Master Bedrooms", "stat-bath": "Luxury Bathrooms", "stat-area": "Building Area", "stat-land": "Tropical Land Area",
                 "sec-gallery": "Aesthetics in Every Corner", "gal-1": "Nature Bathroom", "gal-2": "Master Bedroom", "gal-3": "Tropical Hallway", "gal-4": "Nature Shower", "gal-5": "Panoramic Views",
                 
-                // Story 1 Translations
                 "sec-story1": "The Philosophy of Aio", 
                 "s1-1-title": "The Resting Moon", "s1-1-desc": "In Maori, 'aio' means the resting phase of the moon. Built to be a restful retreat, a place for contemplation and freedom from daily pressures in the Western world.",
                 "s1-2-title": "Yin & Yang Balance", "s1-2-desc": "Ironically, 'ayo' in Bahasa Indonesia means 'Let's go!'. The villa sets the tone for balance: poised for as much activity as you want, and as much relaxation as you need.",
                 "s1-3-title": "The Lotus Symbolism", "s1-3-desc": "Like a lotus appearing serene but gaining strength from its roots in the mud, Aio represents our constant striving for balance between the divine and the mundane.",
 
-                "sec-reviews": "What Our Guests Say", 
-                
-                // Story 2 Translations (Slider Baru)
                 "sec-story2": "A Little Reflection on Island Life", "story2-sub": "Life is made of contrasts, and at Villa Aio we find peace in living lightly amidst these authentic surroundings.",
                 "s2-1-title": "Community & Spirit", "s2-1-desc": "Selong Belanak is a thriving community. While the majority practice Islam, acceptance of other religions is a matter of course. This core of spirituality strengthens the community, producing a remarkably low crime rate and a beautiful working harmony.",
                 "s2-2-title": "Activity & Relaxation", "s2-2-desc": "Whether you want to surf the renowned waves, paraglide over the hills, or simply meditate to the sound of fountains. The tropical warmth and island breezes invite you to drop your cares and embrace the moment.",
                 "s2-3-title": "Nature & Luxury", "s2-3-desc": "Villa Aio is a celebration of beautiful natural materials. Teak wood is used extensively, roofs are covered in hand-woven bamboo skin, alongside beautiful natural stone. It is the epitome of barefoot luxury living.",
                 "s2-4-title": "Culinary & Dining", "s2-4-desc": "Selong Belanak is blessed with wonderful local restaurants. Alternatively, embrace the joy of staying in by cooking in our fully equipped kitchen, designed to host gatherings with a view of the sea.",
 
+                "sec-services": "Five-Star Services", "srv-1-title": "Concierge Service", "srv-1-desc": "Full 24-hour personal assistance to arrange all your holiday activities.",
+                "srv-2-title": "Private Chef", "srv-2-desc": "Enjoy local and international culinary delights served directly at your dining table.",
+                "srv-3-title": "VIP Transport", "srv-3-desc": "International airport pickup service and exclusive cars ready on standby.",
+                "sec-reviews": "What Our Guests Say", "sec-faq": "Villa Information & Rules",
+                "faq-yes": "Allowed", "faq-y1": "Bringing outside light food & beverages.", "faq-y2": "Using kitchen facilities.", "faq-y3": "Hosting small events in the garden area.",
+                "faq-no": "Not Allowed", "faq-n1": "Bringing pets.", "faq-n2": "Smoking inside the room area.", "faq-n3": "Bringing extra guests to stay.",
                 "sec-location": "Our Strategic Location", "loc-desc": "Located in the premium Selong Belanak area, offering stunning views of Lombok's nature.",
                 "loc-1-title": "Selong Belanak Beach", "loc-1-desc": "Surfer's Paradise", 
                 "loc-2-title": "Lombok Int. Airport", "loc-2-desc": "Main Access", 
@@ -699,34 +773,45 @@
             }
         };
 
-        let currentLang = 'en';
+        function initLangUI() {
+            document.getElementById('lang-desk-en').classList.remove('text-gray-400', 'font-normal');
+            document.getElementById('lang-desk-en').classList.add('text-white');
+            document.getElementById('lang-desk-id').classList.remove('text-white');
+            document.getElementById('lang-desk-id').classList.add('text-gray-400', 'font-normal');
+            
+            document.getElementById('lang-mob-en').classList.replace('text-gray-400', 'text-blue-600');
+            document.getElementById('lang-mob-id').classList.replace('text-blue-600', 'text-gray-400');
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[currentLang][key]) { el.innerHTML = translations[currentLang][key]; }
+            });
+        }
 
         function toggleLang() {
-            currentLang = currentLang === 'en' ? 'id' : 'en';
+            currentLang = currentLang === 'id' ? 'en' : 'id';
             
-            if(currentLang === 'id') {
-                document.getElementById('lang-desk-en').classList.add('text-gray-400', 'font-normal');
-                document.getElementById('lang-desk-en').classList.remove('text-white');
-                document.getElementById('lang-desk-id').classList.add('text-white');
-                document.getElementById('lang-desk-id').classList.remove('text-gray-400', 'font-normal');
-                
-                document.getElementById('lang-mob-en').classList.replace('text-blue-600', 'text-gray-400');
-                document.getElementById('lang-mob-id').classList.replace('text-gray-400', 'text-blue-600');
-            } else {
+            if(currentLang === 'en') {
                 document.getElementById('lang-desk-en').classList.remove('text-gray-400', 'font-normal');
                 document.getElementById('lang-desk-en').classList.add('text-white');
                 document.getElementById('lang-desk-id').classList.remove('text-white');
                 document.getElementById('lang-desk-id').classList.add('text-gray-400', 'font-normal');
                 
-                document.getElementById('lang-mob-id').classList.replace('text-blue-600', 'text-gray-400');
                 document.getElementById('lang-mob-en').classList.replace('text-gray-400', 'text-blue-600');
+                document.getElementById('lang-mob-id').classList.replace('text-blue-600', 'text-gray-400');
+            } else {
+                document.getElementById('lang-desk-id').classList.remove('text-gray-400', 'font-normal');
+                document.getElementById('lang-desk-id').classList.add('text-white');
+                document.getElementById('lang-desk-en').classList.remove('text-white');
+                document.getElementById('lang-desk-en').classList.add('text-gray-400', 'font-normal');
+                
+                document.getElementById('lang-mob-id').classList.replace('text-gray-400', 'text-blue-600');
+                document.getElementById('lang-mob-en').classList.replace('text-blue-600', 'text-gray-400');
             }
 
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if(translations[currentLang][key]) {
-                    el.innerHTML = translations[currentLang][key];
-                }
+                if(translations[currentLang][key]) { el.innerHTML = translations[currentLang][key]; }
             });
 
             Swal.fire({
@@ -782,6 +867,7 @@
             }
         }
 
+        // FLOATING NAVBAR FIX
         window.addEventListener('scroll', function() {
             const navbar = document.getElementById('navbar');
             const navContainer = document.getElementById('nav-container');
@@ -835,7 +921,7 @@
             } else {
                 Swal.fire({
                     icon: 'info',
-                    title: 'Oops!',
+                    title: currentLang === 'id' ? 'Oops!' : 'Oops!',
                     text: translations[currentLang]['alert-no-booking'],
                     confirmButtonColor: '#2563eb',
                     showClass: { popup: 'animate__animated animate__fadeInDown' },
@@ -884,28 +970,89 @@
         let fpInstance;
 
         async function fetchBookedDates() {
-            const { data, error } = await supabaseClient
-                .from('bookings')
-                .select('checkin, checkout')
-                .neq('status', 'cancelled');
+            try {
+                const { data, error } = await supabaseClient
+                    .from('bookings')
+                    .select('checkin, checkout')
+                    .neq('status', 'cancelled');
 
-            if (!error && data) {
-                let disabledDateRanges = data.map(booking => {
-                    return { from: booking.checkin, to: booking.checkout };
-                });
+                if (!error && data) {
+                    let disabledDateRanges = data.map(booking => {
+                        return { from: booking.checkin, to: booking.checkout };
+                    });
 
-                fpInstance = flatpickr("#tanggal-booking", {
-                    mode: "range",
-                    minDate: "today",
-                    dateFormat: "Y-m-d",
-                    disable: disabledDateRanges,
-                });
-            } else {
+                    fpInstance = flatpickr("#tanggal-booking", {
+                        mode: "range",
+                        minDate: "today",
+                        dateFormat: "Y-m-d",
+                        disable: disabledDateRanges,
+                    });
+                } else {
+                    fpInstance = flatpickr("#tanggal-booking", { mode: "range", minDate: "today", dateFormat: "Y-m-d" });
+                }
+            } catch (e) {
+                console.log("Offline mode kalender", e);
                 fpInstance = flatpickr("#tanggal-booking", { mode: "range", minDate: "today", dateFormat: "Y-m-d" });
             }
         }
 
-        document.addEventListener('DOMContentLoaded', fetchBookedDates);
+        // FUNGSI UPDATE DARI ADMIN CMS
+        async function fetchCMSContent() {
+            try {
+                // Menggunakan .limit(1) alih-alih .single() untuk menghindari error 406 (Not Acceptable) di Console jika data masih kosong
+                const { data, error } = await supabaseClient.from('web_content').select('*').eq('id', 1).limit(1);
+                
+                if(data && data.length > 0 && !error) {
+                    const cms = data[0];
+                    const langs = ['id', 'en'];
+                    langs.forEach(lang => {
+                        translations[lang]['hero-title'] = cms.hero_title || translations[lang]['hero-title'];
+                        translations[lang]['hero-desc'] = cms.hero_desc || translations[lang]['hero-desc'];
+                        translations[lang]['sec-detail'] = cms.about_title || translations[lang]['sec-detail'];
+                        translations[lang]['detail-desc'] = cms.about_desc || translations[lang]['detail-desc'];
+                        
+                        translations[lang]['srv-1-title'] = cms.srv1_title || translations[lang]['srv-1-title'];
+                        translations[lang]['srv-1-desc'] = cms.srv1_desc || translations[lang]['srv-1-desc'];
+                        translations[lang]['srv-2-title'] = cms.srv2_title || translations[lang]['srv-2-title'];
+                        translations[lang]['srv-2-desc'] = cms.srv2_desc || translations[lang]['srv-2-desc'];
+                        translations[lang]['srv-3-title'] = cms.srv3_title || translations[lang]['srv-3-title'];
+                        translations[lang]['srv-3-desc'] = cms.srv3_desc || translations[lang]['srv-3-desc'];
+
+                        translations[lang]['loc-1-title'] = cms.loc1_title || translations[lang]['loc-1-title'];
+                        translations[lang]['loc-1-desc'] = cms.loc1_desc || translations[lang]['loc-1-desc'];
+                        translations[lang]['loc-2-title'] = cms.loc2_title || translations[lang]['loc-2-title'];
+                        translations[lang]['loc-2-desc'] = cms.loc2_desc || translations[lang]['loc-2-desc'];
+                        translations[lang]['loc-3-title'] = cms.loc3_title || translations[lang]['loc-3-title'];
+                        translations[lang]['loc-3-desc'] = cms.loc3_desc || translations[lang]['loc-3-desc'];
+
+                        translations[lang]['address'] = cms.villa_address || translations[lang]['address'];
+                    });
+
+                    document.querySelectorAll('[data-i18n]').forEach(el => {
+                        const key = el.getAttribute('data-i18n');
+                        if(translations[currentLang][key]) { el.innerHTML = translations[currentLang][key]; }
+                    });
+
+                    if(cms.stat_bed) document.querySelectorAll('.ui-stat-bed').forEach(el => el.innerText = cms.stat_bed);
+                    if(cms.stat_bath) document.querySelectorAll('.ui-stat-bath').forEach(el => el.innerText = cms.stat_bath);
+                    if(cms.stat_area) document.querySelectorAll('.ui-stat-area').forEach(el => el.innerHTML = cms.stat_area + '<span class="text-lg md:text-xl">m²</span>');
+                    if(cms.stat_land) document.querySelectorAll('.ui-stat-land').forEach(el => el.innerHTML = cms.stat_land + '<span class="text-lg md:text-xl">m²</span>');
+
+                    document.querySelectorAll('.ui-villa-name').forEach(el => el.innerHTML = cms.villa_name ? cms.villa_name.replace('Villa', '<span class="font-light text-blue-600">Villa</span>') : 'AIO<span class="font-light text-blue-600">Villa</span>');
+                    document.querySelectorAll('.ui-address-val').forEach(el => el.innerText = cms.villa_address || 'Selong Terraces No. B7, Selong Belanak, Lombok');
+                    document.querySelectorAll('.ui-email-val').forEach(el => el.innerText = cms.contact_email || 'hello@aiovilla.com');
+                    document.querySelectorAll('.ui-phone-val').forEach(el => el.innerText = cms.contact_phone || '+62 812-3456-7890');
+                }
+            } catch(e) {
+                console.log("Menunggu sinkronisasi CMS dari database...", e);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initLangUI(); 
+            fetchBookedDates();
+            fetchCMSContent();
+        });
 
         document.getElementById('shortOrderForm').addEventListener('submit', function(e) {
             e.preventDefault();
