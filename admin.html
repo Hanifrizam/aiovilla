@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,12 +15,10 @@
         .spinner { border: 3px solid #f3f3f3; border-top: 3px solid #2563eb; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        /* Custom Scrollbar untuk tabel */
         .custom-scroll::-webkit-scrollbar { height: 6px; width: 6px; }
         .custom-scroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 8px;}
         .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px;}
         
-        /* Styling khusus SweetAlert2 */
         .swal2-title, .swal2-html-container { font-family: 'Plus Jakarta Sans', sans-serif !important; }
         .swal2-popup { border-radius: 1.5rem !important; }
     </style>
@@ -34,24 +32,24 @@
         <div class="bg-white/80 backdrop-blur-xl p-8 md:p-10 rounded-[2rem] shadow-2xl w-full max-w-md border border-white relative z-10">
             <div class="text-center mb-8">
                 <h1 class="text-4xl font-bold text-gray-900 tracking-tighter mb-2">AIO<span class="text-blue-600 font-light">Villa</span></h1>
-                <p class="text-sm text-gray-500 font-medium">Portal Manajemen Admin</p>
+                <p class="text-sm text-gray-500 font-medium" data-i18n="login-subtitle">Admin Management Portal</p>
             </div>
             
             <form id="login-form" class="space-y-5">
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1.5">Email Admin</label>
+                    <label class="block text-sm font-bold text-gray-700 mb-1.5" data-i18n="login-email">Admin Email</label>
                     <input type="email" id="admin-email" required class="w-full border border-gray-200 rounded-xl p-3.5 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none transition">
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1.5">Password</label>
+                    <label class="block text-sm font-bold text-gray-700 mb-1.5" data-i18n="login-pass">Password</label>
                     <input type="password" id="admin-password" required class="w-full border border-gray-200 rounded-xl p-3.5 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none transition">
                 </div>
                 <button type="submit" id="btn-login" class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 transition shadow-[0_10px_20px_rgba(37,99,235,0.3)] flex justify-center items-center h-14 mt-4">
-                    Masuk ke Dashboard
+                    <span data-i18n="btn-login">Login to Dashboard</span>
                 </button>
             </form>
             <div class="mt-8 text-center">
-                <a href="index.html" class="text-sm text-gray-500 hover:text-blue-600 font-medium transition">← Kembali ke Beranda Situs</a>
+                <a href="index.html" class="text-sm text-gray-500 hover:text-blue-600 font-medium transition" data-i18n="back-home">&larr; Back to Website</a>
             </div>
         </div>
     </div>
@@ -61,7 +59,7 @@
         <div id="admin-mobile-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[40] hidden lg:hidden transition-opacity duration-300 opacity-0" onclick="toggleAdminSidebar()"></div>
 
         <aside id="admin-sidebar" class="w-64 bg-white border-r border-gray-200 fixed h-screen z-[50] flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
-            <div class="h-20 flex items-center justify-between px-6 lg:px-8 border-b border-gray-100">
+            <div class="h-20 flex items-center justify-between px-6 lg:px-8 border-b border-gray-100 shrink-0">
                 <div class="text-2xl font-bold text-gray-900 tracking-tighter">AIO<span class="text-blue-600 font-light">Villa</span></div>
                 <button onclick="toggleAdminSidebar()" class="lg:hidden text-gray-500 hover:text-red-500 p-2 rounded-full transition">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -69,43 +67,56 @@
             </div>
             
             <div class="p-6 flex-1 overflow-y-auto">
-                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Menu Utama</p>
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4" data-i18n="menu-main">Main Menu</p>
                 <nav class="space-y-2">
                     <button onclick="switchTab('tab-stats'); if(window.innerWidth < 1024) toggleAdminSidebar();" id="nav-stats" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-50 text-blue-600 font-semibold transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                        Ringkasan
+                        <span data-i18n="nav-overview">Overview</span>
                     </button>
                     <button onclick="switchTab('tab-data'); if(window.innerWidth < 1024) toggleAdminSidebar();" id="nav-data" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
-                        Data Pesanan
+                        <span data-i18n="nav-orders">Order Data</span>
+                    </button>
+                </nav>
+
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 mt-8" data-i18n="menu-web">Website Mgt</p>
+                <nav class="space-y-2">
+                    <button onclick="switchTab('tab-cms'); if(window.innerWidth < 1024) toggleAdminSidebar();" id="nav-cms" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                        <span data-i18n="nav-edit">Edit Content</span>
+                    </button>
+                    <button onclick="switchTab('tab-preview'); if(window.innerWidth < 1024) toggleAdminSidebar();" id="nav-preview" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                        <span data-i18n="nav-preview">Live Preview</span>
                     </button>
                 </nav>
             </div>
-            <div class="p-6 border-t border-gray-100">
-                <button onclick="logoutAdmin()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 font-medium transition">
+            <div class="p-6 border-t border-gray-100 shrink-0">
+                <button onclick="toggleAdminLang()" class="w-full flex items-center justify-center gap-2 bg-gray-100 p-2.5 rounded-xl font-bold text-gray-800 mb-4 hover:bg-gray-200 transition">
+                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
+                    <span id="lang-ind-admin" class="text-gray-400 font-normal">ID</span> / <span id="lang-eng-admin" class="text-blue-600">EN</span>
+                </button>
+                <button onclick="logoutAdmin()" class="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl text-red-600 bg-red-50 hover:bg-red-100 font-bold transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                    Keluar Sistem
+                    <span data-i18n="btn-logout">Logout</span>
                 </button>
             </div>
         </aside>
 
         <div class="flex-1 lg:ml-64 flex flex-col min-h-screen w-full">
-            
             <header class="h-16 md:h-20 bg-white border-b border-gray-100 flex items-center justify-between px-4 lg:px-10 sticky top-0 z-10 w-full">
                 <div class="flex items-center gap-3">
                     <button onclick="toggleAdminSidebar()" class="lg:hidden text-gray-500 hover:text-blue-600 p-2 rounded-lg focus:outline-none transition">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </button>
-                    <h2 class="text-lg md:text-xl font-bold text-gray-800 truncate max-w-[150px] sm:max-w-xs" id="header-title">Ringkasan Dashboard</h2>
+                    <h2 class="text-lg md:text-xl font-bold text-gray-800 truncate max-w-[150px] sm:max-w-xs" id="header-title" data-i18n="head-overview">Dashboard Overview</h2>
                 </div>
                 <div class="flex items-center gap-3 md:gap-4 shrink-0">
                     <div class="hidden sm:block text-right">
                         <p class="text-sm font-bold text-gray-900">Admin AIO Villa</p>
                         <p class="text-xs text-gray-500">Super Administrator</p>
                     </div>
-                    <div class="w-8 h-8 md:w-10 md:h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold border-2 border-blue-100 text-sm md:text-base">
-                        A
-                    </div>
+                    <div class="w-8 h-8 md:w-10 md:h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold border-2 border-blue-100 text-sm md:text-base shadow-sm">A</div>
                 </div>
             </header>
 
@@ -113,65 +124,49 @@
                 
                 <div id="tab-stats" class="block animate-[fade-in_0.3s_ease-out]">
                     <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-10">
-                        <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                        <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition">
                             <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <p class="text-xs md:text-sm font-medium text-gray-500 mb-1">Total Pesanan Masuk</p>
-                                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900" id="stat-total">0</h3>
-                                </div>
+                                <div><p class="text-xs md:text-sm font-medium text-gray-500 mb-1" data-i18n="stat-total-lbl">Total Orders</p><h3 class="text-2xl md:text-3xl font-bold text-gray-900" id="stat-total">0</h3></div>
                                 <div class="p-2 md:p-3 bg-blue-50 text-blue-600 rounded-xl"><svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg></div>
                             </div>
-                            <p class="text-[10px] md:text-xs text-green-600 font-medium">Dari database sistem</p>
+                            <p class="text-[10px] md:text-xs text-green-600 font-medium" data-i18n="stat-db">From database</p>
                         </div>
-                        <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                        <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition">
                             <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <p class="text-xs md:text-sm font-medium text-gray-500 mb-1">Pesanan Menunggu</p>
-                                    <h3 class="text-2xl md:text-3xl font-bold text-yellow-600" id="stat-pending">0</h3>
-                                </div>
+                                <div><p class="text-xs md:text-sm font-medium text-gray-500 mb-1" data-i18n="stat-pending-lbl">Pending Orders</p><h3 class="text-2xl md:text-3xl font-bold text-yellow-600" id="stat-pending">0</h3></div>
                                 <div class="p-2 md:p-3 bg-yellow-50 text-yellow-600 rounded-xl"><svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
                             </div>
-                            <p class="text-[10px] md:text-xs text-gray-500 font-medium">Perlu dikonfirmasi</p>
+                            <p class="text-[10px] md:text-xs text-gray-500 font-medium" data-i18n="stat-req">Action required</p>
                         </div>
-                        <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                        <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition">
                             <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <p class="text-xs md:text-sm font-medium text-gray-500 mb-1">Pesanan Disetujui</p>
-                                    <h3 class="text-2xl md:text-3xl font-bold text-green-600" id="stat-confirmed">0</h3>
-                                </div>
+                                <div><p class="text-xs md:text-sm font-medium text-gray-500 mb-1" data-i18n="stat-conf-lbl">Confirmed Orders</p><h3 class="text-2xl md:text-3xl font-bold text-green-600" id="stat-confirmed">0</h3></div>
                                 <div class="p-2 md:p-3 bg-green-50 text-green-600 rounded-xl"><svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
                             </div>
-                            <p class="text-[10px] md:text-xs text-gray-500 font-medium">Telah dibayar</p>
+                            <p class="text-[10px] md:text-xs text-gray-500 font-medium" data-i18n="stat-paid">Successfully paid</p>
                         </div>
-                        <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                        <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition">
                             <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <p class="text-xs md:text-sm font-medium text-gray-500 mb-1">Pengunjung Web</p>
-                                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900">1,284</h3>
-                                </div>
+                                <div><p class="text-xs md:text-sm font-medium text-gray-500 mb-1" data-i18n="stat-vis-lbl">Web Visitors</p><h3 class="text-2xl md:text-3xl font-bold text-gray-900">1,284</h3></div>
                                 <div class="p-2 md:p-3 bg-purple-50 text-purple-600 rounded-xl"><svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></div>
                             </div>
-                            <p class="text-[10px] md:text-xs text-green-600 font-medium">↑ 12% bulan ini (Simulasi)</p>
+                            <p class="text-[10px] md:text-xs text-green-600 font-medium" data-i18n="stat-sim">↑ 12% this month (Simulated)</p>
                         </div>
                     </div>
                     
                     <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 md:p-8 text-center flex flex-col items-center justify-center min-h-[250px] md:min-h-[300px]">
-                        <div class="w-16 h-16 md:w-20 md:h-20 bg-blue-50 rounded-full flex items-center justify-center mb-4 text-blue-500">
-                            <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
-                        </div>
-                        <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-2">Pantau Pertumbuhan Bisnis</h3>
-                        <p class="text-sm md:text-base text-gray-500 max-w-md mx-auto">Silakan menuju tab <b>Data Pesanan</b> untuk melihat detail form pemesanan pelanggan, catatan khusus, serta melakukan konfirmasi atau penolakan reservasi.</p>
-                        <button onclick="switchTab('tab-data')" class="mt-6 bg-gray-900 text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-gray-800 transition shadow-sm">Lihat Data Pesanan</button>
+                        <div class="w-16 h-16 md:w-20 md:h-20 bg-blue-50 rounded-full flex items-center justify-center mb-4 text-blue-500"><svg class="w-8 h-8 md:w-10 md:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg></div>
+                        <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-2" data-i18n="monitor-title">Monitor Business Growth</h3>
+                        <p class="text-sm md:text-base text-gray-500 max-w-md mx-auto" data-i18n="monitor-desc">Head over to the <b>Order Data</b> tab to view customer booking details, special notes, and confirm or reject reservations.</p>
+                        <button onclick="switchTab('tab-data')" class="mt-6 bg-gray-900 text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-gray-800 transition shadow-sm" data-i18n="btn-view-data">View Order Data</button>
                     </div>
                 </div>
 
                 <div id="tab-data" class="hidden animate-[fade-in_0.3s_ease-out]">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-6">
-                        <div>
-                            <p class="text-xs md:text-sm text-gray-500 mt-1">Data sinkron otomatis dengan website pelanggan.</p>
-                        </div>
+                        <div><p class="text-xs md:text-sm text-gray-500 mt-1" data-i18n="sync-info">Data syncs automatically with the customer website.</p></div>
                         <button onclick="fetchBookings()" class="bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-gray-50 transition flex items-center gap-2 shadow-sm w-full sm:w-auto justify-center">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> Refresh Data
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> <span data-i18n="btn-refresh">Refresh Data</span>
                         </button>
                     </div>
 
@@ -180,18 +175,192 @@
                             <table class="w-full text-left border-collapse whitespace-nowrap min-w-[900px]">
                                 <thead>
                                     <tr class="bg-gray-50/80 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-widest font-bold">
-                                        <th class="p-4 md:p-5">Konsumen</th>
-                                        <th class="p-4 md:p-5">Tanggal Booking</th>
-                                        <th class="p-4 md:p-5 w-64">Catatan (Notes)</th>
-                                        <th class="p-4 md:p-5 text-center">Status</th>
-                                        <th class="p-4 md:p-5 text-center">Aksi</th>
+                                        <th class="p-4 md:p-5" data-i18n="th-customer">Customer</th>
+                                        <th class="p-4 md:p-5" data-i18n="th-date">Booking Date</th>
+                                        <th class="p-4 md:p-5 w-64" data-i18n="th-notes">Notes</th>
+                                        <th class="p-4 md:p-5 text-center" data-i18n="th-status">Status</th>
+                                        <th class="p-4 md:p-5 text-center" data-i18n="th-action">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="table-body" class="text-sm divide-y divide-gray-100">
-                                    <tr><td colspan="5" class="p-10 text-center text-gray-500 font-medium">Memuat data pesanan...</td></tr>
+                                    <tr><td colspan="5" class="p-10 text-center text-gray-500 font-medium" data-i18n="loading-data">Loading order data...</td></tr>
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                </div>
+
+                <div id="tab-cms" class="hidden animate-[fade-in_0.3s_ease-out]">
+                    
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900" data-i18n="cms-title">Edit Website Content</h2>
+                            <p class="text-sm text-gray-500 mt-1" data-i18n="cms-desc">Update the text and information displayed on the main website.</p>
+                        </div>
+                    </div>
+
+                    <form class="space-y-8" id="cms-form">
+                        
+                        <div class="bg-white rounded-[1.5rem] shadow-sm border border-gray-100 p-6 md:p-8">
+                            <h3 class="text-lg font-bold text-gray-900 mb-4 border-b border-gray-100 pb-2" data-i18n="cms-sec-hero">1. Hero Section (Top)</h3>
+                            <div class="bg-blue-50 text-blue-700 text-xs p-3 rounded-lg mb-5" data-i18n="cms-help-hero">This changes the main large text and description on the top of the homepage background.</div>
+                            
+                            <div class="space-y-5">
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Hero Headline</label>
+                                    <input type="text" id="cms-hero-title" value="Harmonizing with <br class='hidden sm:block'> Nature's Beauty" class="w-full border border-gray-200 rounded-xl p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Hero Description</label>
+                                    <textarea id="cms-hero-desc" rows="2" class="w-full border border-gray-200 rounded-xl p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm">Modern comfort draped in premium architecture for an unforgettable holiday experience.</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-[1.5rem] shadow-sm border border-gray-100 p-6 md:p-8">
+                            <h3 class="text-lg font-bold text-gray-900 mb-4 border-b border-gray-100 pb-2" data-i18n="cms-sec-about">2. About & Statistics</h3>
+                            <div class="bg-blue-50 text-blue-700 text-xs p-3 rounded-lg mb-5" data-i18n="cms-help-about">Controls the 'Hidden Luxury' section including the physical specifications of the villa.</div>
+                            
+                            <div class="space-y-5">
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Section Title</label>
+                                    <input type="text" id="cms-about-title" value="The Beautiful of Selong Belanak" class="w-full border border-gray-200 rounded-xl p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Description Paragraph</label>
+                                    <textarea id="cms-about-desc" rows="3" class="w-full border border-gray-200 rounded-xl p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm">Architectural design that respects nature. Offering full privacy, premium natural stone materials, and a perfect relaxing atmosphere in the exotic nature of Lombok.</textarea>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4 pt-4 border-t border-gray-100">
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1">Bedrooms</label>
+                                        <input type="text" id="cms-stat-bed" value="8" class="w-full border border-gray-200 rounded-lg p-2 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1">Bathrooms</label>
+                                        <input type="text" id="cms-stat-bath" value="10" class="w-full border border-gray-200 rounded-lg p-2 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1">Building Area</label>
+                                        <input type="text" id="cms-stat-area" value="500" class="w-full border border-gray-200 rounded-lg p-2 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1">Land Area</label>
+                                        <input type="text" id="cms-stat-land" value="2000" class="w-full border border-gray-200 rounded-lg p-2 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-[1.5rem] shadow-sm border border-gray-100 p-6 md:p-8">
+                            <h3 class="text-lg font-bold text-gray-900 mb-4 border-b border-gray-100 pb-2" data-i18n="cms-sec-services">3. Services Provided</h3>
+                            <div class="bg-blue-50 text-blue-700 text-xs p-3 rounded-lg mb-5" data-i18n="cms-help-services">Change the 3 main services offered to the guests.</div>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                                    <label class="block text-xs font-bold text-gray-700 mb-1">Service 1 Title</label>
+                                    <input type="text" id="cms-srv1-title" value="Concierge Service" class="w-full border border-gray-200 rounded-lg p-2 mb-3 bg-white outline-none text-xs">
+                                    <label class="block text-xs font-bold text-gray-700 mb-1">Service 1 Desc</label>
+                                    <textarea id="cms-srv1-desc" rows="3" class="w-full border border-gray-200 rounded-lg p-2 bg-white outline-none text-xs">Full 24-hour personal assistance to arrange all your holiday activities.</textarea>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                                    <label class="block text-xs font-bold text-gray-700 mb-1">Service 2 Title</label>
+                                    <input type="text" id="cms-srv2-title" value="Private Chef" class="w-full border border-gray-200 rounded-lg p-2 mb-3 bg-white outline-none text-xs">
+                                    <label class="block text-xs font-bold text-gray-700 mb-1">Service 2 Desc</label>
+                                    <textarea id="cms-srv2-desc" rows="3" class="w-full border border-gray-200 rounded-lg p-2 bg-white outline-none text-xs">Enjoy local and international culinary delights served directly at your dining table.</textarea>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                                    <label class="block text-xs font-bold text-gray-700 mb-1">Service 3 Title</label>
+                                    <input type="text" id="cms-srv3-title" value="VIP Transport" class="w-full border border-gray-200 rounded-lg p-2 mb-3 bg-white outline-none text-xs">
+                                    <label class="block text-xs font-bold text-gray-700 mb-1">Service 3 Desc</label>
+                                    <textarea id="cms-srv3-desc" rows="3" class="w-full border border-gray-200 rounded-lg p-2 bg-white outline-none text-xs">International airport pickup service and exclusive cars ready on standby.</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-[1.5rem] shadow-sm border border-gray-100 p-6 md:p-8">
+                            <h3 class="text-lg font-bold text-gray-900 mb-4 border-b border-gray-100 pb-2" data-i18n="cms-sec-location">4. Location Distances</h3>
+                            <div class="bg-blue-50 text-blue-700 text-xs p-3 rounded-lg mb-5" data-i18n="cms-help-location">Update the names of nearby attractions shown next to the Google Map.</div>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-700 mb-1">Location 1 Title</label>
+                                    <input type="text" id="cms-loc1-title" value="Selong Belanak Beach" class="w-full border border-gray-200 rounded-lg p-2 mb-3 bg-gray-50 text-xs">
+                                    <label class="block text-xs font-bold text-gray-700 mb-1">Location 1 Desc</label>
+                                    <input type="text" id="cms-loc1-desc" value="Surfer's Paradise" class="w-full border border-gray-200 rounded-lg p-2 bg-gray-50 text-xs">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-700 mb-1">Location 2 Title</label>
+                                    <input type="text" id="cms-loc2-title" value="Lombok Int. Airport" class="w-full border border-gray-200 rounded-lg p-2 mb-3 bg-gray-50 text-xs">
+                                    <label class="block text-xs font-bold text-gray-700 mb-1">Location 2 Desc</label>
+                                    <input type="text" id="cms-loc2-desc" value="Main Access" class="w-full border border-gray-200 rounded-lg p-2 bg-gray-50 text-xs">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-700 mb-1">Location 3 Title</label>
+                                    <input type="text" id="cms-loc3-title" value="Mandalika Circuit" class="w-full border border-gray-200 rounded-lg p-2 mb-3 bg-gray-50 text-xs">
+                                    <label class="block text-xs font-bold text-gray-700 mb-1">Location 3 Desc</label>
+                                    <input type="text" id="cms-loc3-desc" value="Int. Sports Center" class="w-full border border-gray-200 rounded-lg p-2 bg-gray-50 text-xs">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-[1.5rem] shadow-sm border border-gray-100 p-6 md:p-8">
+                            <h3 class="text-lg font-bold text-gray-900 mb-4 border-b border-gray-100 pb-2" data-i18n="cms-sec-contact">5. Contact & Footer</h3>
+                            <div class="bg-blue-50 text-blue-700 text-xs p-3 rounded-lg mb-5" data-i18n="cms-help-contact">Change the master Villa Name, Email, Phone, and the physical address displayed at the bottom.</div>
+                            
+                            <div class="space-y-5">
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Villa Brand Name</label>
+                                    <input type="text" id="cms-villa-name" value="AIO Villa" class="w-full border border-gray-200 rounded-xl p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Physical Address</label>
+                                    <textarea id="cms-address" rows="2" class="w-full border border-gray-200 rounded-xl p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm">Selong Terraces No. B7, Selong Belanak, Praya Barat, Central Lombok Regency, West Nusa Tenggara 83572</textarea>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-bold text-gray-700 mb-2">Official Email</label>
+                                        <input type="email" id="cms-email" value="hello@aiovilla.com" class="w-full border border-gray-200 rounded-xl p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-bold text-gray-700 mb-2">WhatsApp / Phone</label>
+                                        <input type="text" id="cms-phone" value="+62 812-3456-7890" class="w-full border border-gray-200 rounded-xl p-3 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sticky bottom-0 bg-gray-50/90 backdrop-blur pt-4 border-t border-gray-200 z-10 rounded-b-[1.5rem]">
+                            <button type="button" onclick="saveContentSettings()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition shadow-[0_10px_20px_rgba(37,99,235,0.3)] flex justify-center items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 
+                                <span data-i18n="btn-save-content">Save Changes to Website</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="tab-preview" class="hidden animate-[fade-in_0.3s_ease-out]">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-900" data-i18n="prev-title">Live Website Preview</h2>
+                            <p class="text-sm text-gray-500 mt-1" data-i18n="prev-desc">See how the website looks to your customers.</p>
+                        </div>
+                        <a href="index.html" target="_blank" class="bg-gray-900 text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-gray-800 transition flex items-center gap-2 shadow-sm">
+                            <span data-i18n="btn-open-tab">Open in New Tab</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        </a>
+                    </div>
+                    <div class="w-full h-[75vh] bg-white rounded-3xl shadow-lg border-4 border-gray-900 overflow-hidden relative">
+                        <div class="h-8 bg-gray-900 w-full flex items-center px-4 gap-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <div class="mx-auto text-xs text-gray-400 font-mono tracking-widest hidden sm:block">aiovilla.com</div>
+                        </div>
+                        <iframe src="index.html" class="w-full h-[calc(100%-2rem)] border-0"></iframe>
                     </div>
                 </div>
 
@@ -200,10 +369,86 @@
     </div>
 
     <script>
-        // Logika Tampilan Sidebar Mobile
+        const adminTranslations = {
+            "en": {
+                "login-subtitle": "Admin Management Portal", "login-email": "Admin Email", "login-pass": "Password", "btn-login": "Login to Dashboard", "back-home": "&larr; Back to Website",
+                "menu-main": "Main Menu", "nav-overview": "Overview", "nav-orders": "Order Data",
+                "menu-web": "Website Mgt", "nav-edit": "Edit Content", "nav-preview": "Live Preview", "btn-logout": "Logout",
+                "head-overview": "Dashboard Overview", "head-orders": "Order Management", "head-cms": "Content Management", "head-preview": "Website Preview",
+                "stat-total-lbl": "Total Orders", "stat-db": "From database", "stat-pending-lbl": "Pending Orders", "stat-req": "Action required", "stat-conf-lbl": "Confirmed Orders", "stat-paid": "Successfully paid", "stat-vis-lbl": "Web Visitors", "stat-sim": "↑ 12% this month (Simulated)",
+                "monitor-title": "Monitor Business Growth", "monitor-desc": "Head over to the <b>Order Data</b> tab to view customer booking details, special notes, and confirm or reject reservations.", "btn-view-data": "View Order Data",
+                "sync-info": "Data syncs automatically with the customer website.", "btn-refresh": "Refresh Data",
+                "th-customer": "Customer", "th-date": "Booking Date", "th-notes": "Notes", "th-status": "Status", "th-action": "Action", "loading-data": "Loading order data...",
+                "badge-wait": "Pending", "badge-conf": "Confirmed", "badge-rej": "Rejected", "act-done": "Completed", "act-cancel": "Cancelled", "no-notes": "No special notes", "no-orders": "No orders yet.", "load-fail": "Failed to fetch database.",
+                
+                "cms-title": "Edit Website Content", "cms-desc": "Update the text and information displayed on the main website.", 
+                "cms-sec-hero": "1. Hero Section (Top)", "cms-help-hero": "This changes the main large text and description on the top of the homepage background.",
+                "cms-sec-about": "2. About & Statistics", "cms-help-about": "Controls the 'Hidden Luxury' section including the physical specifications of the villa.",
+                "cms-sec-services": "3. Services Provided", "cms-help-services": "Change the 3 main services offered to the guests.",
+                "cms-sec-location": "4. Location Distances", "cms-help-location": "Update the names of nearby attractions shown next to the Google Map.",
+                "cms-sec-contact": "5. Contact & Footer", "cms-help-contact": "Change the master Villa Name, Email, Phone, and the physical address displayed at the bottom.",
+                "btn-save-content": "Save Changes to Website",
+                
+                "prev-title": "Live Website Preview", "prev-desc": "See how the website looks to your customers.", "btn-open-tab": "Open in New Tab",
+                "swal-login-fail": "Login Failed", "swal-cred-err": "Incorrect email or password!", "swal-welcome": "Welcome, Admin!",
+                "swal-approve-title": "Approve Order?", "swal-approve-text": "Dates will be blocked on the customer availability calendar.", "swal-yes": "Yes, Approve!", "swal-cancel": "Cancel",
+                "swal-reject-title": "Reject Order", "swal-reject-label": "Rejection reason (Will be read by customer)", "swal-reject-ph": "e.g., Sorry, the villa is under maintenance...", "swal-reject-btn": "Reject Order", "swal-reject-err": "Rejection reason is required!",
+                "swal-process": "Processing...", "swal-err-update": "Failed to update status. Check Admin RLS.", "swal-success-update": "Order status has been updated.",
+                "swal-save-title": "Saving Content...", "swal-save-desc": "Uploading changes to database.", "swal-save-ok": "Content Updated!", "swal-save-ok-desc": "Changes applied successfully."
+            },
+            "id": {
+                "login-subtitle": "Portal Manajemen Admin", "login-email": "Email Admin", "login-pass": "Password", "btn-login": "Masuk ke Dashboard", "back-home": "&larr; Kembali ke Beranda",
+                "menu-main": "Menu Utama", "nav-overview": "Ringkasan", "nav-orders": "Data Pesanan",
+                "menu-web": "Manajemen Web", "nav-edit": "Ubah Konten", "nav-preview": "Pratinjau Web", "btn-logout": "Keluar Sistem",
+                "head-overview": "Ringkasan Dashboard", "head-orders": "Manajemen Pesanan", "head-cms": "Kelola Konten", "head-preview": "Pratinjau Website",
+                "stat-total-lbl": "Total Pesanan Masuk", "stat-db": "Dari database sistem", "stat-pending-lbl": "Pesanan Menunggu", "stat-req": "Perlu dikonfirmasi", "stat-conf-lbl": "Pesanan Disetujui", "stat-paid": "Telah dibayar", "stat-vis-lbl": "Pengunjung Web", "stat-sim": "↑ 12% bulan ini (Simulasi)",
+                "monitor-title": "Pantau Pertumbuhan Bisnis", "monitor-desc": "Silakan menuju tab <b>Data Pesanan</b> untuk melihat detail form pemesanan pelanggan, catatan khusus, serta melakukan konfirmasi atau penolakan reservasi.", "btn-view-data": "Lihat Data Pesanan",
+                "sync-info": "Data otomatis tersinkronisasi dengan kalender ketersediaan website.", "btn-refresh": "Refresh Data",
+                "th-customer": "Konsumen", "th-date": "Tanggal Booking", "th-notes": "Catatan (Notes)", "th-status": "Status", "th-action": "Aksi Konfirmasi", "loading-data": "Memuat data pesanan...",
+                "badge-wait": "Menunggu", "badge-conf": "Disetujui", "badge-rej": "Ditolak", "act-done": "Selesai", "act-cancel": "Dibatalkan", "no-notes": "Tidak ada catatan", "no-orders": "Belum ada pesanan masuk.", "load-fail": "Gagal mengambil data dari database.",
+                
+                "cms-title": "Ubah Konten Website", "cms-desc": "Perbarui teks dan informasi yang ditampilkan pada halaman utama.", 
+                "cms-sec-hero": "1. Bagian Hero (Atas)", "cms-help-hero": "Ubah teks besar utama dan deskripsi yang tampil di atas background beranda.",
+                "cms-sec-about": "2. Tentang & Statistik", "cms-help-about": "Mengontrol bagian 'Kemewahan Tersembunyi' termasuk spesifikasi fisik villa (Kamar, Luas).",
+                "cms-sec-services": "3. Layanan Villa", "cms-help-services": "Ubah 3 layanan utama yang ditawarkan kepada tamu.",
+                "cms-sec-location": "4. Info Jarak Lokasi", "cms-help-location": "Perbarui nama tempat wisata terdekat yang tampil di samping Google Maps.",
+                "cms-sec-contact": "5. Kontak & Footer", "cms-help-contact": "Ubah Nama Brand Villa, Email, Telepon, dan alamat fisik yang tampil di bagian bawah web.",
+                "btn-save-content": "Simpan Perubahan ke Website",
+                
+                "prev-title": "Pratinjau Langsung", "prev-desc": "Lihat tampilan website dari sudut pandang pelanggan.", "btn-open-tab": "Buka di Tab Baru",
+                "swal-login-fail": "Gagal Masuk", "swal-cred-err": "Email atau password salah!", "swal-welcome": "Selamat datang, Admin!",
+                "swal-approve-title": "Setujui Pesanan?", "swal-approve-text": "Tanggal akan langsung diblokir di kalender ketersediaan pengguna.", "swal-yes": "Ya, Setujui!", "swal-cancel": "Batal",
+                "swal-reject-title": "Tolak Pesanan", "swal-reject-label": "Alasan penolakan (Akan dibaca oleh pemesan)", "swal-reject-ph": "Misal: Maaf, villa sedang maintenance...", "swal-reject-btn": "Tolak Pesanan", "swal-reject-err": "Alasan penolakan harus diisi!",
+                "swal-process": "Memproses...", "swal-err-update": "Gagal mengupdate status. Pastikan RLS Admin diizinkan.", "swal-success-update": "Status pesanan telah diperbarui.",
+                "swal-save-title": "Menyimpan Konten...", "swal-save-desc": "Mengunggah pembaruan ke database.", "swal-save-ok": "Konten Diperbarui!", "swal-save-ok-desc": "Perubahan berhasil disimpan dan langsung live."
+            }
+        };
+
+        let currentAdminLang = 'en';
+
+        function toggleAdminLang() {
+            currentAdminLang = currentAdminLang === 'en' ? 'id' : 'en';
+            if(currentAdminLang === 'id') {
+                document.getElementById('lang-eng-admin').classList.add('text-gray-400', 'font-normal');
+                document.getElementById('lang-eng-admin').classList.remove('text-blue-600', 'font-bold');
+                document.getElementById('lang-ind-admin').classList.add('text-blue-600', 'font-bold');
+                document.getElementById('lang-ind-admin').classList.remove('text-gray-400', 'font-normal');
+            } else {
+                document.getElementById('lang-ind-admin').classList.add('text-gray-400', 'font-normal');
+                document.getElementById('lang-ind-admin').classList.remove('text-blue-600', 'font-bold');
+                document.getElementById('lang-eng-admin').classList.add('text-blue-600', 'font-bold');
+                document.getElementById('lang-eng-admin').classList.remove('text-gray-400', 'font-normal');
+            }
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(adminTranslations[currentAdminLang][key]) { el.innerHTML = adminTranslations[currentAdminLang][key]; }
+            });
+            fetchBookings();
+        }
+
         const adminSidebar = document.getElementById('admin-sidebar');
         const adminOverlay = document.getElementById('admin-mobile-overlay');
-        
         function toggleAdminSidebar() {
             if (adminSidebar.classList.contains('-translate-x-full')) {
                 adminSidebar.classList.remove('-translate-x-full');
@@ -216,58 +461,35 @@
             }
         }
 
-        // INISIALISASI SUPABASE
         const SUPABASE_URL = 'https://oyumpfcjphymiaxlshjt.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_rnnwDTrBaZguDWkFqgWLEA_kcLo0CDZ';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Elemen UI
         const loginSection = document.getElementById('login-section');
         const dashboardSection = document.getElementById('dashboard-section');
         const tableBody = document.getElementById('table-body');
         const btnLogin = document.getElementById('btn-login');
 
-        // 1. Cek Sesi
         document.addEventListener('DOMContentLoaded', async () => {
+            currentAdminLang = 'id'; toggleAdminLang(); 
             const { data: { session } } = await supabaseClient.auth.getSession();
-            if (session) {
-                masukDashboard();
-            } else {
-                loginSection.classList.remove('hidden');
-                dashboardSection.classList.add('hidden');
-            }
+            if (session) { masukDashboard(); } else { loginSection.classList.remove('hidden'); dashboardSection.classList.add('hidden'); }
         });
 
-        // 2. Fungsi Login (Menggunakan SweetAlert)
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             btnLogin.innerHTML = '<div class="spinner"></div>';
-
             const email = document.getElementById('admin-email').value;
             const password = document.getElementById('admin-password').value;
-
             const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
 
             if (error) {
-                btnLogin.innerHTML = 'Masuk ke Dashboard';
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal Masuk',
-                    text: 'Email atau password salah!',
-                    confirmButtonColor: '#2563eb'
-                });
+                btnLogin.innerHTML = adminTranslations[currentAdminLang]['btn-login'];
+                Swal.fire({ icon: 'error', title: adminTranslations[currentAdminLang]['swal-login-fail'], text: adminTranslations[currentAdminLang]['swal-cred-err'], confirmButtonColor: '#2563eb' });
             } else {
-                btnLogin.innerHTML = 'Berhasil!';
-                Swal.fire({
-                    toast: true,
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Selamat datang, Admin!',
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(() => {
-                    masukDashboard(); 
-                    btnLogin.innerHTML = 'Masuk ke Dashboard';
+                btnLogin.innerHTML = '✔';
+                Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: adminTranslations[currentAdminLang]['swal-welcome'], showConfirmButton: false, timer: 1500 }).then(() => {
+                    masukDashboard(); btnLogin.innerHTML = adminTranslations[currentAdminLang]['btn-login'];
                 });
             }
         });
@@ -276,181 +498,181 @@
             loginSection.classList.add('hidden');
             dashboardSection.classList.remove('hidden');
             await fetchBookings();
+            await fetchCMSData(); 
         }
 
-        // 3. Tab Switching Logic
         function switchTab(tabId) {
             document.getElementById('tab-stats').classList.add('hidden');
             document.getElementById('tab-data').classList.add('hidden');
+            document.getElementById('tab-cms').classList.add('hidden');
+            document.getElementById('tab-preview').classList.add('hidden');
             
-            document.getElementById('nav-stats').className = 'w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition';
-            document.getElementById('nav-data').className = 'w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition';
+            const inactiveClass = 'w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition';
+            document.getElementById('nav-stats').className = inactiveClass;
+            document.getElementById('nav-data').className = inactiveClass;
+            document.getElementById('nav-cms').className = inactiveClass;
+            document.getElementById('nav-preview').className = inactiveClass;
             
             document.getElementById(tabId).classList.remove('hidden');
             
+            const activeClass = 'w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-50 text-blue-600 font-bold transition';
             if(tabId === 'tab-stats') {
-                document.getElementById('header-title').innerText = "Ringkasan Dashboard";
-                document.getElementById('nav-stats').className = 'w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-50 text-blue-600 font-bold transition';
-            } else {
-                document.getElementById('header-title').innerText = "Data Pesanan";
-                document.getElementById('nav-data').className = 'w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-50 text-blue-600 font-bold transition';
+                document.getElementById('header-title').innerText = adminTranslations[currentAdminLang]['head-overview']; document.getElementById('nav-stats').className = activeClass;
+            } else if (tabId === 'tab-data') {
+                document.getElementById('header-title').innerText = adminTranslations[currentAdminLang]['head-orders']; document.getElementById('nav-data').className = activeClass;
+            } else if (tabId === 'tab-cms') {
+                document.getElementById('header-title').innerText = adminTranslations[currentAdminLang]['head-cms']; document.getElementById('nav-cms').className = activeClass;
+            } else if (tabId === 'tab-preview') {
+                document.getElementById('header-title').innerText = adminTranslations[currentAdminLang]['head-preview']; document.getElementById('nav-preview').className = activeClass;
             }
         }
 
-        // 4. Fetch Data & Hitung Statistik
         async function fetchBookings() {
-            tableBody.innerHTML = '<tr><td colspan="5" class="p-10 text-center text-gray-500 font-medium"><div class="spinner border-blue-600 mx-auto mb-3"></div>Mengambil data...</td></tr>';
-            
-            const { data, error } = await supabaseClient
-                .from('bookings')
-                .select('*')
-                .order('created_at', { ascending: false });
+            tableBody.innerHTML = `<tr><td colspan="5" class="p-10 text-center text-gray-500 font-medium"><div class="spinner border-blue-600 mx-auto mb-3"></div>${adminTranslations[currentAdminLang]['loading-data']}</td></tr>`;
+            const { data, error } = await supabaseClient.from('bookings').select('*').order('created_at', { ascending: false });
 
-            if (error) {
-                console.error(error);
-                tableBody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-red-500">Gagal mengambil data dari database.</td></tr>`;
-                return;
-            }
+            if (error) { tableBody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-red-500">${adminTranslations[currentAdminLang]['load-fail']}</td></tr>`; return; }
 
-            let countPending = 0;
-            let countConfirmed = 0;
-            
-            if (data.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5" class="p-10 text-center text-gray-500">Belum ada pesanan masuk.</td></tr>';
-            } else {
+            let countPending = 0; let countConfirmed = 0;
+            if (data.length === 0) { tableBody.innerHTML = `<tr><td colspan="5" class="p-10 text-center text-gray-500">${adminTranslations[currentAdminLang]['no-orders']}</td></tr>`; } else {
                 let html = '';
                 data.forEach(item => {
                     if(item.status === 'pending') countPending++;
                     if(item.status === 'confirmed') countConfirmed++;
-
-                    const tglTransaksi = new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-                    const tglCheckin = new Date(item.checkin).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-                    const tglCheckout = new Date(item.checkout).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                    const locCode = currentAdminLang === 'id' ? 'id-ID' : 'en-US';
+                    const tglTransaksi = new Date(item.created_at).toLocaleDateString(locCode, { day: 'numeric', month: 'short', year: 'numeric' });
+                    const tglCheckin = new Date(item.checkin).toLocaleDateString(locCode, { day: 'numeric', month: 'short', year: 'numeric' });
+                    const tglCheckout = new Date(item.checkout).toLocaleDateString(locCode, { day: 'numeric', month: 'short', year: 'numeric' });
                     
-                    let statusBadge = '';
-                    let actionButtons = '';
-
+                    let statusBadge = ''; let actionButtons = '';
                     if(item.status === 'pending') {
-                        statusBadge = `<span class="bg-yellow-50 text-yellow-600 border border-yellow-200 px-2 py-1 md:px-3 md:py-1.5 rounded-lg text-[10px] md:text-xs font-bold uppercase tracking-wider">Menunggu</span>`;
+                        statusBadge = `<span class="bg-yellow-50 text-yellow-600 border border-yellow-200 px-2 py-1 md:px-3 md:py-1.5 rounded-lg text-[10px] md:text-xs font-bold uppercase tracking-wider">${adminTranslations[currentAdminLang]['badge-wait']}</span>`;
                         actionButtons = `
                             <div class="flex justify-center gap-2">
-                                <button onclick="confirmApproval('${item.id}')" class="bg-green-100 text-green-700 hover:bg-green-500 hover:text-white p-2 md:p-2.5 rounded-lg transition" title="Setujui">
-                                    <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                </button>
-                                <button onclick="confirmRejection('${item.id}')" class="bg-red-100 text-red-700 hover:bg-red-500 hover:text-white p-2 md:p-2.5 rounded-lg transition" title="Tolak">
-                                    <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                </button>
-                            </div>
-                        `;
+                                <button onclick="confirmApproval('${item.id}')" class="bg-green-100 text-green-700 hover:bg-green-500 hover:text-white p-2 md:p-2.5 rounded-lg transition"><svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button>
+                                <button onclick="confirmRejection('${item.id}')" class="bg-red-100 text-red-700 hover:bg-red-500 hover:text-white p-2 md:p-2.5 rounded-lg transition"><svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                            </div>`;
                     } else if(item.status === 'confirmed') {
-                        statusBadge = `<span class="bg-green-50 text-green-600 border border-green-200 px-2 py-1 md:px-3 md:py-1.5 rounded-lg text-[10px] md:text-xs font-bold uppercase tracking-wider">Disetujui</span>`;
-                        actionButtons = `<span class="text-gray-400 text-xs md:text-sm italic">Selesai</span>`;
+                        statusBadge = `<span class="bg-green-50 text-green-600 border border-green-200 px-2 py-1 md:px-3 md:py-1.5 rounded-lg text-[10px] md:text-xs font-bold uppercase tracking-wider">${adminTranslations[currentAdminLang]['badge-conf']}</span>`;
+                        actionButtons = `<span class="text-gray-400 text-xs md:text-sm italic">${adminTranslations[currentAdminLang]['act-done']}</span>`;
                     } else {
-                        statusBadge = `<span class="bg-red-50 text-red-600 border border-red-200 px-2 py-1 md:px-3 md:py-1.5 rounded-lg text-[10px] md:text-xs font-bold uppercase tracking-wider">Ditolak</span>`;
-                        actionButtons = `<span class="text-gray-400 text-xs md:text-sm italic">Dibatalkan</span>`;
+                        statusBadge = `<span class="bg-red-50 text-red-600 border border-red-200 px-2 py-1 md:px-3 md:py-1.5 rounded-lg text-[10px] md:text-xs font-bold uppercase tracking-wider">${adminTranslations[currentAdminLang]['badge-rej']}</span>`;
+                        actionButtons = `<span class="text-gray-400 text-xs md:text-sm italic">${adminTranslations[currentAdminLang]['act-cancel']}</span>`;
                     }
 
-                    const notesText = item.catatan ? item.catatan : '<i class="text-gray-400">Tidak ada catatan</i>';
-
+                    const notesText = item.catatan ? item.catatan : `<i class="text-gray-400">${adminTranslations[currentAdminLang]['no-notes']}</i>`;
                     html += `
                         <tr class="hover:bg-gray-50 transition border-b border-gray-50 last:border-0">
-                            <td class="p-4 md:p-5">
-                                <div class="font-bold text-gray-900 text-sm md:text-base whitespace-normal min-w-[150px]">${item.nama}</div>
-                                <div class="text-gray-500 text-xs md:text-sm mt-0.5">${item.email}</div>
-                                <div class="text-gray-500 text-xs md:text-sm font-mono mt-0.5">${item.telepon}</div>
-                            </td>
-                            <td class="p-4 md:p-5">
-                                <div class="flex items-center gap-2 mb-1">
-                                    <span class="text-[10px] md:text-xs font-bold text-gray-400 w-8">IN:</span>
-                                    <span class="text-xs md:text-sm font-semibold text-gray-800">${tglCheckin}</span>
-                                </div>
-                                <div class="flex items-center gap-2 mb-2">
-                                    <span class="text-[10px] md:text-xs font-bold text-gray-400 w-8">OUT:</span>
-                                    <span class="text-xs md:text-sm font-semibold text-gray-800">${tglCheckout}</span>
-                                </div>
-                                <div class="text-[10px] text-gray-400">Dipesan tgl: ${tglTransaksi}</div>
-                            </td>
-                            <td class="p-4 md:p-5">
-                                <div class="bg-gray-50 border border-gray-100 p-2 md:p-3 rounded-xl text-xs md:text-sm text-gray-600 whitespace-pre-wrap w-full md:min-w-[200px] h-full max-h-24 overflow-y-auto custom-scroll">${notesText}</div>
-                            </td>
+                            <td class="p-4 md:p-5"><div class="font-bold text-gray-900 text-sm md:text-base whitespace-normal min-w-[150px]">${item.nama}</div><div class="text-gray-500 text-xs md:text-sm mt-0.5">${item.email}</div><div class="text-gray-500 text-xs md:text-sm font-mono mt-0.5">${item.telepon}</div></td>
+                            <td class="p-4 md:p-5"><div class="flex items-center gap-2 mb-1"><span class="text-[10px] md:text-xs font-bold text-gray-400 w-8">IN:</span><span class="text-xs md:text-sm font-semibold text-gray-800">${tglCheckin}</span></div><div class="flex items-center gap-2 mb-2"><span class="text-[10px] md:text-xs font-bold text-gray-400 w-8">OUT:</span><span class="text-xs md:text-sm font-semibold text-gray-800">${tglCheckout}</span></div><div class="text-[10px] text-gray-400">Req: ${tglTransaksi}</div></td>
+                            <td class="p-4 md:p-5"><div class="bg-gray-50 border border-gray-100 p-2 md:p-3 rounded-xl text-xs md:text-sm text-gray-600 whitespace-pre-wrap w-full md:min-w-[200px] h-full max-h-24 overflow-y-auto custom-scroll">${notesText}</div></td>
                             <td class="p-4 md:p-5 text-center">${statusBadge}</td>
                             <td class="p-4 md:p-5 text-center">${actionButtons}</td>
-                        </tr>
-                    `;
+                        </tr>`;
                 });
                 tableBody.innerHTML = html;
             }
-
-            document.getElementById('stat-total').innerText = data.length;
-            document.getElementById('stat-pending').innerText = countPending;
-            document.getElementById('stat-confirmed').innerText = countConfirmed;
+            document.getElementById('stat-total').innerText = data.length; document.getElementById('stat-pending').innerText = countPending; document.getElementById('stat-confirmed').innerText = countConfirmed;
         }
 
-        // 5. Fungsi Konfirmasi SweetAlert
         function confirmApproval(id) {
-            Swal.fire({
-                title: 'Setujui Pesanan?',
-                text: "Tanggal akan langsung diblokir di kalender ketersediaan pengguna.",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#22c55e',
-                cancelButtonColor: '#9ca3af',
-                confirmButtonText: 'Ya, Setujui!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    processUpdateStatus(id, 'confirmed', null);
-                }
-            });
+            Swal.fire({ title: adminTranslations[currentAdminLang]['swal-approve-title'], text: adminTranslations[currentAdminLang]['swal-approve-text'], icon: 'question', showCancelButton: true, confirmButtonColor: '#22c55e', cancelButtonColor: '#9ca3af', confirmButtonText: adminTranslations[currentAdminLang]['swal-yes'], cancelButtonText: adminTranslations[currentAdminLang]['swal-cancel']
+            }).then((result) => { if (result.isConfirmed) { processUpdateStatus(id, 'confirmed', null); } });
         }
 
         function confirmRejection(id) {
-            Swal.fire({
-                title: 'Tolak Pesanan',
-                input: 'textarea',
-                inputLabel: 'Alasan penolakan (Akan dibaca oleh pemesan)',
-                inputPlaceholder: 'Misal: Maaf, villa sedang maintenance...',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#ef4444',
-                cancelButtonColor: '#9ca3af',
-                confirmButtonText: 'Tolak Pesanan',
-                cancelButtonText: 'Batal',
-                inputValidator: (value) => {
-                    if (!value) { return 'Alasan penolakan harus diisi!' }
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    processUpdateStatus(id, 'cancelled', result.value);
-                }
-            });
+            Swal.fire({ title: adminTranslations[currentAdminLang]['swal-reject-title'], input: 'textarea', inputLabel: adminTranslations[currentAdminLang]['swal-reject-label'], inputPlaceholder: adminTranslations[currentAdminLang]['swal-reject-ph'], icon: 'warning', showCancelButton: true, confirmButtonColor: '#ef4444', cancelButtonColor: '#9ca3af', confirmButtonText: adminTranslations[currentAdminLang]['swal-reject-btn'], cancelButtonText: adminTranslations[currentAdminLang]['swal-cancel'], inputValidator: (value) => { if (!value) { return adminTranslations[currentAdminLang]['swal-reject-err'] } }
+            }).then((result) => { if (result.isConfirmed) { processUpdateStatus(id, 'cancelled', result.value); } });
         }
 
         async function processUpdateStatus(id, newStatus, adminNote) {
-            Swal.fire({ title: 'Memproses...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+            Swal.fire({ title: adminTranslations[currentAdminLang]['swal-process'], allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+            const updatePayload = { status: newStatus }; if (adminNote) updatePayload.admin_notes = adminNote;
+            const { error } = await supabaseClient.from('bookings').update(updatePayload).eq('id', id);
+            if (error) { Swal.fire('Error', adminTranslations[currentAdminLang]['swal-err-update'], 'error'); console.error(error); } else { Swal.fire('Success', adminTranslations[currentAdminLang]['swal-success-update'], 'success'); fetchBookings(); }
+        }
 
-            const updatePayload = { status: newStatus };
-            if (adminNote) updatePayload.admin_notes = adminNote;
-
-            const { error } = await supabaseClient
-                .from('bookings')
-                .update(updatePayload)
-                .eq('id', id);
-
-            if (error) {
-                Swal.fire('Gagal!', 'Terjadi kesalahan saat mengupdate status.', 'error');
-                console.error(error);
-            } else {
-                Swal.fire('Berhasil!', 'Status pesanan telah diperbarui.', 'success');
-                fetchBookings();
+        // FUNGSI CMS (Ambil data & Simpan data ke tabel web_content)
+        async function fetchCMSData() {
+            try {
+                // Perbaikan: Ubah .single() menjadi .limit(1) untuk menghindari error 406
+                const { data, error } = await supabaseClient.from('web_content').select('*').eq('id', 1).limit(1);
+                
+                if(data && data.length > 0 && !error) {
+                    const cms = data[0]; // Ambil array index ke 0
+                    document.getElementById('cms-hero-title').value = cms.hero_title || '';
+                    document.getElementById('cms-hero-desc').value = cms.hero_desc || '';
+                    document.getElementById('cms-about-title').value = cms.about_title || '';
+                    document.getElementById('cms-about-desc').value = cms.about_desc || '';
+                    document.getElementById('cms-stat-bed').value = cms.stat_bed || '';
+                    document.getElementById('cms-stat-bath').value = cms.stat_bath || '';
+                    document.getElementById('cms-stat-area').value = cms.stat_area || '';
+                    document.getElementById('cms-stat-land').value = cms.stat_land || '';
+                    document.getElementById('cms-srv1-title').value = cms.srv1_title || '';
+                    document.getElementById('cms-srv1-desc').value = cms.srv1_desc || '';
+                    document.getElementById('cms-srv2-title').value = cms.srv2_title || '';
+                    document.getElementById('cms-srv2-desc').value = cms.srv2_desc || '';
+                    document.getElementById('cms-srv3-title').value = cms.srv3_title || '';
+                    document.getElementById('cms-srv3-desc').value = cms.srv3_desc || '';
+                    document.getElementById('cms-loc1-title').value = cms.loc1_title || '';
+                    document.getElementById('cms-loc1-desc').value = cms.loc1_desc || '';
+                    document.getElementById('cms-loc2-title').value = cms.loc2_title || '';
+                    document.getElementById('cms-loc2-desc').value = cms.loc2_desc || '';
+                    document.getElementById('cms-loc3-title').value = cms.loc3_title || '';
+                    document.getElementById('cms-loc3-desc').value = cms.loc3_desc || '';
+                    document.getElementById('cms-villa-name').value = cms.villa_name || '';
+                    document.getElementById('cms-address').value = cms.villa_address || '';
+                    document.getElementById('cms-email').value = cms.contact_email || '';
+                    document.getElementById('cms-phone').value = cms.contact_phone || '';
+                }
+            } catch(e) {
+                console.log("Menunggu data CMS pertama dibuat...", e);
             }
         }
 
-        // 6. Logout
-        async function logoutAdmin() {
-            await supabaseClient.auth.signOut();
-            window.location.reload();
+        async function saveContentSettings() {
+            Swal.fire({ title: adminTranslations[currentAdminLang]['swal-save-title'], text: adminTranslations[currentAdminLang]['swal-save-desc'], allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
+            const payload = {
+                hero_title: document.getElementById('cms-hero-title').value,
+                hero_desc: document.getElementById('cms-hero-desc').value,
+                about_title: document.getElementById('cms-about-title').value,
+                about_desc: document.getElementById('cms-about-desc').value,
+                stat_bed: document.getElementById('cms-stat-bed').value,
+                stat_bath: document.getElementById('cms-stat-bath').value,
+                stat_area: document.getElementById('cms-stat-area').value,
+                stat_land: document.getElementById('cms-stat-land').value,
+                srv1_title: document.getElementById('cms-srv1-title').value,
+                srv1_desc: document.getElementById('cms-srv1-desc').value,
+                srv2_title: document.getElementById('cms-srv2-title').value,
+                srv2_desc: document.getElementById('cms-srv2-desc').value,
+                srv3_title: document.getElementById('cms-srv3-title').value,
+                srv3_desc: document.getElementById('cms-srv3-desc').value,
+                loc1_title: document.getElementById('cms-loc1-title').value,
+                loc1_desc: document.getElementById('cms-loc1-desc').value,
+                loc2_title: document.getElementById('cms-loc2-title').value,
+                loc2_desc: document.getElementById('cms-loc2-desc').value,
+                loc3_title: document.getElementById('cms-loc3-title').value,
+                loc3_desc: document.getElementById('cms-loc3-desc').value,
+                villa_name: document.getElementById('cms-villa-name').value,
+                villa_address: document.getElementById('cms-address').value,
+                contact_email: document.getElementById('cms-email').value,
+                contact_phone: document.getElementById('cms-phone').value
+            };
+
+            // Gunakan upsert agar jika id=1 tidak ada, sistem akan membuatnya
+            const { error } = await supabaseClient.from('web_content').upsert({ id: 1, ...payload });
+
+            if (error) {
+                Swal.fire('Error', 'Failed to save content. Check database permissions.', 'error');
+            } else {
+                Swal.fire({ icon: 'success', title: adminTranslations[currentAdminLang]['swal-save-ok'], text: adminTranslations[currentAdminLang]['swal-save-ok-desc'], confirmButtonColor: '#2563eb' });
+                const iframe = document.querySelector('iframe');
+                if(iframe) iframe.src = iframe.src;
+            }
         }
+
+        async function logoutAdmin() { await supabaseClient.auth.signOut(); window.location.reload(); }
     </script>
 </body>
 </html>
