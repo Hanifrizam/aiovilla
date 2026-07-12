@@ -123,7 +123,7 @@
             <main class="p-4 md:p-6 lg:p-10 flex-1 w-full overflow-x-hidden">
                 
                 <div id="tab-stats" class="block animate-[fade-in_0.3s_ease-out]">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-10">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-6 mb-8 md:mb-10">
                         <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition">
                             <div class="flex justify-between items-start mb-4">
                                 <div><p class="text-xs md:text-sm font-medium text-gray-500 mb-1" data-i18n="stat-total-lbl">Total Orders</p><h3 class="text-2xl md:text-3xl font-bold text-gray-900" id="stat-total">0</h3></div>
@@ -140,10 +140,17 @@
                         </div>
                         <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition">
                             <div class="flex justify-between items-start mb-4">
-                                <div><p class="text-xs md:text-sm font-medium text-gray-500 mb-1" data-i18n="stat-conf-lbl">Confirmed Orders</p><h3 class="text-2xl md:text-3xl font-bold text-green-600" id="stat-confirmed">0</h3></div>
-                                <div class="p-2 md:p-3 bg-green-50 text-green-600 rounded-xl"><svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+                                <div><p class="text-xs md:text-sm font-medium text-gray-500 mb-1" data-i18n="stat-conf-lbl">Approved</p><h3 class="text-2xl md:text-3xl font-bold text-green-600" id="stat-confirmed">0</h3></div>
+                                <div class="p-2 md:p-3 bg-green-50 text-green-600 rounded-xl"><svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
                             </div>
-                            <p class="text-[10px] md:text-xs text-gray-500 font-medium" data-i18n="stat-paid">Successfully paid</p>
+                            <p class="text-[10px] md:text-xs text-gray-500 font-medium" data-i18n="stat-approved">Approved bookings</p>
+                        </div>
+                        <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition">
+                            <div class="flex justify-between items-start mb-4">
+                                <div><p class="text-xs md:text-sm font-medium text-gray-500 mb-1" data-i18n="stat-verified-lbl">Paid / Verified</p><h3 class="text-2xl md:text-3xl font-bold text-emerald-600" id="stat-verified">0</h3></div>
+                                <div class="p-2 md:p-3 bg-emerald-50 text-emerald-600 rounded-xl"><svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+                            </div>
+                            <p class="text-[10px] md:text-xs text-green-600 font-medium" data-i18n="stat-paid">Payment received</p>
                         </div>
                         <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition">
                             <div class="flex justify-between items-start mb-4">
@@ -179,11 +186,12 @@
                                         <th class="p-4 md:p-5" data-i18n="th-date">Booking Date</th>
                                         <th class="p-4 md:p-5 w-64" data-i18n="th-notes">Notes</th>
                                         <th class="p-4 md:p-5 text-center" data-i18n="th-status">Status</th>
+                                        <th class="p-4 md:p-5 text-center" data-i18n="th-payment">Payment</th>
                                         <th class="p-4 md:p-5 text-center" data-i18n="th-action">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="table-body" class="text-sm divide-y divide-gray-100">
-                                    <tr><td colspan="5" class="p-10 text-center text-gray-500 font-medium" data-i18n="loading-data">Loading order data...</td></tr>
+                                    <tr><td colspan="6" class="p-10 text-center text-gray-500 font-medium" data-i18n="loading-data">Loading order data...</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -375,11 +383,12 @@
                 "menu-main": "Main Menu", "nav-overview": "Overview", "nav-orders": "Order Data",
                 "menu-web": "Website Mgt", "nav-edit": "Edit Content", "nav-preview": "Live Preview", "btn-logout": "Logout",
                 "head-overview": "Dashboard Overview", "head-orders": "Order Management", "head-cms": "Content Management", "head-preview": "Website Preview",
-                "stat-total-lbl": "Total Orders", "stat-db": "From database", "stat-pending-lbl": "Pending Orders", "stat-req": "Action required", "stat-conf-lbl": "Confirmed Orders", "stat-paid": "Successfully paid", "stat-vis-lbl": "Web Visitors", "stat-sim": "↑ 12% this month (Simulated)",
+                "stat-total-lbl": "Total Orders", "stat-db": "From database", "stat-pending-lbl": "Pending Orders", "stat-req": "Action required", "stat-conf-lbl": "Approved", "stat-approved": "Approved bookings", "stat-verified-lbl": "Paid / Verified", "stat-paid": "Payment received", "stat-vis-lbl": "Web Visitors", "stat-sim": "↑ 12% this month (Simulated)",
                 "monitor-title": "Monitor Business Growth", "monitor-desc": "Head over to the <b>Order Data</b> tab to view customer booking details, special notes, and confirm or reject reservations.", "btn-view-data": "View Order Data",
                 "sync-info": "Data syncs automatically with the customer website.", "btn-refresh": "Refresh Data",
-                "th-customer": "Customer", "th-date": "Booking Date", "th-notes": "Notes", "th-status": "Status", "th-action": "Action", "loading-data": "Loading order data...",
+                "th-customer": "Customer", "th-date": "Booking Date", "th-notes": "Notes", "th-status": "Status", "th-payment": "Payment", "th-action": "Action", "loading-data": "Loading order data...",
                 "badge-wait": "Pending", "badge-conf": "Confirmed", "badge-rej": "Rejected", "act-done": "Completed", "act-cancel": "Cancelled", "no-notes": "No special notes", "no-orders": "No orders yet.", "load-fail": "Failed to fetch database.",
+                "pay-unpaid": "Unpaid", "pay-pending": "Pending Verification", "pay-verified": "Paid", "btn-verify-pay": "Verify", "btn-view-proof": "View Proof",
                 
                 "cms-title": "Edit Website Content", "cms-desc": "Update the text and information displayed on the main website.", 
                 "cms-sec-hero": "1. Hero Section (Top)", "cms-help-hero": "This changes the main large text and description on the top of the homepage background.",
@@ -394,18 +403,20 @@
                 "swal-approve-title": "Approve Order?", "swal-approve-text": "Dates will be blocked on the customer availability calendar.", "swal-yes": "Yes, Approve!", "swal-cancel": "Cancel",
                 "swal-reject-title": "Reject Order", "swal-reject-label": "Rejection reason (Will be read by customer)", "swal-reject-ph": "e.g., Sorry, the villa is under maintenance...", "swal-reject-btn": "Reject Order", "swal-reject-err": "Rejection reason is required!",
                 "swal-process": "Processing...", "swal-err-update": "Failed to update status. Check Admin RLS.", "swal-success-update": "Order status has been updated.",
-                "swal-save-title": "Saving Content...", "swal-save-desc": "Uploading changes to database.", "swal-save-ok": "Content Updated!", "swal-save-ok-desc": "Changes applied successfully."
+                "swal-save-title": "Saving Content...", "swal-save-desc": "Uploading changes to database.", "swal-save-ok": "Content Updated!", "swal-save-ok-desc": "Changes applied successfully.",
+                "swal-verify-title": "Verify Payment?", "swal-verify-text": "Confirm that the payment proof is valid and mark as paid.", "swal-verify-btn": "Yes, Verify!", "swal-verify-success": "Payment has been verified successfully."
             },
             "id": {
                 "login-subtitle": "Portal Manajemen Admin", "login-email": "Email Admin", "login-pass": "Password", "btn-login": "Masuk ke Dashboard", "back-home": "&larr; Kembali ke Beranda",
                 "menu-main": "Menu Utama", "nav-overview": "Ringkasan", "nav-orders": "Data Pesanan",
                 "menu-web": "Manajemen Web", "nav-edit": "Ubah Konten", "nav-preview": "Pratinjau Web", "btn-logout": "Keluar Sistem",
                 "head-overview": "Ringkasan Dashboard", "head-orders": "Manajemen Pesanan", "head-cms": "Kelola Konten", "head-preview": "Pratinjau Website",
-                "stat-total-lbl": "Total Pesanan Masuk", "stat-db": "Dari database sistem", "stat-pending-lbl": "Pesanan Menunggu", "stat-req": "Perlu dikonfirmasi", "stat-conf-lbl": "Pesanan Disetujui", "stat-paid": "Telah dibayar", "stat-vis-lbl": "Pengunjung Web", "stat-sim": "↑ 12% bulan ini (Simulasi)",
+                "stat-total-lbl": "Total Pesanan Masuk", "stat-db": "Dari database sistem", "stat-pending-lbl": "Pesanan Menunggu", "stat-req": "Perlu dikonfirmasi", "stat-conf-lbl": "Disetujui", "stat-approved": "Pesanan disetujui", "stat-verified-lbl": "Lunas", "stat-paid": "Pembayaran diterima", "stat-vis-lbl": "Pengunjung Web", "stat-sim": "↑ 12% bulan ini (Simulasi)",
                 "monitor-title": "Pantau Pertumbuhan Bisnis", "monitor-desc": "Silakan menuju tab <b>Data Pesanan</b> untuk melihat detail form pemesanan pelanggan, catatan khusus, serta melakukan konfirmasi atau penolakan reservasi.", "btn-view-data": "Lihat Data Pesanan",
                 "sync-info": "Data otomatis tersinkronisasi dengan kalender ketersediaan website.", "btn-refresh": "Refresh Data",
-                "th-customer": "Konsumen", "th-date": "Tanggal Booking", "th-notes": "Catatan (Notes)", "th-status": "Status", "th-action": "Aksi Konfirmasi", "loading-data": "Memuat data pesanan...",
+                "th-customer": "Konsumen", "th-date": "Tanggal Booking", "th-notes": "Catatan (Notes)", "th-status": "Status", "th-payment": "Pembayaran", "th-action": "Aksi Konfirmasi", "loading-data": "Memuat data pesanan...",
                 "badge-wait": "Menunggu", "badge-conf": "Disetujui", "badge-rej": "Ditolak", "act-done": "Selesai", "act-cancel": "Dibatalkan", "no-notes": "Tidak ada catatan", "no-orders": "Belum ada pesanan masuk.", "load-fail": "Gagal mengambil data dari database.",
+                "pay-unpaid": "Belum Bayar", "pay-pending": "Menunggu Verifikasi", "pay-verified": "Lunas", "btn-verify-pay": "Verifikasi", "btn-view-proof": "Lihat Bukti",
                 
                 "cms-title": "Ubah Konten Website", "cms-desc": "Perbarui teks dan informasi yang ditampilkan pada halaman utama.", 
                 "cms-sec-hero": "1. Bagian Hero (Atas)", "cms-help-hero": "Ubah teks besar utama dan deskripsi yang tampil di atas background beranda.",
@@ -420,7 +431,8 @@
                 "swal-approve-title": "Setujui Pesanan?", "swal-approve-text": "Tanggal akan langsung diblokir di kalender ketersediaan pengguna.", "swal-yes": "Ya, Setujui!", "swal-cancel": "Batal",
                 "swal-reject-title": "Tolak Pesanan", "swal-reject-label": "Alasan penolakan (Akan dibaca oleh pemesan)", "swal-reject-ph": "Misal: Maaf, villa sedang maintenance...", "swal-reject-btn": "Tolak Pesanan", "swal-reject-err": "Alasan penolakan harus diisi!",
                 "swal-process": "Memproses...", "swal-err-update": "Gagal mengupdate status. Pastikan RLS Admin diizinkan.", "swal-success-update": "Status pesanan telah diperbarui.",
-                "swal-save-title": "Menyimpan Konten...", "swal-save-desc": "Mengunggah pembaruan ke database.", "swal-save-ok": "Konten Diperbarui!", "swal-save-ok-desc": "Perubahan berhasil disimpan dan langsung live."
+                "swal-save-title": "Menyimpan Konten...", "swal-save-desc": "Mengunggah pembaruan ke database.", "swal-save-ok": "Konten Diperbarui!", "swal-save-ok-desc": "Perubahan berhasil disimpan dan langsung live.",
+                "swal-verify-title": "Verifikasi Pembayaran?", "swal-verify-text": "Konfirmasi bahwa bukti pembayaran valid dan tandai sebagai lunas.", "swal-verify-btn": "Ya, Verifikasi!", "swal-verify-success": "Pembayaran berhasil diverifikasi."
             }
         };
 
@@ -528,23 +540,26 @@
         }
 
         async function fetchBookings() {
-            tableBody.innerHTML = `<tr><td colspan="5" class="p-10 text-center text-gray-500 font-medium"><div class="spinner border-blue-600 mx-auto mb-3"></div>${adminTranslations[currentAdminLang]['loading-data']}</td></tr>`;
+            tableBody.innerHTML = `<tr><td colspan="6" class="p-10 text-center text-gray-500 font-medium"><div class="spinner border-blue-600 mx-auto mb-3"></div>${adminTranslations[currentAdminLang]['loading-data']}</td></tr>`;
             const { data, error } = await supabaseClient.from('bookings').select('*').order('created_at', { ascending: false });
 
-            if (error) { tableBody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-red-500">${adminTranslations[currentAdminLang]['load-fail']}</td></tr>`; return; }
+            if (error) { tableBody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-red-500">${adminTranslations[currentAdminLang]['load-fail']}</td></tr>`; return; }
 
-            let countPending = 0; let countConfirmed = 0;
-            if (data.length === 0) { tableBody.innerHTML = `<tr><td colspan="5" class="p-10 text-center text-gray-500">${adminTranslations[currentAdminLang]['no-orders']}</td></tr>`; } else {
+            let countPending = 0; let countConfirmed = 0; let countVerified = 0;
+            if (data.length === 0) { tableBody.innerHTML = `<tr><td colspan="6" class="p-10 text-center text-gray-500">${adminTranslations[currentAdminLang]['no-orders']}</td></tr>`; } else {
                 let html = '';
                 data.forEach(item => {
                     if(item.status === 'pending') countPending++;
-                    if(item.status === 'confirmed') countConfirmed++;
+                    if(item.status === 'confirmed') {
+                        countConfirmed++;
+                        if(item.payment_status === 'verified') countVerified++;
+                    }
                     const locCode = currentAdminLang === 'id' ? 'id-ID' : 'en-US';
                     const tglTransaksi = new Date(item.created_at).toLocaleDateString(locCode, { day: 'numeric', month: 'short', year: 'numeric' });
                     const tglCheckin = new Date(item.checkin).toLocaleDateString(locCode, { day: 'numeric', month: 'short', year: 'numeric' });
                     const tglCheckout = new Date(item.checkout).toLocaleDateString(locCode, { day: 'numeric', month: 'short', year: 'numeric' });
                     
-                    let statusBadge = ''; let actionButtons = '';
+                    let statusBadge = ''; let actionButtons = ''; let paymentCell = '';
                     if(item.status === 'pending') {
                         statusBadge = `<span class="bg-yellow-50 text-yellow-600 border border-yellow-200 px-2 py-1 md:px-3 md:py-1.5 rounded-lg text-[10px] md:text-xs font-bold uppercase tracking-wider">${adminTranslations[currentAdminLang]['badge-wait']}</span>`;
                         actionButtons = `
@@ -552,12 +567,34 @@
                                 <button onclick="confirmApproval('${item.id}')" class="bg-green-100 text-green-700 hover:bg-green-500 hover:text-white p-2 md:p-2.5 rounded-lg transition"><svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button>
                                 <button onclick="confirmRejection('${item.id}')" class="bg-red-100 text-red-700 hover:bg-red-500 hover:text-white p-2 md:p-2.5 rounded-lg transition"><svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
                             </div>`;
+                        paymentCell = `<span class="text-gray-400 text-xs">-</span>`;
                     } else if(item.status === 'confirmed') {
                         statusBadge = `<span class="bg-green-50 text-green-600 border border-green-200 px-2 py-1 md:px-3 md:py-1.5 rounded-lg text-[10px] md:text-xs font-bold uppercase tracking-wider">${adminTranslations[currentAdminLang]['badge-conf']}</span>`;
-                        actionButtons = `<span class="text-gray-400 text-xs md:text-sm italic">${adminTranslations[currentAdminLang]['act-done']}</span>`;
+                        const pStatus = item.payment_status || 'pending';
+                        if (pStatus === 'verified') {
+                            paymentCell = `<span class="bg-green-50 text-green-600 border border-green-200 px-2 py-1 md:px-3 md:py-1.5 rounded-lg text-[10px] md:text-xs font-bold uppercase tracking-wider">${adminTranslations[currentAdminLang]['pay-verified']}</span>`;
+                            actionButtons = `<span class="text-gray-400 text-xs md:text-sm italic">${adminTranslations[currentAdminLang]['act-done']}</span>`;
+                        } else if (pStatus === 'paid') {
+                            paymentCell = `
+                                <div class="flex flex-col items-center gap-1.5">
+                                    <span class="bg-yellow-50 text-yellow-600 border border-yellow-200 px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider">${adminTranslations[currentAdminLang]['pay-pending']}</span>
+                                    ${item.payment_proof_url ? `<button onclick="viewPaymentProof('${item.payment_proof_url}')" class="text-blue-600 hover:text-blue-800 text-[10px] font-bold underline">${adminTranslations[currentAdminLang]['btn-view-proof']}</button>` : ''}
+                                </div>`;
+                            actionButtons = `
+                                <div class="flex justify-center">
+                                    <button onclick="verifyPayment('${item.id}')" class="bg-green-100 text-green-700 hover:bg-green-500 hover:text-white px-3 py-1.5 rounded-lg text-[11px] font-bold transition flex items-center gap-1">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                        ${adminTranslations[currentAdminLang]['btn-verify-pay']}
+                                    </button>
+                                </div>`;
+                        } else {
+                            paymentCell = `<span class="bg-gray-50 text-gray-400 border border-gray-200 px-2 py-1 md:px-3 md:py-1.5 rounded-lg text-[10px] md:text-xs font-bold uppercase tracking-wider">${adminTranslations[currentAdminLang]['pay-unpaid']}</span>`;
+                            actionButtons = `<span class="text-gray-400 text-xs md:text-sm italic">${adminTranslations[currentAdminLang]['act-done']}</span>`;
+                        }
                     } else {
                         statusBadge = `<span class="bg-red-50 text-red-600 border border-red-200 px-2 py-1 md:px-3 md:py-1.5 rounded-lg text-[10px] md:text-xs font-bold uppercase tracking-wider">${adminTranslations[currentAdminLang]['badge-rej']}</span>`;
                         actionButtons = `<span class="text-gray-400 text-xs md:text-sm italic">${adminTranslations[currentAdminLang]['act-cancel']}</span>`;
+                        paymentCell = `<span class="text-gray-400 text-xs">-</span>`;
                     }
 
                     const notesText = item.catatan ? item.catatan : `<i class="text-gray-400">${adminTranslations[currentAdminLang]['no-notes']}</i>`;
@@ -567,12 +604,13 @@
                             <td class="p-4 md:p-5"><div class="flex items-center gap-2 mb-1"><span class="text-[10px] md:text-xs font-bold text-gray-400 w-8">IN:</span><span class="text-xs md:text-sm font-semibold text-gray-800">${tglCheckin}</span></div><div class="flex items-center gap-2 mb-2"><span class="text-[10px] md:text-xs font-bold text-gray-400 w-8">OUT:</span><span class="text-xs md:text-sm font-semibold text-gray-800">${tglCheckout}</span></div><div class="text-[10px] text-gray-400">Req: ${tglTransaksi}</div></td>
                             <td class="p-4 md:p-5"><div class="bg-gray-50 border border-gray-100 p-2 md:p-3 rounded-xl text-xs md:text-sm text-gray-600 whitespace-pre-wrap w-full md:min-w-[200px] h-full max-h-24 overflow-y-auto custom-scroll">${notesText}</div></td>
                             <td class="p-4 md:p-5 text-center">${statusBadge}</td>
+                            <td class="p-4 md:p-5 text-center">${paymentCell}</td>
                             <td class="p-4 md:p-5 text-center">${actionButtons}</td>
                         </tr>`;
                 });
                 tableBody.innerHTML = html;
             }
-            document.getElementById('stat-total').innerText = data.length; document.getElementById('stat-pending').innerText = countPending; document.getElementById('stat-confirmed').innerText = countConfirmed;
+            document.getElementById('stat-total').innerText = data.length; document.getElementById('stat-pending').innerText = countPending; document.getElementById('stat-confirmed').innerText = countConfirmed; document.getElementById('stat-verified').innerText = countVerified;
         }
 
         function confirmApproval(id) {
@@ -588,8 +626,46 @@
         async function processUpdateStatus(id, newStatus, adminNote) {
             Swal.fire({ title: adminTranslations[currentAdminLang]['swal-process'], allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
             const updatePayload = { status: newStatus }; if (adminNote) updatePayload.admin_notes = adminNote;
+            if (newStatus === 'confirmed') updatePayload.payment_status = 'pending';
             const { error } = await supabaseClient.from('bookings').update(updatePayload).eq('id', id);
             if (error) { Swal.fire('Error', adminTranslations[currentAdminLang]['swal-err-update'], 'error'); console.error(error); } else { Swal.fire('Success', adminTranslations[currentAdminLang]['swal-success-update'], 'success'); fetchBookings(); }
+        }
+
+        function viewPaymentProof(url) {
+            Swal.fire({
+                imageUrl: url,
+                imageAlt: 'Payment Proof',
+                width: 600,
+                padding: 0,
+                showConfirmButton: false,
+                showCloseButton: true,
+                background: 'transparent',
+                customClass: { closeButton: 'text-white text-2xl mr-2 mt-2' }
+            });
+        }
+
+        function verifyPayment(id) {
+            Swal.fire({
+                title: adminTranslations[currentAdminLang]['swal-verify-title'],
+                text: adminTranslations[currentAdminLang]['swal-verify-text'],
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#22c55e',
+                cancelButtonColor: '#9ca3af',
+                confirmButtonText: adminTranslations[currentAdminLang]['swal-verify-btn'],
+                cancelButtonText: adminTranslations[currentAdminLang]['swal-cancel']
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({ title: adminTranslations[currentAdminLang]['swal-process'], allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+                    const { error } = await supabaseClient.from('bookings').update({ payment_status: 'verified' }).eq('id', id);
+                    if (error) {
+                        Swal.fire('Error', adminTranslations[currentAdminLang]['swal-err-update'], 'error');
+                    } else {
+                        Swal.fire({ icon: 'success', title: 'Success', text: adminTranslations[currentAdminLang]['swal-verify-success'], confirmButtonColor: '#2563eb' });
+                        fetchBookings();
+                    }
+                }
+            });
         }
 
         // FUNGSI CMS (Ambil data & Simpan data ke tabel web_content)

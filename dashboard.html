@@ -117,40 +117,65 @@
                         </div>
                     </div>
 
-                    <h3 data-i18n="pay-title" class="font-bold text-xl text-gray-900 mb-5 tracking-tight">Select Payment Method</h3>
-                    <div class="space-y-4 mb-8">
-                        <label class="relative block cursor-pointer group">
-                            <input type="radio" name="payment" checked class="payment-radio peer sr-only">
-                            <div class="border border-gray-200 rounded-2xl p-5 hover:border-blue-300 transition flex items-center justify-between shadow-sm">
+                    <div id="payment-action-section">
+                        <div id="pay-pending" class="hidden">
+                            <div class="bg-yellow-50 rounded-2xl p-6 border border-yellow-100 mb-6">
                                 <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center border border-gray-100 text-blue-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg></div>
+                                    <div class="w-14 h-14 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 shrink-0">
+                                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </div>
                                     <div>
-                                        <p class="font-bold text-gray-900 text-base" data-i18n="pay-va">Bank Virtual Account</p>
-                                        <p class="text-xs text-gray-500 font-medium mt-0.5">BCA, Mandiri, BNI, BRI</p>
+                                        <p class="font-bold text-gray-900 text-base" data-i18n="pay-wait-title">Payment Required</p>
+                                        <p class="text-sm text-gray-600" data-i18n="pay-wait-desc">Please complete your payment to secure your booking.</p>
                                     </div>
                                 </div>
-                                <div class="radio-circle w-6 h-6 rounded-full border-2 border-gray-300 transition-all duration-200"></div>
                             </div>
-                        </label>
+                            <a href="payment.html" class="w-full bg-gray-900 text-white font-bold py-5 text-lg rounded-2xl hover:bg-gray-800 transition-all shadow-[0_10px_20px_rgba(0,0,0,0.1)] transform hover:-translate-y-1 flex items-center justify-center gap-3">
+                                <span data-i18n="btn-pay">Go to Payment</span> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </a>
+                        </div>
 
-                        <label class="relative block cursor-pointer group">
-                            <input type="radio" name="payment" class="payment-radio peer sr-only">
-                            <div class="border border-gray-200 rounded-2xl p-5 hover:border-blue-300 transition flex items-center justify-between shadow-sm">
+                        <div id="pay-paid" class="hidden">
+                            <div class="bg-yellow-50 rounded-2xl p-6 border border-yellow-100 mb-6">
                                 <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center border border-gray-100 text-green-500"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg></div>
+                                    <div class="w-14 h-14 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 shrink-0">
+                                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </div>
                                     <div>
-                                        <p class="font-bold text-gray-900 text-base" data-i18n="pay-ew">E-Wallet / QRIS</p>
-                                        <p class="text-xs text-gray-500 font-medium mt-0.5">GoPay, OVO, Dana, ShopeePay</p>
+                                        <p class="font-bold text-gray-900 text-base" data-i18n="pay-paid-title">Payment Submitted</p>
+                                        <p class="text-sm text-gray-600" data-i18n="pay-paid-desc">Your payment proof has been received. Admin will verify it shortly.</p>
+                                        <p id="pay-paid-info" class="text-xs font-bold text-blue-600 mt-1.5">-</p>
                                     </div>
                                 </div>
-                                <div class="radio-circle w-6 h-6 rounded-full border-2 border-gray-300 transition-all duration-200"></div>
                             </div>
-                        </label>
+                            <div id="pay-paid-proof" class="hidden mb-6">
+                                <p class="text-sm font-bold text-gray-700 mb-2" data-i18n="proof-view">Your Proof of Payment:</p>
+                                <img id="paid-proof-img" class="max-h-48 rounded-xl border border-gray-200 shadow-sm cursor-pointer hover:opacity-90 transition" alt="Payment Proof" onclick="viewProofFull()">
+                            </div>
+                            <a href="payment.html" class="w-full bg-gray-100 text-gray-700 font-bold py-4 text-base rounded-2xl hover:bg-gray-200 transition flex items-center justify-center gap-2">
+                                <span data-i18n="btn-view-proof">View Payment Details</span>
+                            </a>
+                        </div>
+
+                        <div id="pay-verified" class="hidden">
+                            <div class="bg-green-50 rounded-2xl p-6 border border-green-100 mb-6">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center text-green-600 shrink-0">
+                                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-gray-900 text-base" data-i18n="pay-verified-title">Payment Verified ✓</p>
+                                        <p class="text-sm text-gray-600" data-i18n="pay-verified-desc">Your payment has been confirmed. Your booking is fully secured.</p>
+                                        <p id="pay-verified-info" class="text-xs font-bold text-green-600 mt-1.5">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="pay-verified-proof" class="hidden mb-6">
+                                <p class="text-sm font-bold text-gray-700 mb-2" data-i18n="proof-view">Your Proof of Payment:</p>
+                                <img id="verified-proof-img" class="max-h-48 rounded-xl border border-gray-200 shadow-sm cursor-pointer hover:opacity-90 transition" alt="Payment Proof" onclick="viewProofFull()">
+                            </div>
+                        </div>
                     </div>
-
-                    <button onclick="processPayment()" class="w-full bg-gray-900 text-white font-bold py-5 text-lg rounded-2xl hover:bg-gray-800 transition-all shadow-[0_10px_20px_rgba(0,0,0,0.1)] transform hover:-translate-y-1 flex items-center justify-center gap-3">
-                        <span data-i18n="btn-pay">Process Payment</span> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                    </button>
                 </div>
 
             </div>
@@ -170,18 +195,26 @@
 
         const translations = {
             "id": { 
-                "nav-refresh": "Perbarui", "loading": "Menyinkronkan dengan sistem...", "detail-title": "Informasi Reservasi", "lbl-name": "Nama Pemesan", "reject-note": "Pesan Penolakan dari Admin:", "btn-rebook": "Pesan Ulang Tanggal Lain", "pay-title": "Pilih Metode Pembayaran", "btn-pay": "Proses Pembayaran", 
+                "nav-refresh": "Perbarui", "loading": "Menyinkronkan dengan sistem...", "detail-title": "Informasi Reservasi", "lbl-name": "Nama Pemesan", "reject-note": "Pesan Penolakan dari Admin:", "btn-rebook": "Pesan Ulang Tanggal Lain",
+                "pay-wait-title": "Pembayaran Diperlukan", "pay-wait-desc": "Silakan selesaikan pembayaran Anda untuk mengamankan booking.", "btn-pay": "Lanjutkan ke Pembayaran",
+                "pay-paid-title": "Bukti Pembayaran Diterima", "pay-paid-desc": "Bukti pembayaran Anda telah diterima. Admin akan memverifikasinya sebentar lagi.",
+                "pay-verified-title": "Pembayaran Terverifikasi ✓", "pay-verified-desc": "Pembayaran Anda telah dikonfirmasi. Booking Anda sepenuhnya aman.",
                 "status-wait": "Menunggu Konfirmasi", "status-wait-desc": "Tim AIO Villa sedang meninjau ketersediaan jadwal Anda. Silakan muat ulang halaman ini secara berkala.", 
-                "status-ok": "Pesanan Disetujui!", "status-ok-desc": "Jadwal Anda telah diamankan. Silakan selesaikan pembayaran di bawah ini.", 
+                "status-ok": "Pesanan Disetujui!", "status-ok-desc": "Jadwal Anda telah diamankan. Silakan selesaikan pembayaran Anda.", 
                 "status-no": "Pesanan Dibatalkan", "status-no-desc": "Mohon maaf, pengajuan Anda tidak dapat kami penuhi saat ini.",
-                "cost-title": "Ringkasan Tagihan", "lbl-total": "Total Pembayaran", "pay-va": "Virtual Account Bank", "pay-ew": "E-Wallet / QRIS", "lbl-tax": "Pajak & Layanan (10%)"
+                "cost-title": "Ringkasan Tagihan", "lbl-total": "Total Pembayaran", "lbl-tax": "Pajak & Layanan (10%)",
+                "proof-view": "Bukti Pembayaran Anda:", "btn-view-proof": "Lihat Detail Pembayaran"
             },
             "en": { 
-                "nav-refresh": "Refresh", "loading": "Syncing with system...", "detail-title": "Reservation Info", "lbl-name": "Guest Name", "reject-note": "Rejection Note from Admin:", "btn-rebook": "Rebook Another Date", "pay-title": "Select Payment Method", "btn-pay": "Process Payment", 
+                "nav-refresh": "Refresh", "loading": "Syncing with system...", "detail-title": "Reservation Info", "lbl-name": "Guest Name", "reject-note": "Rejection Note from Admin:", "btn-rebook": "Rebook Another Date",
+                "pay-wait-title": "Payment Required", "pay-wait-desc": "Please complete your payment to secure your booking.", "btn-pay": "Go to Payment",
+                "pay-paid-title": "Payment Submitted", "pay-paid-desc": "Your payment proof has been received. Admin will verify it shortly.",
+                "pay-verified-title": "Payment Verified ✓", "pay-verified-desc": "Your payment has been confirmed. Your booking is fully secured.",
                 "status-wait": "Waiting for Approval", "status-wait-desc": "The AIO Villa team is reviewing your schedule availability. Please refresh this page periodically.", 
-                "status-ok": "Order Approved!", "status-ok-desc": "Your schedule is secured. Please complete the payment below.", 
+                "status-ok": "Order Approved!", "status-ok-desc": "Your schedule is secured. Please complete your payment.", 
                 "status-no": "Order Cancelled", "status-no-desc": "We apologize, we cannot fulfill your request at this time.",
-                "cost-title": "Billing Summary", "lbl-total": "Total Payment", "pay-va": "Bank Virtual Account", "pay-ew": "E-Wallet / QRIS", "lbl-tax": "Taxes & Services (10%)"
+                "cost-title": "Billing Summary", "lbl-total": "Total Payment", "lbl-tax": "Taxes & Services (10%)",
+                "proof-view": "Your Proof of Payment:", "btn-view-proof": "View Payment Details"
             }
         };
 
@@ -284,6 +317,33 @@
                 document.getElementById('price-room').innerText = formatRupiah(subtotal);
                 document.getElementById('price-tax').innerText = formatRupiah(tax);
                 document.getElementById('price-total').innerText = formatRupiah(total);
+
+                // Tampilkan section berdasarkan payment_status
+                document.getElementById('pay-pending').classList.add('hidden');
+                document.getElementById('pay-paid').classList.add('hidden');
+                document.getElementById('pay-verified').classList.add('hidden');
+
+                const pStatus = data.payment_status || 'pending';
+
+                if (pStatus === 'paid') {
+                    document.getElementById('pay-paid').classList.remove('hidden');
+                    document.getElementById('pay-paid-info').innerText = `${formatRupiah(total)} | ${data.payment_method || '-'} | ${data.paid_at ? new Date(data.paid_at).toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-'}`;
+                    if (data.payment_proof_url) {
+                        document.getElementById('pay-paid-proof').classList.remove('hidden');
+                        document.getElementById('paid-proof-img').src = data.payment_proof_url;
+                        window.currentProofUrl = data.payment_proof_url;
+                    }
+                } else if (pStatus === 'verified') {
+                    document.getElementById('pay-verified').classList.remove('hidden');
+                    document.getElementById('pay-verified-info').innerText = `${formatRupiah(total)} | ${data.payment_method || '-'} | ${data.paid_at ? new Date(data.paid_at).toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-'}`;
+                    if (data.payment_proof_url) {
+                        document.getElementById('pay-verified-proof').classList.remove('hidden');
+                        document.getElementById('verified-proof-img').src = data.payment_proof_url;
+                        window.currentProofUrl = data.payment_proof_url;
+                    }
+                } else {
+                    document.getElementById('pay-pending').classList.remove('hidden');
+                }
             } 
             else { // Cancelled / Ditolak
                 header.className = 'px-8 py-10 text-center relative overflow-hidden bg-gradient-to-br from-red-500 to-rose-600';
@@ -296,29 +356,19 @@
             }
         }
 
-        function processPayment() {
-            // Memanggil SweetAlert2 yang interaktif!
-            Swal.fire({
-                title: currentLang === 'id' ? 'Memproses Pembayaran...' : 'Processing Payment...',
-                html: currentLang === 'id' ? 'Mohon jangan tutup jendela ini.' : 'Please do not close this window.',
-                allowOutsideClick: false,
-                didOpen: () => { Swal.showLoading(); }
-            });
-
-            setTimeout(() => {
+        function viewProofFull() {
+            if (window.currentProofUrl) {
                 Swal.fire({
-                    icon: 'success',
-                    title: currentLang === 'id' ? 'Pembayaran Berhasil!' : 'Payment Successful!',
-                    text: currentLang === 'id' ? 'Invoice dan panduan check-in telah dikirim ke email Anda.' : 'Invoice and check-in guide have been sent to your email.',
-                    confirmButtonColor: '#2563eb',
-                    confirmButtonText: currentLang === 'id' ? 'Kembali ke Beranda' : 'Back to Home'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        localStorage.removeItem('activeBookingId'); // Sesi selesai
-                        window.location.href = "index.html";
-                    }
+                    imageUrl: window.currentProofUrl,
+                    imageAlt: 'Payment Proof',
+                    width: 600,
+                    padding: 0,
+                    showConfirmButton: false,
+                    showCloseButton: true,
+                    background: 'transparent',
+                    customClass: { closeButton: 'text-white text-2xl mr-2 mt-2' }
                 });
-            }, 2500); // Simulasi delay gateway 2.5 detik
+            }
         }
 
         document.addEventListener('DOMContentLoaded', fetchStatus);
